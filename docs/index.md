@@ -95,6 +95,6 @@ Each page follows the same shape:
 ## Getting help
 
 - **In lab** — ask a TA. That is what they are there for.
-- **Outside lab** — email [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa), or TODO: add the class channel (Teams / Piazza).
+- **Outside lab** — email [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa).
 - **Something broken?** — check [Troubleshooting](resources/troubleshooting.md)
   first. If it is genuinely dead, tell a TA so it gets logged and replaced.
