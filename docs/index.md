@@ -2,22 +2,25 @@
 title: Home
 ---
 
-# ME 222 — Robotics Lab
+# ME 222B — Mechatronics and Intelligent Systems
 
-!!! warning "Placeholders to fill in"
-    Every `TODO` on this site is something only the instructor can supply —
-    dates, room, assessment weights, emergency numbers, ThingsBoard details.
-    Run `grep -rn TODO docs/` before sharing the link with students.
-
-Ten weeks. You build a four-motor autonomous car, then make a fleet of them
-work together.
+Fall 2026/2027 · Division of Mechanical Engineering
 
 <div class="lab-meta" markdown>
-<div><span class="k">Sessions</span><span class="v">10 × 90 minutes</span></div>
-<div><span class="k">Platform</span><span class="v">ESP32 + dual H-bridge + 4-motor car</span></div>
-<div><span class="k">Software</span><span class="v">Arduino IDE</span></div>
+<div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00<br>Building 9 – Room 4120</span></div>
+<div><span class="k">Instructor</span><span class="v">Amr Talaat Abdel Hamid</span></div>
+<div><span class="k">Semester</span><span class="v">30 Aug – 10 Dec 2026</span></div>
 <div><span class="k">Lab room</span><span class="v">TODO — building / room</span></div>
 </div>
+
+This site holds the **lab manual**: ten 90-minute sessions in which you build a
+four-motor autonomous car on an ESP32, then make a fleet of them work together.
+For course policies, assessment weights, and the lecture schedule, see the
+[Syllabus](syllabus.md).
+
+!!! warning "Lab dates and room not yet set"
+    Items marked `TODO` still need instructor input — lab dates and room,
+    office hours, emergency contacts, and ThingsBoard details.
 
 ## Start here
 
@@ -92,6 +95,6 @@ Each page follows the same shape:
 ## Getting help
 
 - **In lab** — ask a TA. That is what they are there for.
-- **Outside lab** — TODO: put the real channel here (Teams / Piazza / email).
+- **Outside lab** — email [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa), or TODO: add the class channel (Teams / Piazza).
 - **Something broken?** — check [Troubleshooting](resources/troubleshooting.md)
   first. If it is genuinely dead, tell a TA so it gets logged and replaced.

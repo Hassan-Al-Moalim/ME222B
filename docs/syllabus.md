@@ -4,104 +4,159 @@ title: Syllabus
 
 # Syllabus
 
-!!! warning "Draft — instructor input needed"
-    The structure below is a scaffold. Percentages, policies, and dates are
-    marked `TODO` and must be set by the instructor before this page goes live.
-    Where your institution has a mandated policy text (academic integrity,
-    accommodations), paste the official wording rather than paraphrasing it.
+**ME 222B — Mechatronics and Intelligent Systems**
+Division of Mechanical Engineering · Fall 2026/2027
+
+<div class="lab-meta" markdown>
+<div><span class="k">Semester</span><span class="v">30 Aug – 10 Dec 2026</span></div>
+<div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00</span></div>
+<div><span class="k">Room</span><span class="v">Building 9, Classroom 4120</span></div>
+<div><span class="k">Capacity</span><span class="v">25 students</span></div>
+</div>
+
+## Teaching team
+
+| Role | Name | Email | Office | Office hours |
+| --- | --- | --- | --- | --- |
+| Instructor | Amr Talaat Abdel Hamid | [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa) | TODO | TODO |
+| Teaching Assistant | TODO | TODO | TODO | TODO |
 
 ## Course description
 
-TODO — one paragraph. What the course covers and what a student can do at the end.
+This course introduces students to the practical application of a wide range of
+sensors and motors commonly used in mechatronic systems. Emphasis is placed on
+the integration of these components into embedded systems found in both consumer
+and industrial products.
 
-Suggested framing based on the lab sequence: over ten 90-minute sessions students
-bring up a four-motor ESP32 robot car, characterise and then correct its motion
-with closed-loop control, add distance and inertial sensing, connect it to a
-telemetry dashboard, and finish by coordinating multiple vehicles in a shared
-arena.
+Students gain hands-on experience building functional systems that acquire
+real-time sensor data, apply signal filtering techniques, and analyze the
+resulting information. Students design basic schematics, connect and interface
+sensors and actuators to embedded platforms, and develop firmware for system
+operation. The course also provides insights into how industrial systems are
+specified, designed, and evaluated.
 
 ## Learning outcomes
 
-By the end of the course, a student should be able to:
+By the end of the course you should be able to:
 
-1. Bring up a microcontroller-controlled vehicle safely and verify each subsystem before relying on it.
-2. Drive DC motors under PWM through an H-bridge, and explain why identical commands produce different behaviour.
-3. Characterise a physical actuator experimentally — dead zone, saturation, and unit-to-unit variation.
-4. Integrate distance and inertial sensors, calibrate them against known references, and quantify their noise and bias.
-5. Design and tune a closed-loop controller (P, PI, PID) against a stated performance spec.
-6. Estimate vehicle position and heading, and explain how dead-reckoning error accumulates.
-7. Connect an embedded system to a telemetry platform and implement a mission state machine.
-8. Coordinate multiple autonomous vehicles safely in a shared space.
-9. Document an engineering build and report failures honestly enough that a peer could reproduce the result.
-
-## Prerequisites
-
-TODO — list the required prior courses.
-
-Assumed working knowledge: basic circuits (Ohm's law, voltage dividers, reading a
-datasheet) and programming in C or C++ at the level of loops, functions, arrays,
-and structs. No prior embedded experience is assumed — [Setup](resources/setup.md)
-starts from an empty machine.
+1. Specify and apply appropriate sensors and actuators in the design of real-time mechatronic systems.
+2. Develop embedded hardware and firmware solutions to acquire, process, and respond to physical measurements.
+3. Design and implement signal conditioning circuits using operational amplifiers, filters, and analog interfaces to ensure accurate data acquisition.
+4. Analyze and integrate different types of sensors, including thermistors, ultrasonic sensors, strain gauges, and rotary encoders.
+5. Implement motor control systems — DC, servo, and stepper — with closed-loop feedback using embedded platforms.
+6. Apply real-time signal processing techniques, such as FFT and smoothing filters, for sensor data analysis within embedded systems.
+7. Develop schematics and lay out printed circuit boards (PCBs) for embedded mechatronic prototypes.
+8. Simulate and model mechanical systems such as spring–mass–damper systems using Simulink and other tools.
+9. Integrate and optimize embedded systems for low-power applications, demonstrating awareness of sustainability and efficient resource use.
+10. Work collaboratively on open-ended engineering problems, culminating in a functional mechatronic project that reflects real-world industrial practices.
 
 ## Assessment
 
-| Component | Weight | Notes |
-| --- | --- | --- |
-| Weekly lab milestones (Weeks 1–9) | TODO % | One deliverable per session — see [Schedule](schedule.md) |
-| Lab participation & checkpoints | TODO % | Attendance plus TA sign-offs |
-| Final fleet challenge (Week 10) | TODO % | Live demo + performance report, team-assessed |
-| TODO — quizzes/exam? | TODO % | |
-| **Total** | **100 %** | |
+| Component | Weight |
+| --- | --: |
+| Course project(s) | **45 %** |
+| Midterm exam | **20 %** |
+| Final exam | **20 %** |
+| Quizzes | **10 %** |
+| Homework / assignments | **5 %** |
+| **Total** | **100 %** |
 
-## Teams
+!!! note "Where the labs sit"
+    Labs are not a separate line in the weighting. Lab work is assessed through
+    the **course project** component, and through homework where a lab produces
+    a written deliverable. TODO — instructor: confirm and state this explicitly,
+    since students will ask how their lab reports are counted.
 
-Labs are done in **groups**, one car per group. TODO — confirm group size and
-state how groups are formed and whether they are fixed for the semester.
+## Required knowledge
 
-Both members must be able to explain any part of the build. Checkpoints may be
-directed at either team member.
+- Basic knowledge of **assembly and C programming**, **digital logic design**, and **basic computer architecture**. Ideally a first course in each; alternatively, a completed laboratory-based undergraduate mechatronics class.
+- Experience with simulation and circuit analysis tools such as **LTspice**, **OrCAD Capture**, **OrCAD PSpice**, **MATLAB**, or **Simulink**.
 
-## Lab reports
+## Textbooks and materials
 
-Unless a lab says otherwise, a report is **at most 4 pages** and contains:
+All four are available free of charge as e-books through the KAUST library.
 
-- What you built, with a photo of your actual wiring — not a stock diagram.
-- The measurements you were asked to take, in a table with units.
-- Your analysis of those measurements, including anything that disagreed with theory.
-- Any part you damaged and what you think caused it. **Reporting damage honestly
-  costs you nothing.** Hiding it is an integrity matter.
+- **Handbook of Modern Sensors**, Jacob Fraden, 5th ed., Springer.
+  ISBN 978-3-319-19302-1 (hardcover), 978-3-319-19303-8 (ebook).
+  [Springer](https://link.springer.com/book/10.1007%2F978-3-319-19303-8)
+- **Industry 4.0**, Alasdair Gilchrist. ISBN 978-1-4842-2046-7.
+  [Springer](https://link.springer.com/book/10.1007%2F978-1-4842-2047-4)
+- **Computers as Components — Principles of Embedded Computing System Design**, Marilyn Wolf, 4th ed.
+- **What Every Engineer Should Know about Developing Real-Time Embedded Products**, Kim R. Fowler.
+  [Taylor & Francis](https://www.taylorfrancis.com/books/9780849379635)
 
-Submit as PDF on Canvas. TODO — confirm submission channel and deadline convention.
+Weekly online reading and videos are assigned and shared with students.
 
-## Attendance and make-ups
+## Nature of the assignments
 
-TODO — state the policy. Lab courses usually need a stricter one than lecture
-courses because the hardware is only available during scheduled sessions.
+Homework problems cover class materials.
 
-## Late work
+Lab experiments and **two course projects** are assigned. Labs give practical
+experience prototyping embedded systems that interface with sensors and
+actuators. All labs are conducted using an embedded platform. **Students must
+demo their lab results and submit reports.**
 
-TODO — state the policy.
+### Planned labs
 
-## Academic integrity
+- **Thermistor-based temperature measurement** — sensor interfacing, analog signal conditioning, analog-to-digital conversion.
+- **Motor voltage and current monitoring** — analyzing the electrical behaviour of motors using op-amp circuits and filtering.
+- **Rotary sensor interfacing** — position measurement and motion tracking using rotary encoders and digital pulse counting.
+- **Strain gauge measurement** — Wheatstone bridge configurations and low-level signal amplification for force or pressure sensing.
+- **Closed-loop motor control** — feedback systems using sensor inputs such as encoders or potentiometers to control motor behaviour in real time.
+- **PID control implementation** — proportional-integral-derivative strategies for precise motion and process control.
 
-TODO — paste your institution's official statement.
+!!! warning "Two lab plans are in circulation"
+    The list above is the one printed in the official syllabus. The
+    [lab schedule on this site](schedule.md) follows a different, newer
+    ten-week sequence built around a four-motor autonomous robot car.
 
-Course-specific guidance worth stating explicitly for a lab course:
+    The two overlap substantially — rotary encoders, current monitoring,
+    closed-loop control and PID all appear in both — but they are not the same
+    plan. **TODO — instructor: decide which is authoritative and reconcile the
+    two before Week 1.** Students should not have to guess.
 
-- **Code**: discussing approaches across teams is fine; copying another team's
-  source is not. Cite any code you adapt from a library example or datasheet.
-- **Data**: report the numbers your robot actually produced. A result that
-  disagrees with theory is a finding, not a failure — fabricating a clean number
-  is misconduct.
-- **AI tools**: TODO — state your policy explicitly. Students will ask.
+## Course policies
 
-## Accommodations
+### Late work
 
-TODO — paste your institution's official statement and the office contact.
+**No late homework will be accepted.**
 
-## Safety
+### Collaboration
+
+Consultation with other students on the problems is permitted, but **each student
+must submit their own personal solution**. Two identical solutions will not be
+accepted.
+
+### Homework grading
+
+| Outcome | Credit |
+| --- | --- |
+| Complete and legible | Full credit |
+| Not well done | Half credit |
+| Not submitted | No credit |
+
+### Academic integrity
+
+TODO — instructor: paste KAUST's official statement.
+
+Course-specific guidance worth stating for a lab course:
+
+- **Code** — discussing approaches across groups is fine; copying another group's source is not. Cite any code adapted from a library example or datasheet.
+- **Data** — report the numbers your hardware actually produced. A result that disagrees with theory is a finding, not a failure; fabricating a clean number is misconduct.
+- **AI tools** — TODO: state the policy explicitly. Students will ask.
+
+### Accommodations
+
+TODO — instructor: paste KAUST's official statement and the office contact.
+
+### Safety
 
 Lab safety is a **pass/fail gate**, not a graded component. A student who has not
 completed the [safety briefing](resources/safety.md) sign-off does not work with
-batteries or powered motors. Since Week 1 is already a full motion lab, the
-sign-off must happen before the first session. See that page for the full rules.
+batteries or powered motors. See that page for the full rules.
+
+---
+
+!!! note "Syllabus changes"
+    The instructor reserves the right to make changes to this syllabus as
+    necessary.

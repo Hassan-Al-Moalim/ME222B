@@ -4,9 +4,9 @@
 # Build:          ./.venv/bin/mkdocs build
 # ---------------------------------------------------------------------------
 
-site_name: ME 222 — Robotics Lab
-site_description: Lab instructions, schedule, and reference material for ME 222.
-site_author: TODO — instructor name
+site_name: ME 222B — Mechatronics and Intelligent Systems
+site_description: Lab instructions, schedule, and reference material for ME 222B, Mechatronics and Intelligent Systems, KAUST Fall 2026/2027.
+site_author: Amr Talaat Abdel Hamid
 
 site_url: https://hassan-al-moalim.github.io/ME222B/
 repo_url: https://github.com/Hassan-Al-Moalim/ME222B
@@ -110,7 +110,7 @@ extra_javascript:
 extra:
   social:
     - icon: fontawesome/solid/envelope
-      link: mailto:TODO@kaust.edu.sa
+      link: mailto:amr.abdelhamid@kaust.edu.sa
       name: Email the teaching team
   generator: false
 

@@ -1,6 +1,6 @@
-# ME 222 — Robotics Lab
+# ME 222B — Mechatronics and Intelligent Systems
 
-Course materials for ME 222. Everything you need for the labs lives here, and is
+Lab materials for ME 222B, KAUST, Fall 2026/2027. Everything you need for the labs lives here, and is
 published as a website:
 
 ### 📘 **[hassan-al-moalim.github.io/ME222B](https://hassan-al-moalim.github.io/ME222B/)**
@@ -10,7 +10,7 @@ buttons. This repository is just where the source text lives.
 
 ---
 
-## The course
+## The labs
 
 Ten weeks, one 90-minute lab per week. You build a four-motor autonomous robot
 car on an ESP32, then make a fleet of them work together.
@@ -50,6 +50,7 @@ fix it** — by re-running the exact Week 1 test and beating your own number.
 - **[Lab Safety](docs/resources/safety.md)** — LiPo handling, soldering, moving robots
 - **[Hardware & Pinout](docs/resources/hardware.md)** — system architecture, pin table, I2C addresses
 - **[Troubleshooting](docs/resources/troubleshooting.md)** — the failures we see every year, and what fixes them
+- **[Syllabus](docs/syllabus.md)** — outcomes, assessment, policies, lecture schedule
 
 ## Platform
 
