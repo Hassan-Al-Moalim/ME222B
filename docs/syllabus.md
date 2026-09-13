@@ -5,13 +5,13 @@ title: Syllabus
 # Syllabus
 
 **ME 222B — Mechatronics and Intelligent Systems**
-Division of Mechanical Engineering · Fall 2026/2027
+Division of Mechanical Engineering · Fall 2026
 
 <div class="lab-meta" markdown>
 <div><span class="k">Semester</span><span class="v">30 Aug – 10 Dec 2026</span></div>
 <div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00</span></div>
 <div><span class="k">Room</span><span class="v">Building 9, Classroom 4120</span></div>
-<div><span class="k">Capacity</span><span class="v">18 students</span></div>
+<div><span class="k">Capacity</span><span class="v"> 18 students</span></div>
 </div>
 
 ## Teaching team
