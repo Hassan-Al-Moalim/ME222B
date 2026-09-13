@@ -1,0 +1,138 @@
+# ---------------------------------------------------------------------------
+# ME 222B course site
+# Local preview:  ./.venv/bin/mkdocs serve
+# Build:          ./.venv/bin/mkdocs build
+# ---------------------------------------------------------------------------
+
+site_name: ME 222 — Robotics Lab
+site_description: Lab instructions, schedule, and reference material for ME 222.
+site_author: TODO — instructor name
+
+site_url: https://hassan-al-moalim.github.io/ME222B/
+repo_url: https://github.com/Hassan-Al-Moalim/ME222B
+repo_name: ME222B
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/robot-industrial
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs           # top-level sections as tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes        # section landing pages
+    - navigation.top
+    - navigation.tracking
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.action.edit
+    - content.code.copy         # copy button on every code block
+    - content.code.annotate
+    - content.tabs.link         # OS tabs stay in sync across the page
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+plugins:
+  - search
+  - glightbox:                  # click any wiring photo to zoom
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      draggable: true
+
+markdown_extensions:
+  - abbr
+  - admonition                  # !!! warning "Safety"
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details            # collapsible ??? blocks
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true     # === "Windows" / === "macOS"
+  - pymdownx.tasklist:
+      custom_checkbox: true     # renders [ ] as real checkboxes
+  - pymdownx.keys               # ++ctrl+c++
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.arithmatex:        # $...$ math for the control-theory labs
+      generic: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+extra:
+  social:
+    - icon: fontawesome/solid/envelope
+      link: mailto:TODO@kaust.edu.sa
+      name: Email the teaching team
+  generator: false
+
+nav:
+  - Home: index.md
+  - Syllabus: syllabus.md
+  - Schedule: schedule.md
+  - Labs:
+      - labs/index.md
+      - "Lab 1 — PWM, Four Motors & Motor Mismatch": labs/lab01-pwm-motors.md
+      - "Lab 2 — Motor Characterization & Encoders": labs/lab02-motor-characterization.md
+      - "Lab 3 — LiDAR / ToF Distance Sensing": labs/lab03-distance-sensing.md
+      - "Lab 4 — IMU + Sensor Calibration": labs/lab04-imu-calibration.md
+      - "Lab 5 — Logging, Filtering & Sensor-Based Motion": labs/lab05-logging-filtering.md
+      - "Lab 6 — Feedback Control (P / PI / PID)": labs/lab06-feedback-control.md
+      - "Lab 7 — Straight Driving, Turns & Localization": labs/lab07-straight-turns-localization.md
+      - "Lab 8 — Payload Servo + ThingsBoard": labs/lab08-servo-thingsboard.md
+      - "Lab 9 — Multi-Car Coordination": labs/lab09-multi-car.md
+      - "Lab 10 — Final Autonomous Fleet Challenge": labs/lab10-fleet-challenge.md
+  - Reference:
+      - resources/index.md
+      - "Setup — Arduino IDE": resources/setup.md
+      - "Lab Safety": resources/safety.md
+      - "Hardware & Pinout": resources/hardware.md
+      - "Troubleshooting": resources/troubleshooting.md
