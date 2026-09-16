@@ -83,6 +83,11 @@
       if (blank.length > 12) {
         input.classList.add("ws-input--wide");
         input.setAttribute("spellcheck", "true");
+        input.setAttribute("data-hint", "type your answer");
+      } else {
+        // The empty-state hint is drawn by CSS from this attribute, so it must
+        // always be set or the field reads as blank rather than fillable.
+        input.setAttribute("data-hint", suffix ? "0" : "GPIO");
       }
 
       var saved = null;

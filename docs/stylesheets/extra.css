@@ -87,18 +87,16 @@
    and the export toolbar. Behaviour lives in javascripts/worksheet.js
    --------------------------------------------------------------- */
 
-/* Two driver tables sit side by side on desktop, stack on narrow screens.
-   Explicit tracks rather than auto-fit: Material scales the root font size,
-   so a rem-based minmax() silently collapses to one column. */
+/* Two driver tables side by side when the content column can take them.
+   minmax() is in px on purpose: Material scales the root font size, so a
+   rem-based min collapses the grid to one track. And auto-fit keys off the
+   container, not the viewport — a media query gets this wrong whenever the
+   sidebar and table of contents squeeze the content column. */
 .pinout-pair {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem 1.25rem;
   margin: 1rem 0 1.5rem;
-}
-
-@media screen and (min-width: 960px) {
-  .pinout-pair { grid-template-columns: 1fr 1fr; }
 }
 
 .pinout-pair > .pinout { margin: 0; min-width: 0; }
@@ -110,7 +108,8 @@
   font-family: var(--md-text-font-family);
 }
 
-.pinout-pair .ws-input { min-width: 4rem; }
+.pinout-pair .pinout table th:first-child,
+.pinout-pair .pinout table td:first-child { width: 60%; }
 
 .pinout-pair .pinout > p {
   margin: 0 0 .35rem;
@@ -126,40 +125,89 @@
 
 /* Editable cell ------------------------------------------------- */
 
+/* Field colours as tokens so light and dark each get real contrast. The
+   default Material surface colours sit too close to the table background to
+   read as an input at all. */
+:root {
+  --ws-field-bg: #ffffff;
+  --ws-field-border: rgba(0, 0, 0, .34);
+  --ws-field-placeholder: rgba(0, 0, 0, .38);
+}
+
+[data-md-color-scheme="slate"] {
+  --ws-field-bg: rgba(255, 255, 255, .07);
+  --ws-field-border: rgba(255, 255, 255, .42);
+  --ws-field-placeholder: rgba(255, 255, 255, .45);
+}
+
+/* Fixed layout stops columns re-measuring as students type, so the table
+   never jumps around mid-entry.
+
+   Material wraps every table in a scroll container and makes the table itself
+   `display: inline-block` so wide tables can scroll. `table-layout` is ignored
+   on an inline-block, so the wrapper has to be flattened back to real table
+   layout first. */
+[data-worksheet] .md-typeset__scrollwrap {
+  margin: 0;
+  overflow-x: visible;
+}
+
+[data-worksheet] .md-typeset__table {
+  display: block;
+  width: 100%;
+  padding: 0;
+  min-width: 0;
+}
+
+[data-worksheet] .md-typeset__table table,
+[data-worksheet] table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
 .md-typeset .ws-cell {
-  white-space: nowrap;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 .ws-input {
-  display: inline-block;
-  min-width: 5.5rem;
-  padding: .12rem .4rem;
-  border-bottom: 2px solid var(--md-default-fg-color--lighter);
-  border-radius: .1rem .1rem 0 0;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 1.7rem;
+  padding: .2rem .45rem;
+  border: 1px solid var(--ws-field-border);
+  border-radius: .15rem;
+  background: var(--ws-field-bg);
   font-family: var(--md-code-font-family);
   font-size: .76rem;
   line-height: 1.5;
-  background: var(--md-code-bg-color);
   outline: none;
-  transition: border-color 125ms, background-color 125ms;
+  /* Wrap rather than scroll: with table-layout fixed the column cannot widen,
+     so wrapping keeps every character visible where a horizontal scrollbar
+     would hide the overflow. The row grows downward instead. */
+  white-space: normal;
+  word-break: break-word;
+  transition: border-color 125ms, box-shadow 125ms;
 }
 
-.ws-input:hover { border-bottom-color: var(--md-default-fg-color--light); }
+.ws-input:hover { border-color: var(--md-primary-fg-color); }
 
 .ws-input:focus {
-  border-bottom-color: var(--md-primary-fg-color);
-  background: var(--md-default-bg-color);
+  border-color: var(--md-primary-fg-color);
+  box-shadow: 0 0 0 2px var(--md-primary-fg-color--light);
 }
 
 .ws-input:empty::before {
-  content: "—";
-  color: var(--md-default-fg-color--lighter);
+  content: attr(data-hint);
+  color: var(--ws-field-placeholder);
 }
 
 .ws-unit {
-  margin-left: .3rem;
-  font-size: .72rem;
+  display: block;
+  margin-top: .15rem;
+  font-size: .65rem;
   color: var(--md-default-fg-color--light);
 }
 
@@ -257,10 +305,11 @@
   .pinout-pair { grid-template-columns: 1fr 1fr; }
 }
 
-/* A long blank in the markdown means a long answer is expected. */
+/* A long blank means a long answer: let prose wrap and grow downward. */
 .ws-input--wide {
-  min-width: 60%;
   white-space: normal;
+  overflow-x: visible;
+  word-break: break-word;
 }
 
 .md-typeset blockquote .ws-input {
