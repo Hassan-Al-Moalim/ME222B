@@ -44,22 +44,7 @@ Each group requires:
 
 ## 3. Electrical architecture
 
-```text
-                   ESP32
-                     │
-              Control Signals
-                     │
-                     ▼
-              ┌──────────────┐
-Battery ─────►│   H-BRIDGE   │
-              │ MOTOR DRIVER │
-              └──────┬───────┘
-                     │
-             ┌───────┴───────┐
-             │               │
-             ▼               ▼
-        Left Motors      Right Motors
-```
+{{ svg assets/lab01-wiring.svg }}
 
 The ESP32 controls the H-bridge. The H-bridge supplies the current required by
 the motors.

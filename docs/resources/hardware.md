@@ -8,22 +8,7 @@ Reference for the four-motor car platform: **ESP32 + dual H-bridge + four DC mot
 
 ## System architecture
 
-```text
-                   ESP32
-                     │
-              Control Signals
-                     │
-                     ▼
-              ┌──────────────┐
-Battery ─────►│   H-BRIDGE   │
-              │ MOTOR DRIVER │
-              └──────┬───────┘
-                     │
-             ┌───────┴───────┐
-             │               │
-             ▼               ▼
-        Left Motors      Right Motors
-```
+{{ svg assets/lab01-wiring.svg }}
 
 The ESP32 controls the H-bridge. The H-bridge supplies the current the motors
 need. The two left motors are driven together as one side; likewise the right.
@@ -61,6 +46,10 @@ them for the rest of the course. Record them here and in your notebook.
 | Payload servo | `______` |
 
 </div>
+
+## GPIO capability map
+
+{{ svg assets/esp32-gpio-map.svg }}
 
 !!! danger "Pins that will bite you"
     - **GPIO 34–39 are input-only.** No output, no internal pull-up. Usable for encoders, useless for motor control.

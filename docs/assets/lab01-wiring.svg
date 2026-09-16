@@ -1,0 +1,127 @@
+<svg class="dia dia--wide" viewBox="0 0 920 660" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Pictorial wiring diagram: an ESP32 in the centre drives two dual H-bridge boards, one per side of the car. Each board takes three signal wires per motor and drives the front and rear motor on its side. The battery feeds both boards, and all grounds are common.">
+  <title>Lab 1 wiring — ESP32, two dual H-bridges, four motors</title>
+
+  <!-- ================= LEFT DRIVER ================= -->
+  <g>
+    <rect class="w-drv" x="70" y="110" width="250" height="200" rx="10"/>
+    <text class="w-brd" x="195" y="138" text-anchor="middle">LEFT driver</text>
+    <text class="w-sub" x="195" y="155" text-anchor="middle">dual H-bridge</text>
+
+    <!-- motor output terminals -->
+    <rect class="w-term" x="80" y="172" width="54" height="26" rx="3"/>
+    <text class="w-tl" x="107" y="189" text-anchor="middle">OUT1·2</text>
+    <rect class="w-term" x="80" y="232" width="54" height="26" rx="3"/>
+    <text class="w-tl" x="107" y="249" text-anchor="middle">OUT3·4</text>
+
+    <!-- power terminal -->
+    <rect class="w-term" x="196" y="272" width="112" height="26" rx="3"/>
+    <text class="w-tl" x="252" y="289" text-anchor="middle">+12V   GND   +5V</text>
+
+    <!-- signal header -->
+    <g class="w-hdr">
+      <circle cx="200" cy="200" r="5"/><circle cx="220" cy="200" r="5"/><circle cx="240" cy="200" r="5"/>
+      <circle cx="260" cy="200" r="5"/><circle cx="280" cy="200" r="5"/><circle cx="300" cy="200" r="5"/>
+    </g>
+    <text class="w-pin" x="200" y="222" text-anchor="middle">ENA</text>
+    <text class="w-pin" x="220" y="222" text-anchor="middle">IN1</text>
+    <text class="w-pin" x="240" y="222" text-anchor="middle">IN2</text>
+    <text class="w-pin" x="260" y="222" text-anchor="middle">IN3</text>
+    <text class="w-pin" x="280" y="222" text-anchor="middle">IN4</text>
+    <text class="w-pin" x="300" y="222" text-anchor="middle">ENB</text>
+  </g>
+
+  <!-- left motors -->
+  <g>
+    <rect class="w-mot" x="10" y="150" width="44" height="34" rx="5"/>
+    <text class="w-ml" x="32" y="142" text-anchor="middle">front-L</text>
+    <rect class="w-mot" x="10" y="210" width="44" height="34" rx="5"/>
+    <text class="w-ml" x="32" y="264" text-anchor="middle">rear-L</text>
+    <path class="w-mwire" d="M54 167 H80"/>
+    <path class="w-mwire" d="M54 227 H80"/>
+  </g>
+
+  <!-- ================= RIGHT DRIVER ================= -->
+  <g>
+    <rect class="w-drv" x="600" y="110" width="250" height="200" rx="10"/>
+    <text class="w-brd" x="725" y="138" text-anchor="middle">RIGHT driver</text>
+    <text class="w-sub" x="725" y="155" text-anchor="middle">dual H-bridge</text>
+
+    <rect class="w-term" x="786" y="172" width="54" height="26" rx="3"/>
+    <text class="w-tl" x="813" y="189" text-anchor="middle">OUT1·2</text>
+    <rect class="w-term" x="786" y="232" width="54" height="26" rx="3"/>
+    <text class="w-tl" x="813" y="249" text-anchor="middle">OUT3·4</text>
+
+    <rect class="w-term" x="612" y="272" width="112" height="26" rx="3"/>
+    <text class="w-tl" x="668" y="289" text-anchor="middle">+12V   GND   +5V</text>
+
+    <g class="w-hdr">
+      <circle cx="620" cy="200" r="5"/><circle cx="640" cy="200" r="5"/><circle cx="660" cy="200" r="5"/>
+      <circle cx="680" cy="200" r="5"/><circle cx="700" cy="200" r="5"/><circle cx="720" cy="200" r="5"/>
+    </g>
+    <text class="w-pin" x="620" y="222" text-anchor="middle">ENA</text>
+    <text class="w-pin" x="640" y="222" text-anchor="middle">IN1</text>
+    <text class="w-pin" x="660" y="222" text-anchor="middle">IN2</text>
+    <text class="w-pin" x="680" y="222" text-anchor="middle">IN3</text>
+    <text class="w-pin" x="700" y="222" text-anchor="middle">IN4</text>
+    <text class="w-pin" x="720" y="222" text-anchor="middle">ENB</text>
+  </g>
+
+  <!-- right motors -->
+  <g>
+    <rect class="w-mot" x="866" y="150" width="44" height="34" rx="5"/>
+    <text class="w-ml" x="888" y="142" text-anchor="middle">front-R</text>
+    <rect class="w-mot" x="866" y="210" width="44" height="34" rx="5"/>
+    <text class="w-ml" x="888" y="264" text-anchor="middle">rear-R</text>
+    <path class="w-mwire" d="M840 167 H866"/>
+    <path class="w-mwire" d="M840 227 H866"/>
+  </g>
+
+  <!-- ================= ESP32 ================= -->
+  <rect class="w-esp" x="330" y="430" width="260" height="150" rx="10"/>
+  <text class="w-brd w-brd--dark" x="460" y="470" text-anchor="middle">ESP32</text>
+  <text class="w-sub w-sub--dark" x="460" y="490" text-anchor="middle">3.3 V logic only</text>
+  <text class="w-sub w-sub--dark" x="460" y="556" text-anchor="middle">USB to your laptop</text>
+
+  <!-- ESP32 header pins, left bank -->
+  <g class="w-hdr">
+    <circle cx="350" cy="430" r="5"/><circle cx="372" cy="430" r="5"/><circle cx="394" cy="430" r="5"/>
+    <circle cx="416" cy="430" r="5"/><circle cx="438" cy="430" r="5"/><circle cx="460" cy="430" r="5"/>
+    <circle cx="482" cy="430" r="5"/><circle cx="504" cy="430" r="5"/><circle cx="526" cy="430" r="5"/>
+    <circle cx="548" cy="430" r="5"/><circle cx="570" cy="430" r="5"/>
+  </g>
+
+  <!-- ===== signal wires: LEFT driver ===== -->
+  <path class="w-w1" d="M350 430 V390 H200 V206"/>
+  <path class="w-w2" d="M372 430 V378 H220 V206"/>
+  <path class="w-w3" d="M394 430 V366 H240 V206"/>
+  <path class="w-w4" d="M416 430 V354 H260 V206"/>
+  <path class="w-w5" d="M438 430 V342 H280 V206"/>
+  <path class="w-w6" d="M460 430 V330 H300 V206"/>
+
+  <!-- ===== signal wires: RIGHT driver ===== -->
+  <path class="w-w1" d="M482 430 V330 H620 V206"/>
+  <path class="w-w2" d="M504 430 V342 H640 V206"/>
+  <path class="w-w3" d="M526 430 V354 H660 V206"/>
+  <path class="w-w4" d="M548 430 V366 H680 V206"/>
+  <path class="w-w5" d="M570 430 V378 H700 V206"/>
+  <path class="w-w6" d="M570 430 V402 H720 V206"/>
+
+  <text class="w-note" x="195" y="404" text-anchor="middle">L_FWD / L_BWD  →  ENA IN1 IN2 IN3 IN4 ENB</text>
+  <text class="w-note" x="725" y="404" text-anchor="middle">R_FWD / R_BWD  →  ENA IN1 IN2 IN3 IN4 ENB</text>
+
+  <!-- ================= BATTERY ================= -->
+  <rect class="w-batt" x="330" y="612" width="120" height="38" rx="6"/>
+  <text class="w-tl w-batt-l" x="390" y="636" text-anchor="middle">BATTERY</text>
+
+  <!-- power to both drivers -->
+  <path class="w-pwr" d="M330 628 H40 V300 H100 V298"/>
+  <path class="w-pwr" d="M450 628 H880 V300 H820 V298"/>
+  <text class="w-note w-pwr-l" x="120" y="322">motor power</text>
+  <text class="w-note w-pwr-l" x="740" y="322">motor power</text>
+
+  <!-- common ground -->
+  <path class="w-gnd" d="M460 580 V600 H252 V300"/>
+  <path class="w-gnd" d="M460 600 H668 V300"/>
+  <text class="w-note" x="466" y="596">common ground</text>
+</svg>

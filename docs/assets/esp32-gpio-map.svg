@@ -1,0 +1,188 @@
+<svg class="dia" viewBox="0 0 739 550" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="ESP32 GPIO capability map: which of GPIO 0 to 39 are general purpose, input only, strapping pins, wired to flash, or used by the USB serial port">
+  <title>ESP32 GPIO capability map</title>
+  <text class="p-head" x="26" y="32">ESP32 — what each GPIO can do</text>
+  <text class="p-sub"  x="26" y="52">Pin numbering is the chip's, not the board silkscreen. Check your board before wiring.</text>
+  <g class="p-strap">
+    <rect class="p-cell" x="26" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="65.0" y="100" text-anchor="middle">GPIO 0</text>
+  </g>
+  <g class="p-uart">
+    <rect class="p-cell" x="113" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="152.0" y="100" text-anchor="middle">GPIO 1</text>
+  </g>
+  <g class="p-strap">
+    <rect class="p-cell" x="200" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="239.0" y="100" text-anchor="middle">GPIO 2</text>
+  </g>
+  <g class="p-uart">
+    <rect class="p-cell" x="287" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="326.0" y="100" text-anchor="middle">GPIO 3</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="374" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="413.0" y="100" text-anchor="middle">GPIO 4</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="461" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="500.0" y="100" text-anchor="middle">GPIO 5</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="548" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="587.0" y="100" text-anchor="middle">GPIO 6</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="635" y="74" width="78" height="54" rx="6"/>
+    <text class="p-num" x="674.0" y="100" text-anchor="middle">GPIO 7</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="26" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="65.0" y="163" text-anchor="middle">GPIO 8</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="113" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="152.0" y="163" text-anchor="middle">GPIO 9</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="200" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="239.0" y="163" text-anchor="middle">GPIO 10</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="287" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="326.0" y="163" text-anchor="middle">GPIO 11</text>
+  </g>
+  <g class="p-strap">
+    <rect class="p-cell" x="374" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="413.0" y="163" text-anchor="middle">GPIO 12</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="461" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="500.0" y="163" text-anchor="middle">GPIO 13</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="548" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="587.0" y="163" text-anchor="middle">GPIO 14</text>
+  </g>
+  <g class="p-strap">
+    <rect class="p-cell" x="635" y="137" width="78" height="54" rx="6"/>
+    <text class="p-num" x="674.0" y="163" text-anchor="middle">GPIO 15</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="26" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="65.0" y="226" text-anchor="middle">GPIO 16</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="113" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="152.0" y="226" text-anchor="middle">GPIO 17</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="200" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="239.0" y="226" text-anchor="middle">GPIO 18</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="287" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="326.0" y="226" text-anchor="middle">GPIO 19</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="374" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="413.0" y="226" text-anchor="middle">GPIO 20</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="461" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="500.0" y="226" text-anchor="middle">GPIO 21</text>
+    <text class="p-note" x="500.0" y="243" text-anchor="middle">SDA</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="548" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="587.0" y="226" text-anchor="middle">GPIO 22</text>
+    <text class="p-note" x="587.0" y="243" text-anchor="middle">SCL</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="635" y="200" width="78" height="54" rx="6"/>
+    <text class="p-num" x="674.0" y="226" text-anchor="middle">GPIO 23</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="26" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="65.0" y="289" text-anchor="middle">GPIO 24</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="113" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="152.0" y="289" text-anchor="middle">GPIO 25</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="200" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="239.0" y="289" text-anchor="middle">GPIO 26</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="287" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="326.0" y="289" text-anchor="middle">GPIO 27</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="374" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="413.0" y="289" text-anchor="middle">GPIO 28</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="461" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="500.0" y="289" text-anchor="middle">GPIO 29</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="548" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="587.0" y="289" text-anchor="middle">GPIO 30</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="635" y="263" width="78" height="54" rx="6"/>
+    <text class="p-num" x="674.0" y="289" text-anchor="middle">GPIO 31</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="26" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="65.0" y="352" text-anchor="middle">GPIO 32</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="113" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="152.0" y="352" text-anchor="middle">GPIO 33</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="200" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="239.0" y="352" text-anchor="middle">GPIO 34</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="287" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="326.0" y="352" text-anchor="middle">GPIO 35</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="374" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="413.0" y="352" text-anchor="middle">GPIO 36</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="461" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="500.0" y="352" text-anchor="middle">GPIO 37</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="548" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="587.0" y="352" text-anchor="middle">GPIO 38</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="635" y="326" width="78" height="54" rx="6"/>
+    <text class="p-num" x="674.0" y="352" text-anchor="middle">GPIO 39</text>
+  </g>
+  <g class="p-ok">
+    <rect class="p-cell" x="26" y="403" width="22" height="16" rx="3"/>
+    <text class="p-legend" x="58" y="415">General purpose</text>
+  </g>
+  <g class="p-inonly">
+    <rect class="p-cell" x="26" y="428" width="22" height="16" rx="3"/>
+    <text class="p-legend" x="58" y="440">Input only — no output, no pull-up</text>
+  </g>
+  <g class="p-strap">
+    <rect class="p-cell" x="26" y="453" width="22" height="16" rx="3"/>
+    <text class="p-legend" x="58" y="465">Strapping pin — level at reset selects boot mode</text>
+  </g>
+  <g class="p-flash">
+    <rect class="p-cell" x="26" y="478" width="22" height="16" rx="3"/>
+    <text class="p-legend" x="58" y="490">Wired to onboard flash — never connect</text>
+  </g>
+  <g class="p-uart">
+    <rect class="p-cell" x="26" y="503" width="22" height="16" rx="3"/>
+    <text class="p-legend" x="58" y="515">UART0 — shared with the USB serial monitor</text>
+  </g>
+</svg>
