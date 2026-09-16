@@ -56,43 +56,6 @@ For course policies, assessment weights, and the lecture schedule, see the
 
 </div>
 
-## The thread running through the course
-
-Week 1 gives you a problem you cannot yet solve: send the **same** PWM command to
-both sides and the car still curves away from the line.
-
-You cannot fix it in Week 1, because you have no way to measure what the wheels
-are actually doing. So:
-
-```text
-Week 1   measure the problem        drift over 4 m
-Week 2   measure the wheels         PWM–speed curves, dead zone
-Weeks 3-5  measure the world        distance, heading, filtered data
-Week 6   learn to correct           P → PI → PID
-Week 7   SOLVE IT                   re-run the Week 1 test and beat it
-Weeks 8-10  scale it up             telemetry, missions, a coordinated fleet
-```
-
-Keep your Week 1 drift number. You will be compared against it.
-
-## How the lab pages work
-
-Each page follows the same shape:
-
-| Section | What's in it |
-| --- | --- |
-| **Practical focus** | What the 90 minutes is spent doing |
-| **Objectives** | What you should be able to do by the end |
-| **Procedure** | Numbered steps, with tables to fill in |
-| **Checkpoints** | Stop and get a TA before continuing |
-| **Deliverable** | The milestone for that week |
-
-!!! checkpoint "Checkpoints are not optional"
-    A checkpoint means **stop and get a TA**. They sit where a mistake is
-    expensive — a reversed battery, a car about to drive off a bench, a motor
-    wired backwards before a measured run. Powering past one without a signature
-    is how kit gets destroyed and data gets wasted.
-
 ## Getting help
 
 - **In lab** — ask a TA. That is what they are there for.
