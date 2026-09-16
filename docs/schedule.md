@@ -21,25 +21,52 @@ semester break, and finish on 9 December.
 
 ## Semester schedule
 
-| Week | Sunday — lecture | Wednesday — lab | Milestone |
-| :--: | --- | --- | --- |
-| 1 | **30 Aug** · Course introduction and thermal sensors | 2 Sep · — | — |
-| 2 | **6 Sep** · Prototyping of sensor/actuator based systems | 9 Sep · — | — |
-| 3 | **13 Sep** · Flow and rotary sensors | 16 Sep · — | — |
-| 4 | **20 Sep** · Amplifiers and sensor noise · <span class="pill soon">quiz</span> | ~~23 Sep~~ · **National Day** | — |
-| 5 | **27 Sep** · AC motor designs | **30 Sep** · [Lab 1 — PWM, Four Motors & Motor Mismatch](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
-| 6 | **4 Oct** · AC motor controls | <span class="pill pending">pending</span> · [Lab 2 — Motor Characterization & Encoders](labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, saturation |
-| 7 | **11 Oct** · DC and stepper motors | <span class="pill pending">pending</span> · [Lab 3 — LiDAR / ToF Distance Sensing](labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
-| 8 | ~~18 Oct~~ · **Semester break** | ~~21 Oct~~ · **Semester break** | — |
-| 9 | **25 Oct** · Pressure sensors | <span class="pill pending">pending</span> · [Lab 4 — IMU + Sensor Calibration](labs/lab04-imu-calibration.md) | Calibration curve + corrected readings |
-| 10 | **1 Nov** · Force and strain sensors | <span class="pill pending">pending</span> · [Lab 5 — Logging, Filtering & Sensor-Based Motion](labs/lab05-logging-filtering.md) | Raw-vs-filtered plots + `speed = f(distance)` |
-| 11 | **8 Nov** · Position sensors | <span class="pill pending">pending</span> · [Lab 6 — Feedback Control (P / PI / PID)](labs/lab06-feedback-control.md) | Closed-loop controller with measured error |
-| 12 | **15 Nov** · Motion sensors | <span class="pill pending">pending</span> · [Lab 7 — Straight Driving, Turns & Localization](labs/lab07-straight-turns-localization.md) | Repeatable straight run + controlled turn |
-| 13 | **22 Nov** · Systems development: embedded architecture trade-offs, standards, best practices, CPU architectures | <span class="pill pending">pending</span> · [Lab 8 — Payload Servo + ThingsBoard](labs/lab08-servo-thingsboard.md) | Dashboard sends mission → car executes |
-| 14 | **29 Nov** · ARM architecture and demo, appliance case study, processor selection and benchmarking | <span class="pill pending">pending</span> · [Lab 9 — Multi-Car Coordination](labs/lab09-multi-car.md) | Two-car demonstration, no contact |
-| 15 | **6 Dec** · Embedded operating systems and tools | <span class="pill pending">pending</span> · [Lab 10 — Final Autonomous Fleet Challenge](labs/lab10-fleet-challenge.md) | Fleet demonstration + performance results |
-| 16 | — | — | **Final exam week** |
+<div class="schedule" markdown>
 
+| # | Date | Topic | Deliverable |
+| :--: | --- | --- | --- |
+| 1 | 30 Aug | Course introduction and thermal sensors |  |
+| 2 | 2 Sep | Course introduction and thermal sensors |  |
+| 3 | 6 Sep | Prototyping of sensor/actuator based systems |  |
+| 4 | 9 Sep | Prototyping of sensor/actuator based systems |  |
+| 5 | 13 Sep | Flow and rotary sensors |  |
+| 6 | 16 Sep | Flow and rotary sensors |  |
+| **QUIZ** | 20 Sep | Amplifiers and sensor noise · **Quiz** in the lecture slot | |
+| — | 23 Sep | **National Day — no session** | |
+| 8 | 27 Sep | AC motor designs | |
+| **LAB 1** | 30 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
+| 9 | 4 Oct | AC motor controls | |
+| **LAB 2** | 7 Oct <span class="pill pending">pending</span> | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, saturation |
+| 10 | 11 Oct | DC and stepper motors | |
+| **LAB 3** | 14 Oct <span class="pill pending">pending</span> | [Lab 3 - Distance Sensing](labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
+| — | 18 Oct | **Semester break** | |
+| — | 21 Oct | **Semester break** | |
+| 11 | 25 Oct | Pressure sensors | |
+| **LAB 4** | 28 Oct <span class="pill pending">pending</span> | [Lab 4 - IMU](labs/lab04-imu-calibration.md) | Calibration curve + corrected readings |
+| 12 | 1 Nov | Force and strain sensors | |
+| **LAB 5** | 4 Nov <span class="pill pending">pending</span> | [Lab 5 - Filtering](labs/lab05-logging-filtering.md) | Raw-vs-filtered plots + `speed = f(distance)` |
+| 13 | 8 Nov | Position sensors | |
+| **LAB 6** | 11 Nov <span class="pill pending">pending</span> | [Lab 6 - PID Control](labs/lab06-feedback-control.md) | Closed-loop controller with measured error |
+| 14 | 15 Nov | Motion sensors | |
+| **LAB 7** | 18 Nov <span class="pill pending">pending</span> | [Lab 7 - Localization](labs/lab07-straight-turns-localization.md) | Repeatable straight run + controlled turn |
+| 15 | 22 Nov | Systems development: embedded architecture trade-offs, standards, best practices, CPU architectures | |
+| **LAB 8** | 25 Nov <span class="pill pending">pending</span> | [Lab 8 - ThingsBoard](labs/lab08-servo-thingsboard.md) | Dashboard sends mission → car executes |
+| 16 | 29 Nov | ARM architecture and demo, appliance case study, processor selection and benchmarking | |
+| **LAB 9** | 2 Dec <span class="pill pending">pending</span> | [Lab 9 - Multi-Car](labs/lab09-multi-car.md) | Two-car demonstration, no contact |
+| 17 | 6 Dec | Embedded operating systems and tools | |
+| **LAB 10** | 9 Dec <span class="pill pending">pending</span> | [Lab 10 - Fleet Challenge](labs/lab10-fleet-challenge.md) | Fleet demonstration + performance results |
+| **EXAM** | Week 16 | **Final exam week** | |
+
+</div>
+
+<div class="sched-key" markdown>
+<span class="k-lab">Lab session</span>
+<span class="k-assessment">Quiz or exam</span>
+<span class="k-off">No session</span>
+</div>
+
+Lecture sessions are numbered. **LAB** rows are the Wednesday lab in
+Building 5 Sea Side, RISC Lab.
 
 ## Assessment dates
 

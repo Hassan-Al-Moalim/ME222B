@@ -320,3 +320,185 @@
 /* Not yet decided, as opposed to decided-and-past. */
 .pill.pending { background: #7e57c222; color: #5e35b1; }
 [data-md-color-scheme="slate"] .pill.pending { color: #b39ddb; }
+
+/* ---------------------------------------------------------------
+   Page actions — copy / view / download this page's Markdown.
+   Behaviour lives in javascripts/copypage.js
+   --------------------------------------------------------------- */
+
+.page-actions-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-actions-row > h1 {
+  flex: 1 1 14rem;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.page-actions {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin-top: .35rem;
+  white-space: nowrap;
+}
+
+.pa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .32rem .6rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 125ms, color 125ms, border-color 125ms;
+}
+
+.pa-btn--main {
+  border-radius: .2rem 0 0 .2rem;
+  border-right-width: 0;
+}
+
+.pa-btn--toggle {
+  border-radius: 0 .2rem .2rem 0;
+  padding-inline: .35rem;
+}
+
+.pa-btn:hover {
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+  border-color: var(--md-default-fg-color--light);
+}
+
+.pa-btn--toggle[aria-expanded="true"] {
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+.pa-menu {
+  position: absolute;
+  top: calc(100% + .3rem);
+  right: 0;
+  z-index: 5;
+  min-width: 15rem;
+  padding: .25rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: .25rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 .2rem .8rem rgba(0, 0, 0, .28);
+}
+
+.pa-menu[hidden] { display: none; }
+
+.pa-item {
+  display: block;
+  width: 100%;
+  padding: .4rem .5rem;
+  border: 0;
+  border-radius: .15rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.pa-item:hover { background: var(--md-code-bg-color); }
+
+.pa-item strong {
+  display: block;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+}
+
+.pa-item span {
+  display: block;
+  font-size: .64rem;
+  color: var(--md-default-fg-color--light);
+}
+
+@media print { .page-actions { display: none !important; } }
+
+/* On narrow screens the button drops under the title rather than squeezing it */
+@media screen and (max-width: 600px) {
+  .page-actions-row { flex-direction: column; }
+  .page-actions { margin-top: 0; }
+}
+
+/* No logo in the header — the course title carries it. Material falls back to
+   a stock icon when none is configured, so it has to be hidden explicitly. */
+.md-header__button.md-logo { display: none; }
+.md-header__title { margin-left: .6rem; }
+
+/* ---------------------------------------------------------------
+   Schedule — one row per session, shaded by type so labs, quizzes
+   and cancelled sessions are findable at a glance.
+   Row classes are applied by javascripts/schedule.js
+   --------------------------------------------------------------- */
+
+:root {
+  --sched-lab-bg: #00897b14;
+  --sched-assessment-bg: #e5393524;
+  --sched-off-bg: #9e9e9e1f;
+}
+
+[data-md-color-scheme="slate"] {
+  --sched-lab-bg: #4db6ac1f;
+  --sched-assessment-bg: #ef535029;
+  --sched-off-bg: #ffffff0f;
+}
+
+.md-typeset .schedule table { width: 100%; }
+
+.md-typeset .schedule td:first-child,
+.md-typeset .schedule th:first-child {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.md-typeset .schedule td:nth-child(2) { white-space: nowrap; }
+
+.md-typeset .schedule tr.is-lab > td { background: var(--sched-lab-bg); }
+.md-typeset .schedule tr.is-assessment > td { background: var(--sched-assessment-bg); }
+
+.md-typeset .schedule tr.is-off > td {
+  background: var(--sched-off-bg);
+  color: var(--md-default-fg-color--light);
+}
+
+/* Legend swatches under the table */
+.sched-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1rem;
+  margin: .6rem 0 1.5rem;
+  font-size: .68rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.sched-key span::before {
+  content: "";
+  display: inline-block;
+  width: .7rem;
+  height: .7rem;
+  margin-right: .3rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .12rem;
+  vertical-align: -1px;
+}
+
+.sched-key .k-lab::before { background: var(--sched-lab-bg); }
+.sched-key .k-assessment::before { background: var(--sched-assessment-bg); }
+.sched-key .k-off::before { background: var(--sched-off-bg); }

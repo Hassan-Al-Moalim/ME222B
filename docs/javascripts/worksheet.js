@@ -217,7 +217,7 @@
 
   function slug() {
     var parts = window.location.pathname.split("/").filter(Boolean);
-    return (parts[parts.length - 1] || "worksheet").replace(/[^a-z0-9-]/gi, "");
+    return (parts[parts.length - 1] || "worksheet").replace(/[^a-z0-9-]/gi, "") + "-answers";
   }
 
   function clearAll() {
@@ -239,7 +239,7 @@
     bar.innerHTML =
       '<span class="ws-note">Fill these tables in as you work — your entries are saved in this browser.</span>' +
       '<span class="ws-actions">' +
-        '<button type="button" class="ws-btn" data-act="md">Download .md</button>' +
+        '<button type="button" class="ws-btn" data-act="md">Download answers</button>' +
         '<button type="button" class="ws-btn" data-act="pdf">Save as PDF</button>' +
         '<button type="button" class="ws-btn ws-btn--quiet" data-act="clear">Clear</button>' +
         '<span class="ws-status" aria-live="polite"></span>' +

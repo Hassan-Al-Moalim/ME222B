@@ -17,7 +17,6 @@ theme:
   name: material
   language: en
   icon:
-    logo: material/robot-industrial
     repo: fontawesome/brands/github
   features:
     # One persistent left sidebar rather than top tabs, the way Just the Docs
@@ -37,24 +36,24 @@ theme:
     - content.code.annotate
     - content.tabs.link         # OS tabs stay in sync across the page
   palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
+    # Light is the default. No `media:` keys, so the site does not follow the
+    # OS setting — the toggle in the header is the only thing that changes it,
+    # and Material remembers the choice for next visit.
+    - scheme: default
       primary: teal
       accent: teal
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-night
         name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+    - scheme: slate
       primary: teal
       accent: teal
       toggle:
-        icon: material/brightness-4
-        name: Switch to system preference
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+hooks:
+  - hooks/publish_markdown.py
 
 plugins:
   - search
@@ -105,6 +104,8 @@ extra_css:
   - stylesheets/extra.css
 
 extra_javascript:
+  - javascripts/copypage.js
+  - javascripts/schedule.js
   - javascripts/worksheet.js
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js
