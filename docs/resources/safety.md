@@ -31,14 +31,13 @@ are safe when treated correctly and genuinely dangerous when not.
 - [ ] **Inspect before every use.** Puffed, swollen, dented, or punctured pack → stop, bag it, tell a TA. Do not charge it, do not use it.
 - [ ] **Charge in a LiPo-safe bag**, on a non-flammable surface, in the designated charging area.
 - [ ] **Charge in balance mode** at the correct cell count. A 2S pack charged as 3S will be destroyed and may ignite.
-- [ ] **Stay in the room while charging.** No exceptions, no "just stepping out".
-- [ ] **Store at storage charge** (~3.8 V/cell), not full, if the pack sits more than a few days.
+- [ ] **Stay in the room while charging.** 
+- [ ] **Store at storage charge**
 - [ ] **Disconnect the pack** when you are not actively testing.
 
 ### Never
 
-- Never discharge below **3.0 V per cell** (6.0 V on a 2S pack). Below this the pack is permanently damaged and unsafe to recharge.
-- Never short the leads. A 5200 mAh pack across a dropped screwdriver will weld it and start a fire in under a second.
+- Never short the leads. A LiPo pack across a dropped screwdriver will weld it and start a fire in under a second.
 - Never charge a pack that is warm from use. Let it cool.
 - Never leave a pack loose in a bag with metal objects.
 - Never put a damaged pack in a normal bin.
@@ -51,22 +50,12 @@ are safe when treated correctly and genuinely dangerous when not.
 4. Pull the fire alarm and call **TODO**.
 5. A vented pack that has stopped burning is still dangerous. Do not touch it.
 
-## Soldering
-
-- Irons reach 350 °C and look identical hot or cold. Assume hot.
-- Iron in its stand, every time you put it down. Never on the bench.
-- Solder in a ventilated area — flux fumes are a respiratory irritant.
-- **Eye protection** when clipping leads. Trimmed wire ends travel fast.
-- Never solder a circuit that is powered, and never solder near a connected LiPo.
-- Wash your hands afterwards.
-
 ## Powered motors and moving robots
 
 - Wheels off the bench surface when testing on the bench.
 - Tie back long hair; no loose sleeves, cords, or lanyards near a driveline.
 - Keep fingers clear of gears, wheels, and shafts under power.
 - Every robot needs a way to stop it **without chasing it** — a reachable kill switch or battery connector.
-- Announce it before you power up: *"powering up"*. Your bench partner should not be surprised.
 
 ## Electrical
 
@@ -85,6 +74,4 @@ are safe when treated correctly and genuinely dangerous when not.
 ## Reporting
 
 Report **every** incident, including near-misses and ones where nothing was
-damaged. This is not punitive — it is how the next cohort gets a safer lab.
-
-**TODO** — state the reporting procedure and who to tell.
+damaged. 
