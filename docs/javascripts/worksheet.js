@@ -267,9 +267,15 @@
     });
     if (!any) return;
 
+    // The page-actions script wraps the h1 in a flex row. Insert after that
+    // wrapper, not after the h1, or the toolbar lands inside the row and
+    // pushes the Copy page button onto its own line.
     var article = document.querySelector("article");
-    var h1 = article && article.querySelector("h1");
-    if (h1 && h1.parentNode) h1.parentNode.insertBefore(toolbar(), h1.nextSibling);
+    if (!article) return;
+    var h1 = article.querySelector("h1");
+    if (!h1) return;
+    var anchor = h1.closest(".page-actions-row") || h1;
+    anchor.parentNode.insertBefore(toolbar(), anchor.nextSibling);
   }
 
   if (typeof document$ !== "undefined" && document$.subscribe) {
