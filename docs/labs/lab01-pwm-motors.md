@@ -123,7 +123,7 @@ Complete the missing parts.
 // ======================================
 // ME 222B - LAB 1
 // Four-Motor Robot Car
-// Two dual H-bridges: one per side
+// Two H-bridges: one per side
 // ======================================
 
 
@@ -132,19 +132,24 @@ Complete the missing parts.
 // Copy them from the tables above.
 // --------------------------------------
 
-// LEFT driver - both left-side motors
-#define L_FWD_IN1   ___      // front-left motor
+// LEFT driver
+
+#define L_FWD_IN1   ___
 #define L_FWD_IN2   ___
 #define L_FWD_PWM   ___
-#define L_BWD_IN1   ___      // rear-left motor
+
+#define L_BWD_IN1   ___
 #define L_BWD_IN2   ___
 #define L_BWD_PWM   ___
 
-// RIGHT driver - both right-side motors
-#define R_FWD_IN1   ___      // front-right motor
+
+// RIGHT driver
+
+#define R_FWD_IN1   ___
 #define R_FWD_IN2   ___
 #define R_FWD_PWM   ___
-#define R_BWD_IN1   ___      // rear-right motor
+
+#define R_BWD_IN1   ___
 #define R_BWD_IN2   ___
 #define R_BWD_PWM   ___
 
@@ -164,55 +169,68 @@ int rightSpeed = 180;
 
 void setup()
 {
-  int pins[] = {
-    L_FWD_IN1, L_FWD_IN2, L_FWD_PWM,
-    L_BWD_IN1, L_BWD_IN2, L_BWD_PWM,
-    R_FWD_IN1, R_FWD_IN2, R_FWD_PWM,
-    R_BWD_IN1, R_BWD_IN2, R_BWD_PWM
-  };
+  pinMode(L_FWD_IN1, OUTPUT);
+  pinMode(L_FWD_IN2, OUTPUT);
+  pinMode(L_FWD_PWM, OUTPUT);
 
-  for (int i = 0; i < 12; i++) pinMode(pins[i], OUTPUT);
+  pinMode(L_BWD_IN1, OUTPUT);
+  pinMode(L_BWD_IN2, OUTPUT);
+  pinMode(L_BWD_PWM, OUTPUT);
+
+  pinMode(R_FWD_IN1, OUTPUT);
+  pinMode(R_FWD_IN2, OUTPUT);
+  pinMode(R_FWD_PWM, OUTPUT);
+
+  pinMode(R_BWD_IN1, OUTPUT);
+  pinMode(R_BWD_IN2, OUTPUT);
+  pinMode(R_BWD_PWM, OUTPUT);
 
   stopCar();
 }
 
 
 // ======================================
-// DRIVE ONE MOTOR
+// MOVE FORWARD
 //
 // Fill in HIGH and LOW.
 //
-// You may need to swap them depending on
-// how that motor happens to be wired.
-// ======================================
-
-void motor(int in1, int in2, int pwm, int speed)
-{
-  digitalWrite(in1, ___);
-  digitalWrite(in2, ___);
-
-  analogWrite(pwm, speed);
-}
-
-
-// ======================================
-// MOVE FORWARD
-//
-// All four motors, same direction.
+// You may need to change the direction
+// depending on your motor wiring.
 // ======================================
 
 void forward()
 {
-  // LEFT SIDE - front and rear
+  // LEFT SIDE - front motor
 
-  motor(L_FWD_IN1, L_FWD_IN2, L_FWD_PWM, leftSpeed);
-  motor(L_BWD_IN1, L_BWD_IN2, L_BWD_PWM, leftSpeed);
+  digitalWrite(L_FWD_IN1, ___);
+  digitalWrite(L_FWD_IN2, ___);
 
 
-  // RIGHT SIDE - front and rear
+  // LEFT SIDE - rear motor
 
-  motor(R_FWD_IN1, R_FWD_IN2, R_FWD_PWM, rightSpeed);
-  motor(R_BWD_IN1, R_BWD_IN2, R_BWD_PWM, rightSpeed);
+  digitalWrite(L_BWD_IN1, ___);
+  digitalWrite(L_BWD_IN2, ___);
+
+
+  // RIGHT SIDE - front motor
+
+  digitalWrite(R_FWD_IN1, ___);
+  digitalWrite(R_FWD_IN2, ___);
+
+
+  // RIGHT SIDE - rear motor
+
+  digitalWrite(R_BWD_IN1, ___);
+  digitalWrite(R_BWD_IN2, ___);
+
+
+  // Apply motor speed
+
+  analogWrite(L_FWD_PWM, leftSpeed);
+  analogWrite(L_BWD_PWM, leftSpeed);
+
+  analogWrite(R_FWD_PWM, rightSpeed);
+  analogWrite(R_BWD_PWM, rightSpeed);
 }
 
 
@@ -222,12 +240,23 @@ void forward()
 
 void stopCar()
 {
-  int in[]  = { L_FWD_IN1, L_FWD_IN2, L_BWD_IN1, L_BWD_IN2,
-                R_FWD_IN1, R_FWD_IN2, R_BWD_IN1, R_BWD_IN2 };
-  int pwm[] = { L_FWD_PWM, L_BWD_PWM, R_FWD_PWM, R_BWD_PWM };
+  digitalWrite(L_FWD_IN1, LOW);
+  digitalWrite(L_FWD_IN2, LOW);
 
-  for (int i = 0; i < 8; i++) digitalWrite(in[i],  LOW);
-  for (int i = 0; i < 4; i++) analogWrite(pwm[i], 0);
+  digitalWrite(L_BWD_IN1, LOW);
+  digitalWrite(L_BWD_IN2, LOW);
+
+  digitalWrite(R_FWD_IN1, LOW);
+  digitalWrite(R_FWD_IN2, LOW);
+
+  digitalWrite(R_BWD_IN1, LOW);
+  digitalWrite(R_BWD_IN2, LOW);
+
+  analogWrite(L_FWD_PWM, 0);
+  analogWrite(L_BWD_PWM, 0);
+
+  analogWrite(R_FWD_PWM, 0);
+  analogWrite(R_BWD_PWM, 0);
 }
 
 
@@ -252,11 +281,11 @@ void loop()
 }
 ```
 
-!!! warning "One `motor()` call per wheel"
-    Each dual H-bridge channel drives exactly one motor, so four motors need
-    four calls. If you only write two, the other two wheels sit dead and the car
-    will curve hard — which looks exactly like the motor mismatch you are about
-    to measure. Check all four turn in Task 1 before trusting any drift number.
+!!! warning "Every motor is written out separately"
+    Four motors means four pairs of `digitalWrite` and four `analogWrite` calls.
+    Miss a pair and that wheel sits dead, which makes the car curve hard — and
+    looks exactly like the motor mismatch you are about to measure. Check all
+    four turn in Task 1 before trusting any drift number.
 
 !!! note "Why `while(1)` at the end"
     Without it, `loop()` restarts and the car drives off again the moment you
