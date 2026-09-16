@@ -20,9 +20,11 @@ theme:
     logo: material/robot-industrial
     repo: fontawesome/brands/github
   features:
-    - navigation.tabs           # top-level sections as tabs
-    - navigation.tabs.sticky
-    - navigation.sections
+    # No navigation.tabs: everything lives in one persistent left sidebar,
+    # the way Just the Docs course sites do it, so students can see the whole
+    # course at once instead of one section at a time.
+    - navigation.sections       # top-level groups as headings
+    - navigation.expand         # sub-pages always visible, not collapsed
     - navigation.indexes        # section landing pages
     - navigation.top
     - navigation.tracking

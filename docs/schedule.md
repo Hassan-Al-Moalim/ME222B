@@ -4,82 +4,59 @@ title: Schedule
 
 # Schedule
 
-**Fall 2026/2027** · Semester runs **30 August – 10 December 2026**
+**Fall 2026/2027** · 30 August – 10 December 2026
 
-Lectures: **Sunday & Wednesday, 08:30–10:00**, Building 9 – Classroom 4120.
+| | |
+| --- | --- |
+| **Lectures** | Sunday, 08:30–10:00 · Building 9 – Room 4120 |
+| **Labs** | Wednesday, 08:30–10:00 · Building 5 Sea Side — RISC Lab |
 
-## Lecture schedule
-
-| Week | Dates | Topic |
-| :--: | --- | --- |
-| 1 | Sun 30 Aug · Wed 2 Sep | Course introduction and thermal sensors |
-| 2 | Sun 6 Sep · Wed 9 Sep | Prototyping of sensor/actuator based systems |
-| 3 | Sun 13 Sep · Wed 16 Sep | Flow and rotary sensors |
-| 4 | Sun 20 Sep | Amplifiers and sensor noise · **Quiz** |
-| | ~~Wed 23 Sep~~ | **National Day — no session** |
-| 5 | Sun 27 Sep · Wed 30 Sep | AC motor designs |
-| 6 | Sun 4 Oct · Wed 7 Oct | AC motor controls |
-| 7 | Sun 11 Oct · Wed 14 Oct | DC and stepper motors |
-| 8 | Sun 18 Oct · Wed 21 Oct | **Semester break** |
-| 9 | Sun 25 Oct · Wed 28 Oct | Pressure sensors |
-| 10 | Sun 1 Nov · Wed 4 Nov | Force and strain sensors |
-| 11 | Sun 8 Nov · Wed 11 Nov | Position sensors |
-| 12 | Sun 15 Nov · Wed 18 Nov | Motion sensors |
-| 13 | Sun 22 Nov · Wed 25 Nov | Systems development: embedded architecture trade-offs, standards, engineering best practices, CPU architectures |
-| 14 | Sun 29 Nov · Wed 2 Dec | ARM architecture and demo, appliance case study, processor selection and benchmarking |
-| 15 | Sun 6 Dec · Wed 9 Dec | Embedded operating systems and tools |
-| 16 | — | **Final exam week** |
+The ten labs take the ten Wednesdays remaining after National Day, skipping the
+semester break, and finish on 9 December.
 
 !!! warning "This week — 20 to 24 September"
     - **Sunday 20 September — quiz** in the lecture slot. Scope is the material
-      covered so far; see the [Syllabus](syllabus.md#assessment).
+      covered so far.
     - **Wednesday 23 September — no session.** Saudi National Day.
 
-    Week 4 therefore has a single meeting, which is why the syllabus lists only
-    the Sunday.
+## Semester schedule
 
-## Lab schedule
+| Week | Sunday — lecture | Wednesday — lab | Milestone |
+| :--: | --- | --- | --- |
+| 1 | **30 Aug** · Course introduction and thermal sensors | 2 Sep · — | — |
+| 2 | **6 Sep** · Prototyping of sensor/actuator based systems | 9 Sep · — | — |
+| 3 | **13 Sep** · Flow and rotary sensors | 16 Sep · — | — |
+| 4 | **20 Sep** · Amplifiers and sensor noise · <span class="pill soon">quiz</span> | ~~23 Sep~~ · **National Day** | — |
+| 5 | **27 Sep** · AC motor designs | **30 Sep** · [Lab 1 — PWM, Four Motors & Motor Mismatch](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
+| 6 | **4 Oct** · AC motor controls | **7 Oct** · [Lab 2 — Motor Characterization & Encoders](labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, saturation |
+| 7 | **11 Oct** · DC and stepper motors | **14 Oct** · [Lab 3 — LiDAR / ToF Distance Sensing](labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
+| 8 | ~~18 Oct~~ · **Semester break** | ~~21 Oct~~ · **Semester break** | — |
+| 9 | **25 Oct** · Pressure sensors | **28 Oct** · [Lab 4 — IMU + Sensor Calibration](labs/lab04-imu-calibration.md) | Calibration curve + corrected readings |
+| 10 | **1 Nov** · Force and strain sensors | **4 Nov** · [Lab 5 — Logging, Filtering & Sensor-Based Motion](labs/lab05-logging-filtering.md) | Raw-vs-filtered plots + `speed = f(distance)` |
+| 11 | **8 Nov** · Position sensors | **11 Nov** · [Lab 6 — Feedback Control (P / PI / PID)](labs/lab06-feedback-control.md) | Closed-loop controller with measured error |
+| 12 | **15 Nov** · Motion sensors | **18 Nov** · [Lab 7 — Straight Driving, Turns & Localization](labs/lab07-straight-turns-localization.md) | Repeatable straight run + controlled turn |
+| 13 | **22 Nov** · Systems development: embedded architecture trade-offs, standards, best practices, CPU architectures | **25 Nov** · [Lab 8 — Payload Servo + ThingsBoard](labs/lab08-servo-thingsboard.md) | Dashboard sends mission → car executes |
+| 14 | **29 Nov** · ARM architecture and demo, appliance case study, processor selection and benchmarking | **2 Dec** · [Lab 9 — Multi-Car Coordination](labs/lab09-multi-car.md) | Two-car demonstration, no contact |
+| 15 | **6 Dec** · Embedded operating systems and tools | **9 Dec** · [Lab 10 — Final Autonomous Fleet Challenge](labs/lab10-fleet-challenge.md) | Fleet demonstration + performance results |
+| 16 | — | — | **Final exam week** |
 
-Ten labs, one 90-minute session per week, building a four-motor autonomous car.
+!!! note "Where the syllabus differs"
+    The syllabus lists a lecture topic against Wednesdays as well as Sundays.
+    Where the two disagree, **the Wednesday slot is the lab**. See also the
+    [note on the two lab plans](syllabus.md#planned-labs) — this lab sequence
+    differs from the one printed in the syllabus.
 
-**Lab room — Building 5 Sea Side, RISC Lab.**
+## Notes on the lab sequence
 
-!!! warning "Lab day and time are still pending"
-    Lab sessions are not in the official syllabus, so the day, time, and which
-    weeks the ten labs occupy are **Pending**. Week 8 is the semester break and
-    Week 16 is final exams, so the ten labs fit weeks 1–7 and 9–11, or 2–7 and
-    9–12. Announcements will come in the lecture slot.
-
-    See also the [note on the two lab plans](syllabus.md#planned-labs) — this
-    sequence differs from the one printed in the syllabus.
-
-**Legend** — <span class="pill open">open</span> released ·
-<span class="pill soon">soon</span> not yet released
-
-| Lab | Date | Practical focus | Milestone / deliverable | Status |
-| :--: | --- | --- | --- | :--: |
-| [1](labs/lab01-pwm-motors.md) | <span class="pill pending">pending</span> | First full motion lab. Run four motors; introduce PWM; test PWM 100/150/200/255; find minimum useful PWM; drive ~4 m with equal left/right PWM; measure drift | Working car + PWM table + measured straight-line drift | <span class="pill open">open</span> |
-| [2](labs/lab02-motor-characterization.md) | <span class="pill pending">pending</span> | Measure actual wheel speed; encoder counts; RPM; test several PWM values; compare left/right sides; identify dead zone and saturation | PWM–speed curves + left/right characterization | <span class="pill soon">soon</span> |
-| [3](labs/lab03-distance-sensing.md) | <span class="pill pending">pending</span> | Mount distance sensor; measure known distances; determine useful range and field of view; implement basic obstacle detection | Reliable `obstacleDetected()` + sensor test data | <span class="pill soon">soon</span> |
-| [4](labs/lab04-imu-calibration.md) | <span class="pill pending">pending</span> | Read accelerometer/gyro; observe bias and noise; basic heading/turn measurement; calibrate against known references | Calibration curve + corrected sensor readings | <span class="pill soon">soon</span> |
-| [5](labs/lab05-logging-filtering.md) | <span class="pill pending">pending</span> | Log PWM, encoder, distance and IMU data; compare raw/filtered; moving average/median filter; car slows as obstacle nears | Raw-vs-filtered plots + `speed = f(distance)` | <span class="pill soon">soon</span> |
-| [6](labs/lab06-feedback-control.md) | <span class="pill pending">pending</span> | Now introduce feedback. Encoder speed or stopping distance; desired vs actual; P first, then PI/PID; experimental tuning | Closed-loop controller with measured error | <span class="pill soon">soon</span> |
-| [7](labs/lab07-straight-turns-localization.md) | <span class="pill pending">pending</span> | Encoder + IMU feedback; correct the Lab 1 drift problem; drive fixed distance; 90° turns; estimate position/heading | Repeatable straight run + controlled turn + localization | <span class="pill soon">soon</span> |
-| [8](labs/lab08-servo-thingsboard.md) | <span class="pill pending">pending</span> | Servo release mechanism; connect car to ThingsBoard; report vehicle state; receive pickup/destination; mission states | Dashboard sends mission → car executes → payload release | <span class="pill soon">soon</span> |
-| [9](labs/lab09-multi-car.md) | <span class="pill pending">pending</span> | Run at least two cars; local obstacle safety; zone reservation / priority; crossing and narrow-corridor cases | Two-car coordinated demonstration with no contact | <span class="pill soon">soon</span> |
-| [10](labs/lab10-fleet-challenge.md) | <span class="pill pending">pending</span> | Full pickup → navigation → obstacle handling → delivery → payload release → telemetry; multiple cars in shared arena | Final fleet demonstration + performance results | <span class="pill soon">soon</span> |
-
-### Notes on the lab sequence
-
-**Lab 1 poses the problem; Lab 7 solves it.** The drift measured in the first
-session is the thread running through the whole sequence. Lab 7 re-runs the exact
-Lab 1 test so you can see your own improvement as a number.
+**Lab 1 poses the problem; Lab 7 solves it.** The drift you measure on 30
+September is the thread running through the whole sequence. Lab 7 re-runs that
+exact test under closed-loop control so you can see your improvement as a number.
 
 **Lab 6 is the hinge.** Everything before it is open loop — command and hope.
 Everything after it is closed loop.
 
 **Lab 8 has an infrastructure dependency.** ThingsBoard access and WiFi an ESP32
-can actually join must be confirmed before the session. See the
+can actually join must be confirmed before 25 November. See the
 [Lab 8 page](labs/lab08-servo-thingsboard.md).
 
 ## Assessment dates
@@ -87,10 +64,11 @@ can actually join must be confirmed before the session. See the
 | Item | Weight | Date |
 | --- | --: | --- |
 | Quiz | — | **Sun 20 Sep**, lecture slot |
+| Quizzes (remaining) | 10 % | <span class="pill pending">pending</span> |
 | Midterm exam | 20 % | <span class="pill pending">pending</span> |
-| Final exam | 20 % | Week 16 — <span class="pill pending">pending</span> |
 | Course project(s) | 45 % | Two projects — milestones <span class="pill pending">pending</span> |
-| Quizzes | 10 % | Further dates <span class="pill pending">pending</span> |
+| Final exam | 20 % | Week 16 — <span class="pill pending">pending</span> |
+| Homework / assignments | 5 % | Set in class |
 
 ## Office hours
 

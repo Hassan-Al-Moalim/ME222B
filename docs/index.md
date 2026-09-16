@@ -7,10 +7,10 @@ title: Home
 Fall 2026/2027 · Division of Mechanical Engineering
 
 <div class="lab-meta" markdown>
-<div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00<br>Building 9 – Room 4120</span></div>
+<div><span class="k">Lectures</span><span class="v">Sundays, 08:30–10:00<br>Building 9 – Room 4120</span></div>
+<div><span class="k">Labs</span><span class="v">Wednesdays, 08:30–10:00<br>Building 5 Sea Side — RISC Lab</span></div>
 <div><span class="k">Teaching team</span><span class="v">Amr Talaat Abdel Hamid<br>TA — Hassan Al Moalim</span></div>
 <div><span class="k">Semester</span><span class="v">30 Aug – 10 Dec 2026</span></div>
-<div><span class="k">Lab room</span><span class="v">Building 5 Sea Side — RISC Lab</span></div>
 </div>
 
 This site holds the **lab manual**: ten 90-minute sessions in which you build a
