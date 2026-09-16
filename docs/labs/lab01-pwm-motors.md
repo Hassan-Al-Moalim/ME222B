@@ -388,11 +388,6 @@ Answer:
 2. Does it tend to move repeatedly toward the same side?
 3. Is the error exactly the same on every run?
 
-!!! tip "Question 3 is the important one"
-    A drift that is **consistent** points at a fixed physical difference between
-    the two sides. A drift that is **random** points at something else — surface,
-    alignment, battery state. Which one you have determines whether a fixed
-    correction could ever work.
 
 ## 8. Write your problem statement
 
