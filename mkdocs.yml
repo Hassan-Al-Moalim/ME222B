@@ -18,6 +18,7 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: en
+  font: false           # system font stack, like Just the Docs
   icon:
     repo: fontawesome/brands/github
   features:
@@ -42,14 +43,14 @@ theme:
     # OS setting — the toggle in the header is the only thing that changes it,
     # and Material remembers the choice for next visit.
     - scheme: default
-      primary: teal
-      accent: teal
+      primary: white        # neutral header bar, not a colour band
+      accent: deep purple
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - scheme: slate
-      primary: teal
-      accent: teal
+      primary: black
+      accent: deep purple
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode

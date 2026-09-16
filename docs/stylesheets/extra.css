@@ -502,3 +502,60 @@
 .sched-key .k-lab::before { background: var(--sched-lab-bg); }
 .sched-key .k-assessment::before { background: var(--sched-assessment-bg); }
 .sched-key .k-off::before { background: var(--sched-off-bg); }
+
+/* ---------------------------------------------------------------
+   Just the Docs colour schema: neutral header, purple links,
+   quiet sidebar. Keeps Material's GitHub button and theme toggle.
+   --------------------------------------------------------------- */
+
+/* Material declares these on <body> through combined scheme+primary attribute
+   selectors, which outrank both :root and a single-attribute override. Two
+   attributes plus the type selector is enough to win in either theme. */
+body[data-md-color-scheme="default"][data-md-color-primary] {
+  --md-typeset-a-color: #7253ed;
+  --md-accent-fg-color: #5c3ee8;
+}
+
+body[data-md-color-scheme="slate"][data-md-color-primary] {
+  --md-typeset-a-color: #a48cf0;
+  --md-accent-fg-color: #b9a6f5;
+}
+
+/* Header reads as a divider, not a coloured band. */
+.md-header {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  box-shadow: none;
+}
+
+.md-header__title { font-weight: 700; }
+
+/* Sidebar: quiet background, purple links, a filled pill for the current page,
+   which is how Just the Docs marks position. */
+.md-sidebar--primary {
+  background: var(--md-default-bg-color);
+}
+
+.md-nav__link { color: var(--md-typeset-a-color); }
+
+.md-nav__link:hover,
+.md-nav__link:focus { color: var(--md-accent-fg-color); }
+
+.md-nav__item .md-nav__link--active,
+.md-nav__item .md-nav__link--active:hover {
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+.md-nav--primary .md-nav__title {
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+/* Section headings sit closer to Just the Docs' weight and rhythm. */
+.md-typeset h1 {
+  color: var(--md-default-fg-color);
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.md-typeset h2 { font-weight: 700; }

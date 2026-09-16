@@ -95,6 +95,8 @@
           '<strong>View as Markdown</strong><span>Open this page as plain text</span></a>' +
         '<button type="button" class="pa-item" data-act="download">' +
           '<strong>Download Markdown</strong><span>Save the .md file</span></button>' +
+        '<button type="button" class="pa-item" data-act="pdf">' +
+          '<strong>Save as PDF</strong><span>Print this page</span></button>' +
       '</div>';
 
     var menu = wrap.querySelector(".pa-menu");
@@ -128,6 +130,10 @@
       if (act === "view") { close(); return; }        // plain link
 
       ev.preventDefault();
+
+      // Printing needs no source fetch, and must run in the click's own turn
+      // or the browser treats the dialog as unsolicited.
+      if (act === "pdf") { close(); window.print(); return; }
       var label = el.classList.contains("pa-item") ? el.querySelector("strong") : el.querySelector("span");
 
       fetchSource().then(function (text) {

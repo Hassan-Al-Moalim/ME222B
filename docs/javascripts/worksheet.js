@@ -240,7 +240,6 @@
       '<span class="ws-note">Fill these tables in as you work — your entries are saved in this browser.</span>' +
       '<span class="ws-actions">' +
         '<button type="button" class="ws-btn" data-act="md">Download answers</button>' +
-        '<button type="button" class="ws-btn" data-act="pdf">Save as PDF</button>' +
         '<button type="button" class="ws-btn ws-btn--quiet" data-act="clear">Clear</button>' +
         '<span class="ws-status" aria-live="polite"></span>' +
       '</span>';
@@ -250,7 +249,6 @@
       if (!btn) return;
       var act = btn.getAttribute("data-act");
       if (act === "md") download(toMarkdown(), slug() + ".md");
-      else if (act === "pdf") window.print();
       else if (act === "clear") clearAll();
     });
 
