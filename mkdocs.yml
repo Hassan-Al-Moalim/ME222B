@@ -20,11 +20,10 @@ theme:
     logo: material/robot-industrial
     repo: fontawesome/brands/github
   features:
-    # No navigation.tabs: everything lives in one persistent left sidebar,
-    # the way Just the Docs course sites do it, so students can see the whole
-    # course at once instead of one section at a time.
-    - navigation.sections       # top-level groups as headings
-    - navigation.expand         # sub-pages always visible, not collapsed
+    # One persistent left sidebar rather than top tabs, the way Just the Docs
+    # course sites do it. Deliberately no navigation.sections or
+    # navigation.expand: those pin every section open, which buries Reference
+    # under ten lab entries. Sections collapse until clicked instead.
     - navigation.indexes        # section landing pages
     - navigation.top
     - navigation.tracking
@@ -123,16 +122,16 @@ nav:
   - Schedule: schedule.md
   - Labs:
       - labs/index.md
-      - "Lab 1 — PWM, Four Motors & Motor Mismatch": labs/lab01-pwm-motors.md
-      - "Lab 2 — Motor Characterization & Encoders": labs/lab02-motor-characterization.md
-      - "Lab 3 — LiDAR / ToF Distance Sensing": labs/lab03-distance-sensing.md
-      - "Lab 4 — IMU + Sensor Calibration": labs/lab04-imu-calibration.md
-      - "Lab 5 — Logging, Filtering & Sensor-Based Motion": labs/lab05-logging-filtering.md
-      - "Lab 6 — Feedback Control (P / PI / PID)": labs/lab06-feedback-control.md
-      - "Lab 7 — Straight Driving, Turns & Localization": labs/lab07-straight-turns-localization.md
-      - "Lab 8 — Payload Servo + ThingsBoard": labs/lab08-servo-thingsboard.md
-      - "Lab 9 — Multi-Car Coordination": labs/lab09-multi-car.md
-      - "Lab 10 — Final Autonomous Fleet Challenge": labs/lab10-fleet-challenge.md
+      - "Lab 1 — Four Motors & PWM": labs/lab01-pwm-motors.md
+      - "Lab 2 — Characterization": labs/lab02-motor-characterization.md
+      - "Lab 3 — Distance Sensing": labs/lab03-distance-sensing.md
+      - "Lab 4 — IMU Calibration": labs/lab04-imu-calibration.md
+      - "Lab 5 — Logging & Filtering": labs/lab05-logging-filtering.md
+      - "Lab 6 — Feedback Control": labs/lab06-feedback-control.md
+      - "Lab 7 — Turns & Localization": labs/lab07-straight-turns-localization.md
+      - "Lab 8 — Servo & ThingsBoard": labs/lab08-servo-thingsboard.md
+      - "Lab 9 — Multi-Car": labs/lab09-multi-car.md
+      - "Lab 10 — Fleet Challenge": labs/lab10-fleet-challenge.md
   - Reference:
       - resources/index.md
       - "Setup — Arduino IDE": resources/setup.md
