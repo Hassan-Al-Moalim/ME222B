@@ -74,18 +74,32 @@ the motors.
 Before writing the program, complete this table. Keep it — every later lab
 assumes these pins.
 
-<div class="pinout" markdown>
+<div class="pinout right" markdown>
 
 | Function | ESP32 pin |
 | --- | --- |
-| Left IN1 | `______` |
-| Left IN2 | `______` |
-| Left PWM / Enable | `______` |
-| Right IN1 | `______` |
-| Right IN2 | `______` |
-| Right PWM / Enable | `______` |
+| Forward IN1 | `______` |
+| Forward IN2 | `______` |
+| Forward PWM / Enable | `______` |
+| Backward IN1 | `______` |
+| Backward IN2 | `______` |
+| Backward PWM / Enable | `______` |
 
 </div>
+<div class="pinout left" markdown>
+
+| Function | ESP32 pin |
+| --- | --- |
+| Forward IN1 | `______` |
+| Forward IN2 | `______` |
+| Forward PWM / Enable | `______` |
+| Backward IN1 | `______` |
+| Backward IN2 | `______` |
+| Backward PWM / Enable | `______` |
+
+</div>
+
+
 
 ## 4. Starting program
 
