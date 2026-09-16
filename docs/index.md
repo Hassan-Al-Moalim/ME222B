@@ -31,7 +31,7 @@ See the [Schedule](schedule.md) for the week-by-week plan.
 ## Start Here
 
 1. [Setup — Arduino IDE](resources/setup.md). Install before your first lab. About 45 minutes.
-2. [Lab Safety](resources/safety.md). Sign-off is required before Lab 1.
+2. [Lab Safety](resources/safety.md). Read before your first lab.
 3. [Lab 1 — Four Motors & PWM](labs/lab01-pwm-motors.md). Wednesday 30 September.
 
 ## Getting Help

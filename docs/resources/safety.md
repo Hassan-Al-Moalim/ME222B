@@ -4,8 +4,8 @@ title: Lab Safety
 
 # Lab Safety
 
-You complete the safety briefing and sign off before Lab 1. Without it you do
-not handle batteries or run powered motors.
+Read this before your first lab. It covers the batteries, tools, and moving
+hardware you will be working with.
 
 ## Emergency information
 
