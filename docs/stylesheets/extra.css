@@ -316,3 +316,7 @@
   font-family: var(--md-text-font-family);
   font-size: .8rem;
 }
+
+/* Not yet decided, as opposed to decided-and-past. */
+.pill.pending { background: #7e57c222; color: #5e35b1; }
+[data-md-color-scheme="slate"] .pill.pending { color: #b39ddb; }

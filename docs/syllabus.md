@@ -18,8 +18,8 @@ Division of Mechanical Engineering · Fall 2026
 
 | Role | Name | Email | Office | Office hours |
 | --- | --- | --- | --- | --- |
-| Instructor | Amr Talaat Abdel Hamid | [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa) | TODO | TODO |
-| Teaching Assistant | Hassan Al MOalim | [hassan.moalim@kaust.edu.sa](mailto:hassan.moalim@kaust.edu.sa) | TODO | TODO |
+| Instructor | Amr Talaat Abdel Hamid | [amr.abdelhamid@kaust.edu.sa](mailto:amr.abdelhamid@kaust.edu.sa) | *Pending* | *Pending* |
+| Teaching Assistant | Hassan Al Moalim | [hassan.moalim@kaust.edu.sa](mailto:hassan.moalim@kaust.edu.sa) | *Pending* | *Pending* |
 
 ## Course description
 

@@ -8,9 +8,9 @@ Fall 2026/2027 · Division of Mechanical Engineering
 
 <div class="lab-meta" markdown>
 <div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00<br>Building 9 – Room 4120</span></div>
-<div><span class="k">Instructor</span><span class="v">: Amr Talaat Abdel Hamid</span></span><span class="v">: TA: Hasan Al Moalim</span></div>
-<div><span class="k">Semester</span><span class="v">: 30 Aug – 10 Dec 2026</span></div>
-<div><span class="k">Lab room</span><span class="v">: Building 5 Sea Side/ RISC Lab</span></div>
+<div><span class="k">Teaching team</span><span class="v">Amr Talaat Abdel Hamid<br>TA — Hassan Al Moalim</span></div>
+<div><span class="k">Semester</span><span class="v">30 Aug – 10 Dec 2026</span></div>
+<div><span class="k">Lab room</span><span class="v">Building 5 Sea Side — RISC Lab</span></div>
 </div>
 
 This site holds the **lab manual**: ten 90-minute sessions in which you build a
@@ -18,9 +18,10 @@ four-motor autonomous car on an ESP32, then make a fleet of them work together.
 For course policies, assessment weights, and the lecture schedule, see the
 [Syllabus](syllabus.md).
 
-!!! warning "Lab dates and room not yet set"
-    Items marked `TODO` still need instructor input — lab dates and room,
-    office hours, emergency contacts, and ThingsBoard details.
+!!! warning "Some details still pending"
+    Anything marked **Pending** on the [Schedule](schedule.md) has not been
+    fixed yet — lab dates, office hours, and exam dates. Check back, or ask in
+    the lab.
 
 ## Start here
 
