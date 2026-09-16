@@ -4,7 +4,9 @@
 # Build:          ./.venv/bin/mkdocs build
 # ---------------------------------------------------------------------------
 
-site_name: ME 222B — Mechatronics and Intelligent Systems
+# Short, so the header carries just the course code in the corner.
+# The full title is the heading on the home page.
+site_name: ME 222B
 site_description: Lab instructions, schedule, and reference material for ME 222B, Mechatronics and Intelligent Systems, KAUST Fall 2026/2027.
 site_author: Amr Talaat Abdel Hamid
 
