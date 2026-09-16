@@ -74,7 +74,11 @@ the motors.
 Before writing the program, complete this table. Keep it — every later lab
 assumes these pins.
 
-<div class="pinout right" markdown>
+<div class="pinout-pair" markdown>
+
+<div class="pinout" data-worksheet="left-driver" markdown>
+
+**Left driver** — both left-side motors
 
 | Function | ESP32 pin |
 | --- | --- |
@@ -86,7 +90,10 @@ assumes these pins.
 | Backward PWM / Enable | `______` |
 
 </div>
-<div class="pinout left" markdown>
+
+<div class="pinout" data-worksheet="right-driver" markdown>
+
+**Right driver** — both right-side motors
 
 | Function | ESP32 pin |
 | --- | --- |
@@ -99,7 +106,14 @@ assumes these pins.
 
 </div>
 
+</div>
 
+!!! note "One driver board per side, two motors each"
+    Each dual H-bridge carries two channels, so one board runs an entire side of
+    the car: **Forward** is that side's front motor, **Backward** is its rear
+    motor. Steering comes from driving the left board differently to the right
+    board — which is why all four motors must be wired the right way round
+    before any of the drift measurements mean anything.
 
 ## 4. Starting program
 
@@ -107,22 +121,32 @@ Complete the missing parts.
 
 ```cpp title="ME222_Lab1.ino"
 // ======================================
-// ME 222 - LAB 1
+// ME 222B - LAB 1
 // Four-Motor Robot Car
+// Two dual H-bridges: one per side
 // ======================================
 
 
 // --------------------------------------
-// Enter your ESP32 pin numbers
+// Enter your ESP32 pin numbers.
+// Copy them from the tables above.
 // --------------------------------------
 
-#define LEFT_IN1   ___
-#define LEFT_IN2   ___
-#define LEFT_PWM   ___
+// LEFT driver - both left-side motors
+#define L_FWD_IN1   ___      // front-left motor
+#define L_FWD_IN2   ___
+#define L_FWD_PWM   ___
+#define L_BWD_IN1   ___      // rear-left motor
+#define L_BWD_IN2   ___
+#define L_BWD_PWM   ___
 
-#define RIGHT_IN1  ___
-#define RIGHT_IN2  ___
-#define RIGHT_PWM  ___
+// RIGHT driver - both right-side motors
+#define R_FWD_IN1   ___      // front-right motor
+#define R_FWD_IN2   ___
+#define R_FWD_PWM   ___
+#define R_BWD_IN1   ___      // rear-right motor
+#define R_BWD_IN2   ___
+#define R_BWD_PWM   ___
 
 
 // --------------------------------------
@@ -140,45 +164,55 @@ int rightSpeed = 180;
 
 void setup()
 {
-  pinMode(LEFT_IN1, OUTPUT);
-  pinMode(LEFT_IN2, OUTPUT);
-  pinMode(LEFT_PWM, OUTPUT);
+  int pins[] = {
+    L_FWD_IN1, L_FWD_IN2, L_FWD_PWM,
+    L_BWD_IN1, L_BWD_IN2, L_BWD_PWM,
+    R_FWD_IN1, R_FWD_IN2, R_FWD_PWM,
+    R_BWD_IN1, R_BWD_IN2, R_BWD_PWM
+  };
 
-  pinMode(RIGHT_IN1, OUTPUT);
-  pinMode(RIGHT_IN2, OUTPUT);
-  pinMode(RIGHT_PWM, OUTPUT);
+  for (int i = 0; i < 12; i++) pinMode(pins[i], OUTPUT);
 
   stopCar();
 }
 
 
 // ======================================
-// MOVE FORWARD
+// DRIVE ONE MOTOR
 //
 // Fill in HIGH and LOW.
 //
-// You may need to change the direction
-// depending on your motor wiring.
+// You may need to swap them depending on
+// how that motor happens to be wired.
+// ======================================
+
+void motor(int in1, int in2, int pwm, int speed)
+{
+  digitalWrite(in1, ___);
+  digitalWrite(in2, ___);
+
+  analogWrite(pwm, speed);
+}
+
+
+// ======================================
+// MOVE FORWARD
+//
+// All four motors, same direction.
 // ======================================
 
 void forward()
 {
-  // LEFT SIDE
+  // LEFT SIDE - front and rear
 
-  digitalWrite(LEFT_IN1, ___);
-  digitalWrite(LEFT_IN2, ___);
-
-
-  // RIGHT SIDE
-
-  digitalWrite(RIGHT_IN1, ___);
-  digitalWrite(RIGHT_IN2, ___);
+  motor(L_FWD_IN1, L_FWD_IN2, L_FWD_PWM, leftSpeed);
+  motor(L_BWD_IN1, L_BWD_IN2, L_BWD_PWM, leftSpeed);
 
 
-  // Apply motor speed
+  // RIGHT SIDE - front and rear
 
-  analogWrite(LEFT_PWM, leftSpeed);
-  analogWrite(RIGHT_PWM, rightSpeed);
+  motor(R_FWD_IN1, R_FWD_IN2, R_FWD_PWM, rightSpeed);
+  motor(R_BWD_IN1, R_BWD_IN2, R_BWD_PWM, rightSpeed);
 }
 
 
@@ -188,14 +222,12 @@ void forward()
 
 void stopCar()
 {
-  digitalWrite(LEFT_IN1, LOW);
-  digitalWrite(LEFT_IN2, LOW);
+  int in[]  = { L_FWD_IN1, L_FWD_IN2, L_BWD_IN1, L_BWD_IN2,
+                R_FWD_IN1, R_FWD_IN2, R_BWD_IN1, R_BWD_IN2 };
+  int pwm[] = { L_FWD_PWM, L_BWD_PWM, R_FWD_PWM, R_BWD_PWM };
 
-  digitalWrite(RIGHT_IN1, LOW);
-  digitalWrite(RIGHT_IN2, LOW);
-
-  analogWrite(LEFT_PWM, 0);
-  analogWrite(RIGHT_PWM, 0);
+  for (int i = 0; i < 8; i++) digitalWrite(in[i],  LOW);
+  for (int i = 0; i < 4; i++) analogWrite(pwm[i], 0);
 }
 
 
@@ -219,6 +251,12 @@ void loop()
   while(1);
 }
 ```
+
+!!! warning "One `motor()` call per wheel"
+    Each dual H-bridge channel drives exactly one motor, so four motors need
+    four calls. If you only write two, the other two wheels sit dead and the car
+    will curve hard — which looks exactly like the motor mismatch you are about
+    to measure. Check all four turn in Task 1 before trusting any drift number.
 
 !!! note "Why `while(1)` at the end"
     Without it, `loop()` restarts and the car drives off again the moment you
@@ -301,6 +339,8 @@ Run the car **5 times**. Observe its trajectory. At the end of each run, measure
 the **lateral drift** — the sideways distance from the reference line to the
 centre of the vehicle.
 
+<div class="worksheet" data-worksheet="drift-runs" markdown>
+
 | Run | Left PWM | Right PWM | Distance | Drift | Direction |
 | --- | --- | --- | --- | --- | --- |
 | 1 | 180 | 180 | `____` m | `____` cm | `______` |
@@ -308,6 +348,8 @@ centre of the vehicle.
 | 3 | 180 | 180 | `____` m | `____` cm | `______` |
 | 4 | 180 | 180 | `____` m | `____` cm | `______` |
 | 5 | 180 | 180 | `____` m | `____` cm | `______` |
+
+</div>
 
 ### Discuss what you observed
 
@@ -325,7 +367,9 @@ Answer:
 
 ## 8. Write your problem statement
 
-Complete the following.
+Complete the following. This is the statement Lab 7 asks you to revisit.
+
+<div class="worksheet" data-worksheet="problem-statement" markdown>
 
 **Observation**
 
@@ -344,6 +388,8 @@ Complete the following.
 
 > Because of this difference, the vehicle
 > `_________________________________________________`.
+
+</div>
 
 ## Deliverable
 

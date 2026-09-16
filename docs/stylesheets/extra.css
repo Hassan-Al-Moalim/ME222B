@@ -81,3 +81,189 @@
 
 /* Wiring / bench photos shouldn't blow past the text column */
 .md-typeset img { border-radius: .3rem; }
+
+/* ---------------------------------------------------------------
+   Lab worksheets — side-by-side pinout tables, editable cells,
+   and the export toolbar. Behaviour lives in javascripts/worksheet.js
+   --------------------------------------------------------------- */
+
+/* Two driver tables sit side by side on desktop, stack on narrow screens.
+   Explicit tracks rather than auto-fit: Material scales the root font size,
+   so a rem-based minmax() silently collapses to one column. */
+.pinout-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+}
+
+@media screen and (min-width: 960px) {
+  .pinout-pair { grid-template-columns: 1fr 1fr; }
+}
+
+.pinout-pair > .pinout { margin: 0; min-width: 0; }
+
+/* The global .pinout rule holds the label column on one line, which makes the
+   table too wide to pair up. Inside a pair, let labels wrap instead. */
+.pinout-pair .pinout table td:first-child {
+  white-space: normal;
+  font-family: var(--md-text-font-family);
+}
+
+.pinout-pair .ws-input { min-width: 4rem; }
+
+.pinout-pair .pinout > p {
+  margin: 0 0 .35rem;
+  font-size: .78rem;
+}
+
+/* Tables inside the pair should fill their column, not shrink to content. */
+.pinout-pair .md-typeset table:not([class]),
+.pinout-pair table {
+  width: 100%;
+  display: table;
+}
+
+/* Editable cell ------------------------------------------------- */
+
+.md-typeset .ws-cell {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.ws-input {
+  display: inline-block;
+  min-width: 5.5rem;
+  padding: .12rem .4rem;
+  border-bottom: 2px solid var(--md-default-fg-color--lighter);
+  border-radius: .1rem .1rem 0 0;
+  font-family: var(--md-code-font-family);
+  font-size: .76rem;
+  line-height: 1.5;
+  background: var(--md-code-bg-color);
+  outline: none;
+  transition: border-color 125ms, background-color 125ms;
+}
+
+.ws-input:hover { border-bottom-color: var(--md-default-fg-color--light); }
+
+.ws-input:focus {
+  border-bottom-color: var(--md-primary-fg-color);
+  background: var(--md-default-bg-color);
+}
+
+.ws-input:empty::before {
+  content: "—";
+  color: var(--md-default-fg-color--lighter);
+}
+
+.ws-unit {
+  margin-left: .3rem;
+  font-size: .72rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Toolbar -------------------------------------------------------- */
+
+.ws-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem 1rem;
+  margin: 0 0 1.5rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+  background: var(--md-code-bg-color);
+}
+
+.ws-note {
+  font-size: .72rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.ws-actions {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.ws-btn {
+  padding: .3rem .7rem;
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: .2rem;
+  background: transparent;
+  color: var(--md-primary-fg-color);
+  font-family: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 125ms, color 125ms;
+}
+
+.ws-btn:hover {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+
+.ws-btn--quiet {
+  border-color: var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color--light);
+}
+
+.ws-btn--quiet:hover {
+  background: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+}
+
+.ws-status {
+  min-width: 3rem;
+  font-size: .68rem;
+  font-weight: 700;
+  color: #2e7d32;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+[data-md-color-scheme="slate"] .ws-status { color: #81c784; }
+
+.ws-status.is-on { opacity: 1; }
+
+/* Print / Save as PDF -------------------------------------------- */
+
+@media print {
+  .ws-toolbar,
+  .md-header,
+  .md-sidebar,
+  .md-footer,
+  .md-top,
+  .md-dialog { display: none !important; }
+
+  .md-main__inner,
+  .md-content { margin: 0 !important; }
+
+  .ws-input {
+    border-bottom: 1px solid #000;
+    background: transparent;
+    min-width: 6rem;
+  }
+
+  .ws-input:empty::before { content: ""; }
+
+  /* Keep a worksheet table whole rather than split across a page break. */
+  .pinout, .pinout-pair, [data-worksheet] table { break-inside: avoid; }
+
+  .pinout-pair { grid-template-columns: 1fr 1fr; }
+}
+
+/* A long blank in the markdown means a long answer is expected. */
+.ws-input--wide {
+  min-width: 60%;
+  white-space: normal;
+}
+
+.md-typeset blockquote .ws-input {
+  font-family: var(--md-text-font-family);
+  font-size: .8rem;
+}
