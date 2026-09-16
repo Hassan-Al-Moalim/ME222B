@@ -8,7 +8,7 @@ Fall 2026/2027 · Division of Mechanical Engineering
 
 <div class="lab-meta" markdown>
 <div><span class="k">Lectures</span><span class="v">Sun &amp; Wed, 08:30–10:00<br>Building 9 – Room 4120</span></div>
-<div><span class="k">Instructor</span><span class="v">: Amr Talaat Abdel Hamid</span></div>
+<div><span class="k">Instructor</span><span class="v">: Amr Talaat Abdel Hamid</span></span><span class="v">: TA: Hasan Al Moalim</span></div>
 <div><span class="k">Semester</span><span class="v">: 30 Aug – 10 Dec 2026</span></div>
 <div><span class="k">Lab room</span><span class="v">: Building 5 Sea Side/ RISC Lab</span></div>
 </div>
