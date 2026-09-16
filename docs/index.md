@@ -36,7 +36,7 @@ See the [Schedule](schedule.md) for the week-by-week plan.
 
 ## Getting Help
 
-- In lab: ask the TA or the Professor.
+- In lab: Ask the TA or the Professor.
 - Outside lab: Email or Ask in the Whatsapp Group.
 - Broken hardware: check [Troubleshooting](resources/troubleshooting.md), then tell a TA.
 
