@@ -46,19 +46,6 @@ semester break, and finish on 9 December.
     [note on the two lab plans](syllabus.md#planned-labs) — this lab sequence
     differs from the one printed in the syllabus.
 
-## Notes on the lab sequence
-
-**Lab 1 poses the problem; Lab 7 solves it.** The drift you measure on 30
-September is the thread running through the whole sequence. Lab 7 re-runs that
-exact test under closed-loop control so you can see your improvement as a number.
-
-**Lab 6 is the hinge.** Everything before it is open loop — command and hope.
-Everything after it is closed loop.
-
-**Lab 8 has an infrastructure dependency.** ThingsBoard access and WiFi an ESP32
-can actually join must be confirmed before 25 November. See the
-[Lab 8 page](labs/lab08-servo-thingsboard.md).
-
 ## Assessment dates
 
 | Item | Weight | Date |
