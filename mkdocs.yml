@@ -122,19 +122,19 @@ nav:
   - Schedule: schedule.md
   - Labs:
       - labs/index.md
-      - "Lab 1 — Four Motors & PWM": labs/lab01-pwm-motors.md
-      - "Lab 2 — Characterization": labs/lab02-motor-characterization.md
-      - "Lab 3 — Distance Sensing": labs/lab03-distance-sensing.md
-      - "Lab 4 — IMU Calibration": labs/lab04-imu-calibration.md
-      - "Lab 5 — Logging & Filtering": labs/lab05-logging-filtering.md
-      - "Lab 6 — Feedback Control": labs/lab06-feedback-control.md
-      - "Lab 7 — Turns & Localization": labs/lab07-straight-turns-localization.md
-      - "Lab 8 — Servo & ThingsBoard": labs/lab08-servo-thingsboard.md
-      - "Lab 9 — Multi-Car": labs/lab09-multi-car.md
-      - "Lab 10 — Fleet Challenge": labs/lab10-fleet-challenge.md
+      - "Lab 1 - Motors and PWM": labs/lab01-pwm-motors.md
+      - "Lab 2 - Encoders": labs/lab02-motor-characterization.md
+      - "Lab 3 - Distance Sensing": labs/lab03-distance-sensing.md
+      - "Lab 4 - IMU": labs/lab04-imu-calibration.md
+      - "Lab 5 - Filtering": labs/lab05-logging-filtering.md
+      - "Lab 6 - PID Control": labs/lab06-feedback-control.md
+      - "Lab 7 - Localization": labs/lab07-straight-turns-localization.md
+      - "Lab 8 - ThingsBoard": labs/lab08-servo-thingsboard.md
+      - "Lab 9 - Multi-Car": labs/lab09-multi-car.md
+      - "Lab 10 - Fleet Challenge": labs/lab10-fleet-challenge.md
   - Reference:
       - resources/index.md
-      - "Setup — Arduino IDE": resources/setup.md
+      - "Setup - Arduino IDE": resources/setup.md
       - "Lab Safety": resources/safety.md
-      - "Hardware & Pinout": resources/hardware.md
+      - "Hardware and Pinout": resources/hardware.md
       - "Troubleshooting": resources/troubleshooting.md
