@@ -61,12 +61,6 @@ By the end of the course you should be able to:
 | Homework / assignments | **5 %** |
 | **Total** | **100 %** |
 
-!!! note "Where the labs sit"
-    Labs are not a separate line in the weighting. Lab work is assessed through
-    the **course project** component, and through homework where a lab produces
-    a written deliverable. TODO — instructor: confirm and state this explicitly,
-    since students will ask how their lab reports are counted.
-
 ## Required knowledge
 
 - Basic knowledge of **assembly and C programming**, **digital logic design**, and **basic computer architecture**. Ideally a first course in each; alternatively, a completed laboratory-based undergraduate mechatronics class.
