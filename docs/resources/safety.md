@@ -4,17 +4,8 @@ title: Lab Safety
 
 # Lab Safety
 
-!!! danger "Sign-off required"
-    You complete the safety briefing and sign off **before** Lab 1. Without it
-    you do not handle batteries or run powered motors. Lab 1 is a full motion
-    lab — the sign-off happens before it, not during it. There is no
-    version of this that happens retroactively.
-
-!!! warning "Instructor: verify against local policy"
-    The guidance below is standard practice for this class of hardware. Your
-    institution's EHS office has its own rules, emergency numbers, and incident
-    reporting procedure, and **those take precedence**. Replace every `TODO`
-    here with the local specifics before this page goes live.
+You complete the safety briefing and sign off before Lab 1. Without it you do
+not handle batteries or run powered motors.
 
 ## Emergency information
 

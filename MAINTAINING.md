@@ -47,6 +47,12 @@ Fill these before sharing the link with students — they are publicly visible:
 - `docs/resources/hardware.md` — the USB-and-battery rule, verified against the boards
 - `docs/labs/lab08-servo-thingsboard.md` — ThingsBoard URL, device tokens, WiFi
 
+**Safety page.** The guidance there is standard practice for this class of
+hardware. KAUST's EHS office has its own rules, emergency numbers and incident
+reporting procedure, and those take precedence. Replace every `TODO` on that
+page with the local specifics before students use it — Lab 1 is a full motion
+lab with batteries.
+
 **Unresolved: two lab plans.** The official syllabus lists six sensor-focused
 labs (thermistor, motor voltage/current, rotary sensor, strain gauge,
 closed-loop motor control, PID). This site follows a newer ten-week sequence
