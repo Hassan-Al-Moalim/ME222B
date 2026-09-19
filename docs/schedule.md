@@ -31,7 +31,7 @@ semester break, and finish on 9 December.
 | 4 | 9 Sep | Prototyping of sensor/actuator based systems |  |
 | 5 | 13 Sep | Flow and rotary sensors |  |
 | 6 | 16 Sep | Flow and rotary sensors |  |
-| **QUIZ** | 20 Sep | Amplifiers and sensor noise · **Quiz** in the lecture slot | |
+| **QUIZ** | 20 Sep | **Quiz** in the lecture slot | |
 | — | 23 Sep | **National Day — no session** | |
 | 8 | 27 Sep | AC motor designs | |
 | **LAB 1** | 30 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
