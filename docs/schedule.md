@@ -36,7 +36,7 @@ semester break, and finish on 9 December.
 | 8 | 27 Sep | AC motor designs | |
 | **LAB 1** | 30 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
 | 9 | 4 Oct | AC motor controls | |
-| **LAB 2** | 7 Oct <span class="pill pending">pending</span> | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, saturation |
+| **LAB 2** | 7 Oct <span class="pill pending">pending</span> | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | Encoders, PWM–speed curves, dead zone, BLE wireless link |
 | 10 | 11 Oct | DC and stepper motors | |
 | **LAB 3** | 14 Oct <span class="pill pending">pending</span> | [Lab 3 - Distance Sensing](labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
 | — | 18 Oct | **Semester break** | |
