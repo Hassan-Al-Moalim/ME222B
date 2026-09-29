@@ -124,11 +124,6 @@ the order **0 = front-left, 1 = front-right, 2 = rear-left, 3 = rear-right**. Th
 same index is used everywhere: motor `m`, encoder `m`, `CPR[m]`. Edit only the
 configuration block: pins, CPR, wheel diameter, BLE name.
 
-!!! warning "ESP32 Arduino core 3.x required"
-    The sketches use `ledcAttach()` and a `String`-returning `getValue()`, which
-    only exist in core 3.x. On core 2.x they will not compile. Check
-    **Tools → Board → Boards Manager → esp32**.
-
 ## 5. Procedure
 
 ### Part 1 — Encoders: each encoder senses its own motor (25 min)
@@ -140,15 +135,6 @@ the right motor in the code, and has a measured CPR.
 
 - Encoder VCC to 3.3 V, GND to the common ground. If your encoder needs 5 V, its outputs must go through a level shifter or voltage divider.
 - Keep encoder wires short and away from the motor power leads. Twist each encoder cable with its ground if possible.
-
-!!! danger "5 V encoder outputs kill ESP32 pins"
-    ESP32 inputs are 3.3 V. An encoder powered from 5 V drives its A/B lines to
-    5 V unless something brings them down.
-
-!!! warning "GPIO 34–39 have no internal pull-up"
-    The default `ENC_A` pins are input-only. If your encoder has open-collector
-    outputs, fit external pull-ups (about 10 kΩ to 3.3 V) or the count will
-    never change.
 
 #### Step 1.2 — Upload and read the counts
 
@@ -175,10 +161,6 @@ the right motor in the code, and has a measured CPR.
 ??? failure "A wheel turns backwards on m100,100"
     The motor itself is reversed. Swap its `IN1`/`IN2` pins in the code, or its
     motor wires.
-
-!!! checkpoint "Checkpoint 1 — four encoders, four motors, one direction"
-    `m100,100` gives four wheels turning forward and four positive, similar RPM
-    values. Every later number in this lab depends on this mapping being right.
 
 #### Step 1.4 — Measure CPR
 
@@ -258,10 +240,6 @@ communication changes.
 5. **Failsafe test:** send `m120,120`, then turn off Bluetooth on the phone. The wheels must stop within about 1 s. Turn Bluetooth back on and reconnect: the car must accept commands again.
 6. Disconnect the phone. On the laptop run `python ble_logger.py ME222-Tx test` and type `c`: the line appears on the laptop.
 
-!!! note "Logger script"
-    TODO — instructor: publish `ble_logger.py` here with its install line
-    (e.g. `pip install bleak`). Parts 3 and 4 depend on it.
-
 ??? failure "The ESP32 resets, and the link drops, every time the motors start"
     The 5 V supply is sagging. Check the buck converter, its input wiring and
     the common ground.
@@ -283,15 +261,11 @@ measure is the real drift.
 3. Start the logger with one file per run: `python ble_logger.py ME222-Tx floor_120`.
 4. Put the car on the start line and send `r120`. All four motors run at PWM 120 for 3 s, each wheel's RPM is logged every 100 ms, and the encoder distance of each wheel is printed at the end.
 5. Measure the real distance with the tape and the lateral drift at the end (cm left or right of the line).
-6. Repeat with `r180`, and `r240` if the track is long enough.
-
-!!! danger "One person owns STOP"
-    Before every floor run, one team member has `x` ready in the logger or app
-    and does nothing else.
+6. Repeat with `r180`, and `r240` if the track is long enough. The stop person keeps `x` ready in the logger.
 
 #### Step 4.2 — Corrected run (feed-forward)
 
-1. Pick a target speed, e.g. the average wheel RPM of your `r120` or `r180` run. Using your Part 2 fits (average the two motors on each side), compute PWM_L = PWM_0,L + RPM_target / K_L, and PWM_R likewise.
+1. Pick a target speed, e.g. the average wheel RPM you measured in the r150 range. Using your Part 2 fits (average the two motors on each side), compute PWM_L = PWM_0,L + RPM_target / K_L, and PWM_R likewise.
 2. Run `r<PWM_L>,<PWM_R>`, for example `r150,138`. Measure the drift again and compare with the equal-PWM run and with Lab 1.
 
 <div class="worksheet" data-worksheet="lab02-floor" markdown>
@@ -443,7 +417,7 @@ One short report per team, max. 6 pages plus an appendix with the CSV files.
 4. **Motor characterization table** (below).
 5. **Wireless link (Part 3):** in two or three sentences, what happens when the link drops and why it matters for a delivery robot.
 6. **Loaded vs. unloaded (Part 4):** RPM at the same PWM on the stand and on the floor, and encoder distance vs. tape distance (odometry error in %).
-7. **Correction:** drift with equal PWM vs. corrected PWM vs. Lab 1. Is a fixed correction enough?
+7. **Correction:** drift with equal PWM vs. corrected PWM vs. Lab 1. Is a fixed correction enough? Why will we still need feedback in Lab 6?
 
 <div class="worksheet" data-worksheet="lab02-characterization" markdown>
 
@@ -468,8 +442,3 @@ revolutions: RPM = revolutions / time × 60.
 **Loaded speed with timed runs.** Drive the 3 m track at PWM 120, 180 and 240.
 Time the run between the 1 m and 3 m marks: v = 2 m / t. Record the lateral
 drift at 3 m as in Part 4. Find the dead zone by eye with `m` in steps of 2.
-
-!!! question "Carry this into Lab 6"
-    Your corrected run used a fixed PWM offset computed on the stand. Note where
-    it worked and where it stopped working: battery sag, floor, load. That gap
-    is the argument for feedback control.
