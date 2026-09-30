@@ -41,9 +41,14 @@
 
     Array.prototype.forEach.call(container.querySelectorAll("tbody tr"), function (tr, r) {
       Array.prototype.forEach.call(tr.cells, function (td, c) {
-        if (CELL_BLANK.test((td.textContent || "").trim())) {
-          out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
-        }
+        var text = (td.textContent || "").trim();
+
+        // A blank marker, or an empty cell outside the label column. The empty
+        // case matters because an author writing a Notes column naturally
+        // leaves it blank rather than typing underscores into it.
+        var fillable = CELL_BLANK.test(text) || (text === "" && c > 0);
+
+        if (fillable) out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
       });
     });
 
@@ -85,7 +90,12 @@
 
       // A long run of underscores means a long answer — size the field to match
       // so the layout hints at how much is expected.
-      if (blank.length > 12) {
+      var head = columnHeading(td);
+      if (/note|comment|observation|remark/.test(head)) {
+        input.classList.add("ws-input--wide");
+        input.setAttribute("spellcheck", "true");
+        input.setAttribute("data-hint", "notes");
+      } else if (blank.length > 12) {
         input.classList.add("ws-input--wide");
         input.setAttribute("spellcheck", "true");
         input.setAttribute("data-hint", "type your answer");
@@ -124,16 +134,18 @@
 
   // The hint has to come from the column, not a fixed string: "GPIO" belongs
   // over a pin table and is nonsense over a column of encoder counts.
+  function columnHeading(td) {
+    var table = td.closest ? td.closest("table") : null;
+    if (!table || typeof td.cellIndex !== "number") return "";
+    var headRow = table.querySelector("thead tr");
+    var th = headRow && headRow.cells[td.cellIndex];
+    return th ? (th.textContent || "").toLowerCase() : "";
+  }
+
   function hintFor(td, suffix) {
     if (suffix) return "0";                       // a unit follows the field
 
-    var table = td.closest("table");
-    var head = "";
-    if (table && typeof td.cellIndex === "number") {
-      var headRow = table.querySelector("thead tr");
-      var th = headRow && headRow.cells[td.cellIndex];
-      if (th) head = (th.textContent || "").toLowerCase();
-    }
+    var head = columnHeading(td);
 
     if (/\bpins?\b|gpio/.test(head)) return "GPIO";
     if (/count|rpm|speed|cpr|pwm|duty|dist|drift|time|angle|error|volt|current|hyster|avg|max|min|ratio|gain|freq|%|\(m\)|\bms\b|\bcm\b|\bs\b/.test(head)) return "0";
