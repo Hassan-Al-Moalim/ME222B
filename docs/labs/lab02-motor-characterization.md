@@ -292,12 +292,19 @@ measure is the real drift.
 | `c` | Print the four encoder counts |
 | `z` | Reset all counts to zero |
 | `p` | Live view on/off: counts and RPM of each wheel every 250 ms |
-| `m<L>,<R>` | Drive left side at L and right side at R (−255…255): `m100,100` forward, `m100,-100` spin |
+| `m100,100` | Drive left side, then right side, at −255…255. Type the numbers directly — no angle brackets and no spaces: `m100,100` forward, `m100,-100` spin, `m-100,-100` reverse |
 | `x` | STOP all motors |
 
 **Configuration.** Pin arrays for the enable (PWM) and direction pins of each
 motor, and for channels A and B of each encoder. PWM runs at 20 kHz, above
 hearing so the motors do not whine, with 8-bit resolution (0–255).
+
+!!! warning "If the sketch will not compile"
+    The ESP32 board package changed its PWM functions between version 2 and
+    version 3. The sketches pick the right ones automatically, but an error
+    naming `ledcAttach`, `ledcSetup` or `ledcAttachPin` means the board package
+    is older than the sketch expects. Update **esp32 by Espressif Systems** in
+    Boards Manager, then upload again.
 
 **Encoder interrupt (`encISR`).** Called on every rising edge of channel A,
 whatever the main program is doing. It reads B: low means forward and the count
