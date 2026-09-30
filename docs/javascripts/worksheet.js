@@ -16,7 +16,12 @@
 (function () {
   "use strict";
 
-  var BLANK = /^_{3,}$/;                 // the `______` placeholder in the markdown
+  // A blank is a run of two or more underscores, alone in the cell or followed
+  // by a unit ("____ cm"). Two is the floor because authors write whatever
+  // length looks right in the source, and a stricter rule silently leaves
+  // fields unfillable.
+  var BLANK = /^_{2,}$/;
+  var CELL_BLANK = /^_{2,}(\s+\S+)?$/;
   var NS = "me222b";
 
   function pageKey() {
@@ -36,7 +41,7 @@
 
     Array.prototype.forEach.call(container.querySelectorAll("tbody tr"), function (tr, r) {
       Array.prototype.forEach.call(tr.cells, function (td, c) {
-        if (/_{3,}/.test((td.textContent || "").trim())) {
+        if (CELL_BLANK.test((td.textContent || "").trim())) {
           out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
         }
       });
@@ -66,7 +71,7 @@
       // Keep any unit suffix ("____ cm") as a visible hint next to the input.
       var raw = (td.textContent || "").trim();
       var suffix = raw.replace(/_{3,}/, "").trim();
-      var blank = (raw.match(/_{3,}/) || ["______"])[0];
+      var blank = (raw.match(/_{2,}/) || ["______"])[0];
 
       td.textContent = "";
       td.classList.add("ws-cell");
