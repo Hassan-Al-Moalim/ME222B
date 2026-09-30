@@ -219,6 +219,9 @@ Send `f0`, `f1`, `f2`, `f3`. Repeat each three times and record the averages.
 
 </div>
 
+!!! checkpoint "Checkpoint 2 (TA sign-off)"
+    Four CSV files, one quick plot, and the dead-zone table complete.
+
 !!! question "Discussion"
     Why is `PWM_start` higher than `PWM_stop`? What does this mean for a
     controller that must drive very slowly, for example when approaching a
@@ -240,6 +243,10 @@ communication changes.
 ??? failure "The ESP32 resets, and the link drops, every time the motors start"
     The 5 V supply is sagging. Check the buck converter, its input wiring and
     the common ground.
+
+!!! checkpoint "Checkpoint 3 (TA sign-off)"
+    Show: (1) wireless drive and `x` from the phone, (2) the car stops when
+    Bluetooth is switched off, (3) the laptop logger receives data.
 
 ### Part 4 — Ground test, fully wireless (15 min)
 
@@ -271,6 +278,10 @@ measure is the real drift.
 | r`__`,`__` | `____` | `____` | `____` | `____` | `____` | `____` |
 
 </div>
+
+!!! checkpoint "Checkpoint 4 (TA sign-off)"
+    Floor table complete, including one corrected run. State in one sentence
+    whether the correction reduced the drift.
 
 ## 6. How the code works
 

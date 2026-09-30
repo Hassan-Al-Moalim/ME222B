@@ -87,7 +87,7 @@
       } else {
         // The empty-state hint is drawn by CSS from this attribute, so it must
         // always be set or the field reads as blank rather than fillable.
-        input.setAttribute("data-hint", suffix ? "0" : "GPIO");
+        input.setAttribute("data-hint", hintFor(td, suffix));
       }
 
       var saved = null;
@@ -115,6 +115,24 @@
     });
 
     return true;
+  }
+
+  // The hint has to come from the column, not a fixed string: "GPIO" belongs
+  // over a pin table and is nonsense over a column of encoder counts.
+  function hintFor(td, suffix) {
+    if (suffix) return "0";                       // a unit follows the field
+
+    var table = td.closest("table");
+    var head = "";
+    if (table && typeof td.cellIndex === "number") {
+      var headRow = table.querySelector("thead tr");
+      var th = headRow && headRow.cells[td.cellIndex];
+      if (th) head = (th.textContent || "").toLowerCase();
+    }
+
+    if (/\bpins?\b|gpio/.test(head)) return "GPIO";
+    if (/count|rpm|speed|cpr|pwm|duty|dist|drift|time|angle|error|volt|current|hyster|avg|max|min|ratio|gain|freq|%|\(m\)|\bms\b|\bcm\b|\bs\b/.test(head)) return "0";
+    return "—";
   }
 
   function rowLabel(td) {
