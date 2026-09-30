@@ -109,6 +109,7 @@ extra_css:
 
 extra_javascript:
   - javascripts/copypage.js
+  - javascripts/collect.js
   - javascripts/schedule.js
   - javascripts/worksheet.js
   - javascripts/mathjax.js
@@ -137,6 +138,7 @@ nav:
       - "Lab 8 - ThingsBoard": labs/lab08-servo-thingsboard.md
       - "Lab 9 - Multi-Car": labs/lab09-multi-car.md
       - "Lab 10 - Fleet Challenge": labs/lab10-fleet-challenge.md
+  - My Lab Data: my-data.md
   - Reference:
       - resources/index.md
       - "Setup - Arduino IDE": resources/setup.md

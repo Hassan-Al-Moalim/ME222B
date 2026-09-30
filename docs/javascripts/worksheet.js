@@ -308,4 +308,18 @@
   } else {
     document.addEventListener("DOMContentLoaded", init);
   }
+
+  /* --- shared with the importer -------------------------------------------
+     The collector page reads the same localStorage rows, so it has to use the
+     same key scheme and the same idea of what counts as a blank. Exporting the
+     real functions keeps one implementation rather than two that drift. */
+
+  window.ME222B = window.ME222B || {};
+  window.ME222B.worksheet = {
+    namespace: NS,
+    collect: collectFillables,
+    keyFor: function (pagePath, sheet, id) {
+      return NS + ":" + pagePath + ":" + sheet + ":" + id;
+    }
+  };
 })();

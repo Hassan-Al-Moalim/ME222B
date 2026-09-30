@@ -660,3 +660,44 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
 [data-md-color-scheme="slate"] .p-strap  .p-cell { fill: #ffb74d26; stroke: #ffb74d; }
 [data-md-color-scheme="slate"] .p-flash  .p-cell { fill: #e5737326; stroke: #e57373; }
 [data-md-color-scheme="slate"] .p-uart   .p-cell { fill: #bdbdbd26; stroke: #bdbdbd; }
+
+/* ---------------------------------------------------------------
+   My Lab Data — collected worksheet entries.
+   Behaviour lives in javascripts/collect.js
+   --------------------------------------------------------------- */
+
+.rp-actions {
+  display: flex;
+  gap: .4rem;
+  margin: 1.2rem 0 1.6rem;
+}
+
+#collected h2 {
+  margin-top: 2rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.rp-meta {
+  margin-top: -.4rem;
+  font-size: .7rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.rp-none {
+  padding: .8rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+  background: var(--md-code-bg-color);
+  font-size: .78rem;
+}
+
+/* Values the student entered, versus fields still blank. */
+.rp-filled {
+  font-family: var(--md-code-font-family);
+  font-weight: 600;
+}
+
+.rp-empty { color: var(--md-default-fg-color--lighter); }
+
+#collected [data-worksheet] table { table-layout: auto; }
