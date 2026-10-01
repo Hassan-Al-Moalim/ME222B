@@ -299,13 +299,6 @@ measure is the real drift.
 motor, and for channels A and B of each encoder. PWM runs at 20 kHz, above
 hearing so the motors do not whine, with 8-bit resolution (0–255).
 
-!!! warning "If the sketch will not compile"
-    The ESP32 board package changed its PWM functions between version 2 and
-    version 3. The sketches pick the right ones automatically, but an error
-    naming `ledcAttach`, `ledcSetup` or `ledcAttachPin` means the board package
-    is older than the sketch expects. Update **esp32 by Espressif Systems** in
-    Boards Manager, then upload again.
-
 **Encoder interrupt (`encISR`).** Called on every rising edge of channel A,
 whatever the main program is doing. It reads B: low means forward and the count
 goes up; high means it goes down. It is marked `IRAM_ATTR` so it runs from fast

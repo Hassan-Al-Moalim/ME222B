@@ -20,21 +20,6 @@ float CPR[NUM_MOTORS] = {700, 700, 700, 700};       // <-- measured CPR (Part 1)
 const float WHEEL_D = 0.065;                        // <-- wheel diameter in metres
 const int PWM_FREQ = 20000, PWM_RES = 8;            // 20 kHz, 0-255
 
-// ---------- PWM compatibility ----------
-// ESP32 Arduino core 3.x addresses LEDC by pin: ledcAttach(pin, freq, res) and
-// ledcWrite(pin, duty). Core 2.x addresses it by channel: ledcSetup(ch, ...),
-// ledcAttachPin(pin, ch), ledcWrite(ch, duty). Calling the 3.x names on a 2.x
-// install fails to compile, so the sketch does not run at all. This picks the
-// right pair at compile time; one channel per motor.
-#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
-  static inline void pwmAttach(int pin, int ch) { (void)ch; ledcAttach(pin, PWM_FREQ, PWM_RES); }
-  static inline void pwmWrite(int pin, int ch, int duty) { (void)ch; ledcWrite(pin, duty); }
-#else
-  static inline void pwmAttach(int pin, int ch) { ledcSetup(ch, PWM_FREQ, PWM_RES); ledcAttachPin(pin, ch); }
-  static inline void pwmWrite(int pin, int ch, int duty) { (void)pin; ledcWrite(ch, duty); }
-#endif
-
-
 // ---------- BLE UART (Nordic UART Service) ----------
 #define NUS_SERVICE "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
 #define NUS_RX      "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"   // phone -> ESP32
@@ -66,7 +51,7 @@ void setMotor(int m, int pwm) {                     // pwm: -255..255
   pwm = constrain(pwm, -255, 255);
   digitalWrite(IN1_PIN[m], pwm > 0);
   digitalWrite(IN2_PIN[m], pwm < 0);
-  pwmWrite(EN_PIN[m], m, abs(pwm));
+  ledcWrite(EN_PIN[m], abs(pwm));
 }
 void stopAll() { for (int i = 0; i < NUM_MOTORS; i++) setMotor(i, 0); }
 
@@ -205,7 +190,8 @@ void floorRun(int L, int R) {
 
 // ---------- COMMANDS ----------
 //  c          print encoder counts        z        reset counts
-//  m<L>,<R>   manual drive, e.g. m120,-80 (left side, right side; -255..255)
+//  m120,-80   manual drive: left side, right side, -255..255. Numbers only,
+//             one comma, no spaces and no angle brackets.
 //  s<m>       PWM sweep on motor m        f<m>     dead zone of motor m
 //  r<pwm>     3 s floor run, same PWM     r<L>,<R> floor run, corrected PWMs
 //  x          STOP (always works)
@@ -218,7 +204,7 @@ void handle(String cmd) {
     case 'z': resetCounts(); blePrintf("counts reset\n"); break;
     case 'm': {
       int k = cmd.indexOf(',');
-      if (k < 0) { blePrintf("use m<L>,<R>\n"); break; }
+      if (k < 0) { blePrintf("use m100,100 - numbers, one comma, no spaces\n"); break; }
       int L = cmd.substring(1, k).toInt(), R = cmd.substring(k + 1).toInt();
       setMotor(0, L); setMotor(2, L); setMotor(1, R); setMotor(3, R);
       blePrintf("drive L=%d R=%d\n", L, R); break;
@@ -240,7 +226,7 @@ void setup() {
   Serial.begin(115200);
   for (int i = 0; i < NUM_MOTORS; i++) {
     pinMode(IN1_PIN[i], OUTPUT); pinMode(IN2_PIN[i], OUTPUT);
-    pwmAttach(EN_PIN[i], i);
+    ledcAttach(EN_PIN[i], PWM_FREQ, PWM_RES);
     pinMode(ENC_A[i], INPUT); pinMode(ENC_B[i], INPUT);  // INPUT_PULLUP where supported
     attachInterruptArg(digitalPinToInterrupt(ENC_A[i]), encISR,
                        (void*)(intptr_t)i, RISING);

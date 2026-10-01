@@ -3,7 +3,7 @@
 //
 // Commands:  s<m> = PWM sweep of motor m (0=FL 1=FR 2=RL 3=RR), CSV output
 //            f<m> = dead zone of motor m (PWM_start, PWM_stop)
-//            c = counts   z = reset   m<L>,<R> = drive   x = STOP (also during a sweep)
+//            c = counts   z = reset   m100,100 = drive (no spaces, no brackets)   x = STOP (also during a sweep)
 #include <Arduino.h>
 
 // ---------- CONFIGURATION (edit these) ----------
@@ -16,21 +16,6 @@ const int ENC_B[NUM_MOTORS]   = {4, 16, 17, 15};
 float CPR[NUM_MOTORS] = {700, 700, 700, 700};       // <-- measured CPR (Part 1)
 const float WHEEL_D = 0.065;                        // <-- wheel diameter in metres
 const int PWM_FREQ = 20000, PWM_RES = 8;
-
-// ---------- PWM compatibility ----------
-// ESP32 Arduino core 3.x addresses LEDC by pin: ledcAttach(pin, freq, res) and
-// ledcWrite(pin, duty). Core 2.x addresses it by channel: ledcSetup(ch, ...),
-// ledcAttachPin(pin, ch), ledcWrite(ch, duty). Calling the 3.x names on a 2.x
-// install fails to compile, so the sketch does not run at all. This picks the
-// right pair at compile time; one channel per motor.
-#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
-  static inline void pwmAttach(int pin, int ch) { (void)ch; ledcAttach(pin, PWM_FREQ, PWM_RES); }
-  static inline void pwmWrite(int pin, int ch, int duty) { (void)ch; ledcWrite(pin, duty); }
-#else
-  static inline void pwmAttach(int pin, int ch) { ledcSetup(ch, PWM_FREQ, PWM_RES); ledcAttachPin(pin, ch); }
-  static inline void pwmWrite(int pin, int ch, int duty) { (void)pin; ledcWrite(ch, duty); }
-#endif
-
 
 // ---------- ENCODERS ----------
 volatile long counts[NUM_MOTORS] = {0, 0, 0, 0};
@@ -48,7 +33,7 @@ void setMotor(int m, int pwm) {
   pwm = constrain(pwm, -255, 255);
   digitalWrite(IN1_PIN[m], pwm > 0);
   digitalWrite(IN2_PIN[m], pwm < 0);
-  pwmWrite(EN_PIN[m], m, abs(pwm));
+  ledcWrite(EN_PIN[m], abs(pwm));
 }
 void stopAll() { for (int i = 0; i < NUM_MOTORS; i++) setMotor(i, 0); }
 
@@ -121,7 +106,7 @@ void handle(String cmd) {
     case 'z': resetCounts(); Serial.println("counts reset"); break;
     case 'm': {
       int k = cmd.indexOf(',');
-      if (k < 0) { Serial.println("use m<left>,<right> with numbers, e.g. m100,100"); break; }
+      if (k < 0) { Serial.println("use m100,100 - numbers, one comma, no spaces"); break; }
       int L = cmd.substring(1, k).toInt(), R = cmd.substring(k + 1).toInt();
       setMotor(0, L); setMotor(2, L); setMotor(1, R); setMotor(3, R);
       Serial.printf("drive L=%d R=%d\n", L, R); break;
@@ -137,13 +122,13 @@ void setup() {
   Serial.begin(115200);
   for (int i = 0; i < NUM_MOTORS; i++) {
     pinMode(IN1_PIN[i], OUTPUT); pinMode(IN2_PIN[i], OUTPUT);
-    pwmAttach(EN_PIN[i], i);
+    ledcAttach(EN_PIN[i], PWM_FREQ, PWM_RES);
     pinMode(ENC_A[i], INPUT); pinMode(ENC_B[i], INPUT);
     attachInterruptArg(digitalPinToInterrupt(ENC_A[i]), encISR,
                        (void*)(intptr_t)i, RISING);
   }
   stopAll();
-  Serial.println("Part 2 - sweep. Commands: s<m> f<m> c z m<L>,<R> x");
+  Serial.println("Part 2 - sweep. Commands: s<m> f<m> c z m100,100 x");
 }
 
 void loop() {
