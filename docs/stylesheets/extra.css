@@ -776,3 +776,24 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
   line-height: 1.5;
   color: var(--md-default-fg-color--light);
 }
+
+/* A derived cell: filled by the page from the run columns, not typed into. */
+.md-typeset .ws-computed {
+  font-family: var(--md-code-font-family);
+  font-weight: 700;
+  color: var(--md-typeset-a-color);
+  text-align: center;
+  background: var(--md-code-bg-color);
+}
+
+.ws-addrun { margin-top: .6rem; }
+
+.ws-addrun:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+.ws-addrun:disabled:hover {
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+}

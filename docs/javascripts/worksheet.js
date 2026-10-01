@@ -48,7 +48,11 @@
         // leaves it blank rather than typing underscores into it.
         var fillable = CELL_BLANK.test(text) || (text === "" && c > 0);
 
-        if (fillable) out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
+        // An averaged column is derived from the run columns, so it is filled
+        // by the page rather than typed into.
+        if (fillable && !isComputedCell(container, td)) {
+          out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
+        }
       });
     });
 
@@ -134,6 +138,10 @@
 
   // The hint has to come from the column, not a fixed string: "GPIO" belongs
   // over a pin table and is nonsense over a column of encoder counts.
+  function isComputedCell(container, td) {
+    return container.hasAttribute("data-runs-max") && /\(avg\)/i.test(columnHeading(td));
+  }
+
   function columnHeading(td) {
     var table = td.closest ? td.closest("table") : null;
     if (!table || typeof td.cellIndex !== "number") return "";
@@ -163,6 +171,108 @@
     var i = all.indexOf(current);
     if (i > -1 && i + 1 < all.length) all[i + 1].focus();
     else current.blur();
+  }
+
+  /* --- repeated runs and their average ------------------------------------
+     Every run column exists in the markup from the start; the extra ones are
+     hidden rather than inserted on demand. Inserting a column would shift the
+     cell indices that saved values are keyed by, silently moving every entry
+     to the right of it.
+     ----------------------------------------------------------------------- */
+
+  function columnIndexes(table, pattern) {
+    var headRow = table.querySelector("thead tr");
+    var out = [];
+    if (!headRow) return out;
+    Array.prototype.forEach.call(headRow.cells, function (th, i) {
+      if (pattern.test((th.textContent || "").trim())) out.push(i);
+    });
+    return out;
+  }
+
+  function setColumnVisible(table, index, visible) {
+    var headRow = table.querySelector("thead tr");
+    if (headRow && headRow.cells[index]) {
+      headRow.cells[index].style.display = visible ? "" : "none";
+    }
+    table.querySelectorAll("tbody tr").forEach(function (tr) {
+      if (tr.cells[index]) tr.cells[index].style.display = visible ? "" : "none";
+    });
+  }
+
+  function setupRuns(container) {
+    if (!container.hasAttribute("data-runs-max")) return;
+
+    var table = container.querySelector("table");
+    if (!table) return;
+
+    var sheet = container.getAttribute("data-worksheet") || "sheet";
+    var runCols = columnIndexes(table, /^run\s*\d+/i);
+    var avgCols = columnIndexes(table, /\(avg\)/i);
+    if (!runCols.length || !avgCols.length) return;
+
+    var avgCol = avgCols[0];
+    var divisor = parseFloat(container.getAttribute("data-avg-divisor")) || 1;
+    var max = Math.min(parseInt(container.getAttribute("data-runs-max"), 10) || runCols.length,
+                       runCols.length);
+    var start = parseInt(container.getAttribute("data-runs"), 10) || 2;
+    var countKey = pageKey() + ":" + sheet + ":runs";
+
+    var shown = start;
+    try {
+      var stored = parseInt(window.localStorage.getItem(countKey), 10);
+      if (stored >= start && stored <= max) shown = stored;
+    } catch (e) { /* private mode */ }
+
+    // Mark the average column as derived, not typed.
+    table.querySelectorAll("tbody tr").forEach(function (tr) {
+      var td = tr.cells[avgCol];
+      if (!td) return;
+      td.classList.add("ws-computed");
+      td.textContent = "—";
+    });
+
+    function recompute() {
+      table.querySelectorAll("tbody tr").forEach(function (tr) {
+        var sum = 0, n = 0;
+        for (var i = 0; i < shown; i++) {
+          var cell = tr.cells[runCols[i]];
+          var input = cell && cell.querySelector(".ws-input");
+          var value = input ? parseFloat((input.textContent || "").trim()) : NaN;
+          if (!isNaN(value)) { sum += value; n += 1; }
+        }
+        var out = tr.cells[avgCol];
+        if (!out) return;
+        if (!n) { out.textContent = "—"; out.removeAttribute("title"); return; }
+        var avg = (sum / n) / divisor;
+        out.textContent = (Math.round(avg * 10) / 10).toString();
+        out.title = "mean of " + n + " run" + (n === 1 ? "" : "s") +
+                    (divisor !== 1 ? ", divided by " + divisor : "");
+      });
+    }
+
+    function apply() {
+      runCols.forEach(function (index, i) { setColumnVisible(table, index, i < shown); });
+      if (button) {
+        button.disabled = shown >= max;
+        button.textContent = shown >= max ? "All " + max + " runs shown" : "Add a run";
+      }
+      recompute();
+    }
+
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "ws-btn ws-btn--quiet ws-addrun";
+    button.addEventListener("click", function () {
+      if (shown >= max) return;
+      shown += 1;
+      try { window.localStorage.setItem(countKey, String(shown)); } catch (e) { /* ignore */ }
+      apply();
+    });
+    container.appendChild(button);
+
+    container.addEventListener("input", recompute);
+    apply();
   }
 
   /* --- "saved" indicator -------------------------------------------------- */
@@ -299,6 +409,7 @@
     var any = false;
     Array.prototype.forEach.call(containers, function (c) {
       if (activate(c)) any = true;
+      setupRuns(c);
     });
     if (!any) return;
 

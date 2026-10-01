@@ -188,18 +188,19 @@ the right motor in the code, and has a measured CPR.
 
 1. Put a tape mark on the wheel and a reference mark on the chassis. Send `z`.
 2. Turn the wheel by hand exactly **10 full revolutions** forward. Send `c` and record the count.
-3. CPR = count / 10. Repeat once; the two runs should agree within 1–2 %.
+3. CPR = count / 10. Repeat once; the two runs should agree within 1–2 %. The table averages your runs for you, and **Add a run** gives you up to five if they disagree.
 4. Do this for every encoder and compare with your pre-lab value.
 5. Write down the CPR values and `WHEEL_D`. You enter them in the Part 2, 3 and 4 sketches.
 
-<div class="worksheet" data-worksheet="lab02-cpr" markdown>
+<div class="worksheet" data-worksheet="lab02-cpr"
+     data-runs="2" data-runs-max="5" data-avg-divisor="10" markdown>
 
-| Encoder | Run 1 counts | Run 2 counts | CPR (avg) | Expected CPR |
-| --- | --- | --- | --- | --- |
-| Front-left (0) | `____` | `____` | `____` | `____` |
-| Front-right (1) | `____` | `____` | `____` | `____` |
-| Rear-left (2) | `____` | `____` | `____` | `____` |
-| Rear-right (3) | `____` | `____` | `____` | `____` |
+| Encoder | Run 1 counts | Run 2 counts | Run 3 counts | Run 4 counts | Run 5 counts | CPR (avg) | Expected CPR |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Front-left (0) | `____` | `____` | `____` | `____` | `____` | `____` | `____` |
+| Front-right (1) | `____` | `____` | `____` | `____` | `____` | `____` | `____` |
+| Rear-left (2) | `____` | `____` | `____` | `____` | `____` | `____` | `____` |
+| Rear-right (3) | `____` | `____` | `____` | `____` | `____` | `____` | `____` |
 
 </div>
 
