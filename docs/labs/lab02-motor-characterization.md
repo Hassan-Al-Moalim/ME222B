@@ -36,6 +36,15 @@ An incremental encoder produces pulses as the shaft turns. A quadrature encoder
 has two channels, A and B, 90° out of phase. The number of pulses tells you how
 far the shaft turned; which channel leads tells you the direction.
 
+<figure class="credit" markdown>
+![A rotary encoder disc turning, its two contacts opening and closing a quarter cycle apart](https://lastminuteengineers.com/wp-content/uploads/arduino/rotary-encoder-working-animation.gif){ loading=lazy width="420" }
+<figcaption>
+How the disc makes and breaks the two contacts as it turns.
+Animation by <a href="https://lastminuteengineers.com/esp32-rotary-encoder-tutorial/">Last Minute Engineers</a>,
+embedded from their site and reproduced here with credit.
+</figcaption>
+</figure>
+
 - **1× decoding:** count rising edges of A only, read B for direction. Simplest; used today.
 - **2× decoding:** count both edges of A.
 - **4× decoding:** count every edge of A and B. Best resolution; needed later for precise positioning.

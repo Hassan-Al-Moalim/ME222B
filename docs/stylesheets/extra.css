@@ -759,3 +759,20 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
 }
 
 @media print { .quad .q-play { animation: none; } }
+
+/* A figure carrying someone else's work: the credit travels with the image. */
+.md-typeset figure.credit { margin: 1.4rem auto; text-align: center; }
+
+.md-typeset figure.credit img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+}
+
+.md-typeset figure.credit figcaption {
+  margin-top: .5rem;
+  font-size: .68rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
