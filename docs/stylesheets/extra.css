@@ -777,13 +777,42 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
   color: var(--md-default-fg-color--light);
 }
 
-/* A derived cell: filled by the page from the run columns, not typed into. */
-.md-typeset .ws-computed {
-  font-family: var(--md-code-font-family);
+/* An average the student has typed over. Red says the number on screen is not
+   the one the runs produce, which is a thing they chose and should see. */
+.ws-input.ws-override {
+  color: #c62828;
   font-weight: 700;
-  color: var(--md-typeset-a-color);
-  text-align: center;
-  background: var(--md-code-bg-color);
+  border-color: #c62828;
+}
+
+[data-md-color-scheme="slate"] .ws-input.ws-override {
+  color: #ef9a9a;
+  border-color: #e57373;
+}
+
+/* Delete control on a run column heading. */
+.ws-delrun {
+  margin-left: .35rem;
+  padding: 0 .28rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: .2rem;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+  font-size: .74rem;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.ws-delrun:hover {
+  border-color: #c62828;
+  background: #c6282814;
+  color: #c62828;
+}
+
+[data-md-color-scheme="slate"] .ws-delrun:hover {
+  border-color: #e57373;
+  color: #ef9a9a;
 }
 
 .ws-addrun { margin-top: .6rem; }

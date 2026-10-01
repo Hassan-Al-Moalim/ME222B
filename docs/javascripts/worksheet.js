@@ -48,11 +48,7 @@
         // leaves it blank rather than typing underscores into it.
         var fillable = CELL_BLANK.test(text) || (text === "" && c > 0);
 
-        // An averaged column is derived from the run columns, so it is filled
-        // by the page rather than typed into.
-        if (fillable && !isComputedCell(container, td)) {
-          out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
-        }
+        if (fillable) out.push({ el: td, sheet: sheet, key: "r" + r + "c" + c });
       });
     });
 
@@ -138,10 +134,6 @@
 
   // The hint has to come from the column, not a fixed string: "GPIO" belongs
   // over a pin table and is nonsense over a column of encoder counts.
-  function isComputedCell(container, td) {
-    return container.hasAttribute("data-runs-max") && /\(avg\)/i.test(columnHeading(td));
-  }
-
   function columnHeading(td) {
     var table = td.closest ? td.closest("table") : null;
     if (!table || typeof td.cellIndex !== "number") return "";
@@ -174,10 +166,11 @@
   }
 
   /* --- repeated runs and their average ------------------------------------
-     Every run column exists in the markup from the start; the extra ones are
-     hidden rather than inserted on demand. Inserting a column would shift the
-     cell indices that saved values are keyed by, silently moving every entry
-     to the right of it.
+     Every run column exists in the markup from the start; unused ones are
+     hidden. Inserting columns on demand would shift the cell indices that
+     saved values are keyed by, quietly moving entries into the wrong column.
+     Deleting a run shifts the later runs down so the filled ones stay
+     contiguous, which is what a student expects after removing a bad reading.
      ----------------------------------------------------------------------- */
 
   function columnIndexes(table, pattern) {
@@ -190,14 +183,17 @@
     return out;
   }
 
-  function setColumnVisible(table, index, visible) {
-    var headRow = table.querySelector("thead tr");
-    if (headRow && headRow.cells[index]) {
-      headRow.cells[index].style.display = visible ? "" : "none";
-    }
-    table.querySelectorAll("tbody tr").forEach(function (tr) {
-      if (tr.cells[index]) tr.cells[index].style.display = visible ? "" : "none";
-    });
+  function inputAt(tr, index) {
+    var td = tr.cells[index];
+    return td ? td.querySelector(".ws-input") : null;
+  }
+
+  // Writing through the input event reuses the normal save path, so a shifted
+  // value is persisted the same way a typed one is.
+  function writeField(input, value) {
+    if (!input) return;
+    input.textContent = value;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
   function setupRuns(container) {
@@ -215,61 +211,126 @@
     var divisor = parseFloat(container.getAttribute("data-avg-divisor")) || 1;
     var max = Math.min(parseInt(container.getAttribute("data-runs-max"), 10) || runCols.length,
                        runCols.length);
-    var start = parseInt(container.getAttribute("data-runs"), 10) || 2;
+    var min = 1;
     var countKey = pageKey() + ":" + sheet + ":runs";
+    var rows = Array.prototype.slice.call(table.querySelectorAll("tbody tr"));
 
-    var shown = start;
+    var shown = parseInt(container.getAttribute("data-runs"), 10) || 2;
     try {
       var stored = parseInt(window.localStorage.getItem(countKey), 10);
-      if (stored >= start && stored <= max) shown = stored;
+      if (stored >= min && stored <= max) shown = stored;
     } catch (e) { /* private mode */ }
 
-    // Mark the average column as derived, not typed.
-    table.querySelectorAll("tbody tr").forEach(function (tr) {
-      var td = tr.cells[avgCol];
-      if (!td) return;
-      td.classList.add("ws-computed");
-      td.textContent = "—";
-    });
+    function saveCount() {
+      try { window.localStorage.setItem(countKey, String(shown)); } catch (e) { /* ignore */ }
+    }
 
+    function meanFor(tr) {
+      var sum = 0, n = 0;
+      for (var i = 0; i < shown; i++) {
+        var input = inputAt(tr, runCols[i]);
+        var v = input ? parseFloat((input.textContent || "").trim()) : NaN;
+        if (!isNaN(v)) { sum += v; n += 1; }
+      }
+      if (!n) return null;
+      return { value: Math.round(((sum / n) / divisor) * 10) / 10, n: n };
+    }
+
+    // Fill the average in, but never clobber a number the student typed
+    // themselves: an entry that differs from what we last wrote is theirs.
     function recompute() {
-      table.querySelectorAll("tbody tr").forEach(function (tr) {
-        var sum = 0, n = 0;
-        for (var i = 0; i < shown; i++) {
-          var cell = tr.cells[runCols[i]];
-          var input = cell && cell.querySelector(".ws-input");
-          var value = input ? parseFloat((input.textContent || "").trim()) : NaN;
-          if (!isNaN(value)) { sum += value; n += 1; }
-        }
-        var out = tr.cells[avgCol];
+      rows.forEach(function (tr) {
+        var out = inputAt(tr, avgCol);
         if (!out) return;
-        if (!n) { out.textContent = "—"; out.removeAttribute("title"); return; }
-        var avg = (sum / n) / divisor;
-        out.textContent = (Math.round(avg * 10) / 10).toString();
-        out.title = "mean of " + n + " run" + (n === 1 ? "" : "s") +
-                    (divisor !== 1 ? ", divided by " + divisor : "");
+
+        var calc = meanFor(tr);
+        var shownText = calc ? String(calc.value) : "";
+        var current = (out.textContent || "").trim();
+        var lastAuto = out.getAttribute("data-auto") || "";
+
+        // `data-auto` is DOM state and does not survive a reload, so a value
+        // matching the calculated one counts as auto too. Without this, every
+        // auto-filled average comes back flagged as an override next visit.
+        if (current === "" || current === lastAuto || current === shownText) {
+          if (current !== shownText) writeField(out, shownText);
+          out.setAttribute("data-auto", shownText);
+          out.classList.remove("ws-override");
+          if (calc) {
+            out.title = "Average of " + calc.n + " run" + (calc.n === 1 ? "" : "s") +
+                        (divisor !== 1 ? ", divided by " + divisor : "") +
+                        ". Type here to override it.";
+          } else {
+            out.removeAttribute("title");
+          }
+          return;
+        }
+
+        out.classList.add("ws-override");
+        out.title = calc
+          ? "You entered " + current + ". The runs average to " + shownText +
+            ". Clear this cell to go back to the calculated value."
+          : "You entered " + current + ". No runs to average yet.";
       });
     }
 
-    function apply() {
-      runCols.forEach(function (index, i) { setColumnVisible(table, index, i < shown); });
-      if (button) {
-        button.disabled = shown >= max;
-        button.textContent = shown >= max ? "All " + max + " runs shown" : "Add a run";
-      }
-      recompute();
+    function removeRun(index) {
+      if (shown <= min) return;
+      rows.forEach(function (tr) {
+        for (var j = index; j < shown - 1; j++) {
+          var next = inputAt(tr, runCols[j + 1]);
+          writeField(inputAt(tr, runCols[j]), next ? (next.textContent || "").trim() : "");
+        }
+        writeField(inputAt(tr, runCols[shown - 1]), "");
+      });
+      shown -= 1;
+      saveCount();
+      apply();
     }
 
-    var button = document.createElement("button");
-    button.type = "button";
-    button.className = "ws-btn ws-btn--quiet ws-addrun";
-    button.addEventListener("click", function () {
+    var headRow = table.querySelector("thead tr");
+
+    // One delete control per run column, created once and shown with it.
+    runCols.forEach(function (colIndex, i) {
+      var th = headRow && headRow.cells[colIndex];
+      if (!th || th.querySelector(".ws-delrun")) return;
+      var del = document.createElement("button");
+      del.type = "button";
+      del.className = "ws-delrun";
+      del.setAttribute("aria-label", "Delete run " + (i + 1));
+      del.textContent = "×";
+      del.addEventListener("click", function () { removeRun(i); });
+      th.appendChild(del);
+    });
+
+    var addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "ws-btn ws-btn--quiet ws-addrun";
+    addBtn.addEventListener("click", function () {
       if (shown >= max) return;
       shown += 1;
-      try { window.localStorage.setItem(countKey, String(shown)); } catch (e) { /* ignore */ }
+      saveCount();
       apply();
     });
-    container.appendChild(button);
+    container.appendChild(addBtn);
+
+    function apply() {
+      runCols.forEach(function (colIndex, i) {
+        var visible = i < shown;
+        if (headRow && headRow.cells[colIndex]) {
+          headRow.cells[colIndex].style.display = visible ? "" : "none";
+        }
+        rows.forEach(function (tr) {
+          if (tr.cells[colIndex]) tr.cells[colIndex].style.display = visible ? "" : "none";
+        });
+        var del = headRow && headRow.cells[colIndex] &&
+                  headRow.cells[colIndex].querySelector(".ws-delrun");
+        if (del) del.style.display = (visible && shown > min) ? "" : "none";
+      });
+
+      addBtn.disabled = shown >= max;
+      addBtn.textContent = shown >= max ? "All " + max + " runs shown" : "Add a run";
+      recompute();
+    }
 
     container.addEventListener("input", recompute);
     apply();
