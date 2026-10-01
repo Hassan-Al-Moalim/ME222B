@@ -1,0 +1,51 @@
+<svg class="dia dia--wide quad" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Quadrature decoding. Channels A and B are square waves a quarter cycle apart. On every rising edge of A the code reads B: B low means forward and the count rises; B high means reverse and the count falls.">
+  <title>Quadrature decoding — reading B on the rising edge of A</title>
+
+  <!-- ============ FORWARD ============ -->
+  <text class="q-head" x="40" y="48">Forward — B is LOW on every rising edge of A</text>
+  <text class="q-code" x="40" y="68">counts[m]++</text>
+
+  <text class="q-lbl" x="88" y="135" text-anchor="end">A</text>
+  <text class="q-lbl" x="88" y="205" text-anchor="end">B</text>
+
+  <path class="q-wave" d="M100,150 H120 V110 H180 V150 H240 V110 H300 V150 H360 V110 H420 V150 H480 V110 H540 V150 H600"/>
+  <path class="q-wave q-wave--b" d="M100,220 H150 V180 H210 V220 H270 V180 H330 V220 H390 V180 H450 V220 H510 V180 H570 V220 H600"/>
+
+  <g class="q-edge">
+    <path d="M120,100 V230"/><path d="M240,100 V230"/><path d="M360,100 V230"/><path d="M480,100 V230"/>
+  </g>
+  <g class="q-sample q-sample--low">
+    <circle cx="120" cy="220" r="6"/><circle cx="240" cy="220" r="6"/>
+    <circle cx="360" cy="220" r="6"/><circle cx="480" cy="220" r="6"/>
+  </g>
+  <g class="q-play q-play--fwd"><path d="M100,96 V234"/></g>
+
+  <text class="q-note" x="620" y="150">A rises…</text>
+  <text class="q-note" x="620" y="226">…B is low → count up</text>
+
+  <!-- ============ REVERSE ============ -->
+  <text class="q-head" x="40" y="298">Reverse — B is HIGH on every rising edge of A</text>
+  <text class="q-code" x="40" y="318">counts[m]--</text>
+
+  <text class="q-lbl" x="88" y="355" text-anchor="end">A</text>
+  <text class="q-lbl" x="88" y="425" text-anchor="end">B</text>
+
+  <path class="q-wave" d="M100,370 H120 V330 H180 V370 H240 V330 H300 V370 H360 V330 H420 V370 H480 V330 H540 V370 H600"/>
+  <path class="q-wave q-wave--b" d="M100,400 H150 V440 H210 V400 H270 V440 H330 V400 H390 V440 H450 V400 H510 V440 H570 V400 H600"/>
+
+  <g class="q-edge">
+    <path d="M120,320 V450"/><path d="M240,320 V450"/><path d="M360,320 V450"/><path d="M480,320 V450"/>
+  </g>
+  <g class="q-sample q-sample--high">
+    <circle cx="120" cy="400" r="6"/><circle cx="240" cy="400" r="6"/>
+    <circle cx="360" cy="400" r="6"/><circle cx="480" cy="400" r="6"/>
+  </g>
+  <g class="q-play q-play--rev"><path d="M100,316 V454"/></g>
+
+  <text class="q-note" x="620" y="370">A rises…</text>
+  <text class="q-note" x="620" y="406">…B is high → count down</text>
+
+  <!-- ============ DECODING ============ -->
+  <text class="q-head" x="40" y="498">Counting only A's rising edges is 1× decoding — four counts per cycle of the disc become one.</text>
+</svg>

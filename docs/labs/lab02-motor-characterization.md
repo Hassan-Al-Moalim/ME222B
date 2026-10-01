@@ -40,6 +40,15 @@ far the shaft turned; which channel leads tells you the direction.
 - **2× decoding:** count both edges of A.
 - **4× decoding:** count every edge of A and B. Best resolution; needed later for precise positioning.
 
+{{ svg assets/quadrature.svg }}
+
+This is exactly what the interrupt in `part1_encoders.ino` does — on A's rising
+edge it reads B, and the level it finds decides which way the count moves:
+
+```cpp
+if (digitalRead(ENC_B[m])) counts[m]--; else counts[m]++;
+```
+
 If the encoder sits on the motor shaft, before the gearbox, one wheel revolution
 produces many pulses:
 
@@ -98,6 +107,10 @@ phone apps.
 | Distance | d = (counts / CPR) × π × D |
 | Left/right mismatch | (RPM_L − RPM_R) / ((RPM_L + RPM_R) / 2) × 100 % |
 | Feed-forward PWM | PWM = PWM_0 + RPM_target / K |
+
+### Further reading
+
+- [ESP32 Rotary Encoder tutorial](https://lastminuteengineers.com/esp32-rotary-encoder-tutorial/) — Last Minute Engineers. Animated walk-through of how a rotary encoder produces its two signals, with a worked ESP32 example. Covers a detented knob encoder rather than a motor encoder, but the quadrature idea is identical.
 
 ## 3. Pre-lab
 

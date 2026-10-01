@@ -701,3 +701,61 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
 .rp-empty { color: var(--md-default-fg-color--lighter); }
 
 #collected [data-worksheet] table { table-layout: auto; }
+
+/* ---------------------------------------------------------------
+   Quadrature diagram — animated playhead sweeping the waveforms.
+   --------------------------------------------------------------- */
+
+.quad .q-head { font-size: 14px; font-weight: 700; fill: var(--md-default-fg-color); }
+.quad .q-code {
+  font-size: 12px;
+  font-family: var(--md-code-font-family);
+  fill: var(--md-typeset-a-color);
+}
+.quad .q-lbl  { font-size: 13px; font-weight: 700; fill: var(--md-default-fg-color); font-family: var(--md-code-font-family); }
+.quad .q-note { font-size: 11.5px; fill: var(--md-default-fg-color--light); }
+
+.quad .q-wave {
+  fill: none;
+  stroke: var(--md-default-fg-color);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+.quad .q-wave--b { stroke: var(--md-typeset-a-color); }
+
+.quad .q-edge path {
+  stroke: var(--md-default-fg-color--lighter);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+
+.quad .q-sample circle { stroke-width: 2; }
+.quad .q-sample--low  circle { fill: #2e7d3233; stroke: #2e7d32; }
+.quad .q-sample--high circle { fill: #c6282833; stroke: #c62828; }
+
+[data-md-color-scheme="slate"] .quad .q-sample--low  circle { fill: #81c78433; stroke: #81c784; }
+[data-md-color-scheme="slate"] .quad .q-sample--high circle { fill: #e5737333; stroke: #e57373; }
+
+.quad .q-play path {
+  stroke: var(--md-accent-fg-color);
+  stroke-width: 2;
+  opacity: .9;
+}
+
+.quad .q-play {
+  animation: q-sweep 6s linear infinite;
+}
+
+@keyframes q-sweep {
+  from { transform: translateX(0); }
+  to   { transform: translateX(500px); }
+}
+
+/* A sweeping line is decoration, not information — the waveforms and the
+   marked sample points carry the whole explanation on their own. */
+@media (prefers-reduced-motion: reduce) {
+  .quad .q-play { animation: none; }
+}
+
+@media print { .quad .q-play { animation: none; } }
