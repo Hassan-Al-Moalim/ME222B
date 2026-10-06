@@ -11,13 +11,12 @@ title: Schedule
 | **Lectures** | Sunday, 08:30–10:00 · Building 9 – Room 4120 |
 | **Labs** | Wednesday, 08:30–10:00 · Building 5 Sea Side — RISC Lab |
 
-The ten labs take the ten Wednesdays remaining after National Day, skipping the
-semester break, and finish on 9 December.
+Labs 1 and 2 ran together on 30 September. Labs 3 to 12 take every Wednesday
+from 7 October to 9 December.
 
-!!! warning "This week — 20 to 24 September"
-    - **Sunday 20 September — quiz** in the lecture slot. Scope is the material
-      covered so far.
-    - **Wednesday 23 September — no session.** Saudi National Day.
+!!! warning "Coming up"
+    - **Wednesday 7 October — [Lab 3](labs/lab03-motors-imu.md).** BLE motor control and IMU bring-up.
+    - **Sunday 25 October — midterm exam** in the lecture slot.
 
 ## Semester schedule
 
@@ -35,27 +34,28 @@ semester break, and finish on 9 December.
 | — | 23 Sep | **National Day — no session** | |
 | 8 | 27 Sep | AC motor designs | |
 | **LAB 1** | 30 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
+| **LAB 2** | 30 Sep | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | Encoders, PWM–speed curves, dead zone, BLE wireless link |
 | 9 | 4 Oct | AC motor controls | |
-| **LAB 2** | 7 Oct <span class="pill pending">pending</span> | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | Encoders, PWM–speed curves, dead zone, BLE wireless link |
+| **LAB 3** | 7 Oct | [Lab 3 - Motors and IMU](labs/lab03-motors-imu.md) | Working car, phone controls and IMU readings |
 | 10 | 11 Oct | DC and stepper motors | |
-| **LAB 3** | 14 Oct <span class="pill pending">pending</span> | [Lab 3 - Distance Sensing](labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
+| **LAB 4** | 14 Oct | [Lab 4 - Encoders and Straight Line](labs/lab04-encoders-straight-line.md) | Encoder distance scale + baseline vs. IMU-corrected runs |
 | — | 18 Oct | **Semester break** | |
-| — | 21 Oct | **Semester break** | |
-| 11 | 25 Oct | Pressure sensors | |
-| **LAB 4** | 28 Oct <span class="pill pending">pending</span> | [Lab 4 - IMU](labs/lab04-imu-calibration.md) | Calibration curve + corrected readings |
+| **LAB 5** | 21 Oct | [Lab 5 - Distance Sensing](labs/lab05-distance-sensing.md) | Calibration curve, validation errors, usable range |
+| **EXAM** | 25 Oct | **Midterm exam** in the lecture slot | |
+| **LAB 6** | 28 Oct | [Lab 6 - Obstacle Stopping](labs/lab06-filtering-obstacle-stop.md) | Approach trials at three speeds, stopping error |
 | 12 | 1 Nov | Force and strain sensors | |
-| **LAB 5** | 4 Nov <span class="pill pending">pending</span> | [Lab 5 - Filtering](labs/lab05-logging-filtering.md) | Raw-vs-filtered plots + `speed = f(distance)` |
-| 13 | 8 Nov | Position sensors | |
-| **LAB 6** | 11 Nov <span class="pill pending">pending</span> | [Lab 6 - PID Control](labs/lab06-feedback-control.md) | Closed-loop controller with measured error |
+| **LAB 7** | 4 Nov | [Lab 7 - Navigation](labs/lab07-navigation-mission-states.md) | Three autonomous A-to-B runs |
+| **QUIZ** | 8 Nov | **Quiz 2** in the lecture slot | |
+| **LAB 8** | 11 Nov | [Lab 8 - ThingsBoard Telemetry](labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
 | 14 | 15 Nov | Motion sensors | |
-| **LAB 7** | 18 Nov <span class="pill pending">pending</span> | [Lab 7 - Localization](labs/lab07-straight-turns-localization.md) | Repeatable straight run + controlled turn |
+| **LAB 9** | 18 Nov | [Lab 9 - ThingsBoard Missions](labs/lab09-thingsboard-missions.md) | Dashboard-triggered A-to-B mission |
 | 15 | 22 Nov | Systems development: embedded architecture trade-offs, standards, best practices, CPU architectures | |
-| **LAB 8** | 25 Nov <span class="pill pending">pending</span> | [Lab 8 - ThingsBoard](labs/lab08-servo-thingsboard.md) | Dashboard sends mission → car executes |
-| 16 | 29 Nov | ARM architecture and demo, appliance case study, processor selection and benchmarking | |
-| **LAB 9** | 2 Dec <span class="pill pending">pending</span> | [Lab 9 - Multi-Car](labs/lab09-multi-car.md) | Two-car demonstration, no contact |
+| **LAB 10** | 25 Nov | [Lab 10 - Multi-Car](labs/lab10-multi-car.md) | Two-car mission without contact |
+| **QUIZ** | 29 Nov | **Quiz 3** in the lecture slot | |
+| **LAB 11** | 2 Dec | [Lab 11 - Integration](labs/lab11-integration-testing.md) | Five missions per team, performance table |
 | 17 | 6 Dec | Embedded operating systems and tools | |
-| **LAB 10** | 9 Dec <span class="pill pending">pending</span> | [Lab 10 - Fleet Challenge](labs/lab10-fleet-challenge.md) | Fleet demonstration + performance results |
-| **EXAM** | Week 16 | **Final exam week** | |
+| **LAB 12** | 9 Dec | [Lab 12 - Final Demo](labs/lab12-final-demo.md) | Delivery-car demonstration and handover |
+| **EXAM** | 13 Dec | **Final exam** | |
 
 </div>
 
@@ -72,11 +72,10 @@ Building 5 Sea Side, RISC Lab.
 
 | Item | Weight | Date |
 | --- | --: | --- |
-| Quiz | — | **Sun 20 Sep**, lecture slot |
-| Quizzes (remaining) | 10 % | <span class="pill pending">pending</span> |
-| Midterm exam | 20 % | <span class="pill pending">pending</span> |
+| Quizzes | 10 % | **Sun 20 Sep**, **Sun 8 Nov**, **Sun 29 Nov**, lecture slot |
+| Midterm exam | 20 % | **Sun 25 Oct** |
 | Course project(s) | 45 % | Two projects — milestones <span class="pill pending">pending</span> |
-| Final exam | 20 % | Week 16 — <span class="pill pending">pending</span> |
+| Final exam | 20 % | **Sun 13 Dec** |
 | Homework / assignments | 5 % | Set in class |
 
 ## Office hours

@@ -91,4 +91,4 @@ hardware LEDC peripheral. Default resolution is 8-bit, so **PWM values run 0–2
     Below roughly 10–20 % duty the motors cannot overcome their own static
     friction. This **dead zone** is measured in
     [Lab 2](../labs/lab02-motor-characterization.md) and compensated for in
-    [Lab 6](../labs/lab06-feedback-control.md).
+    [Lab 4](../labs/lab04-encoders-straight-line.md).

@@ -130,15 +130,16 @@ nav:
       - labs/index.md
       - "Lab 1 - Motors and PWM": labs/lab01-pwm-motors.md
       - "Lab 2 - Encoders": labs/lab02-motor-characterization.md
-      - "Lab 3 - Distance Sensing": labs/lab03-distance-sensing.md
-      - "Lab 4 - IMU": labs/lab04-imu-calibration.md
-      - "Lab 5 - Filtering": labs/lab05-logging-filtering.md
-      - "Lab 6 - PID Control": labs/lab06-feedback-control.md
-      - "Lab 7 - Localization": labs/lab07-straight-turns-localization.md
-      - "Lab 8 - ThingsBoard": labs/lab08-servo-thingsboard.md
-      - "Lab 9 - Multi-Car": labs/lab09-multi-car.md
-      - "Lab 10 - Fleet Challenge": labs/lab10-fleet-challenge.md
-  - My Lab Data: my-data.md
+      - "Lab 3 - Motors and IMU": labs/lab03-motors-imu.md
+      - "Lab 4 - Encoders and Straight Line": labs/lab04-encoders-straight-line.md
+      - "Lab 5 - Distance Sensing": labs/lab05-distance-sensing.md
+      - "Lab 6 - Obstacle Stopping": labs/lab06-filtering-obstacle-stop.md
+      - "Lab 7 - Navigation": labs/lab07-navigation-mission-states.md
+      - "Lab 8 - ThingsBoard Telemetry": labs/lab08-thingsboard-telemetry.md
+      - "Lab 9 - ThingsBoard Missions": labs/lab09-thingsboard-missions.md
+      - "Lab 10 - Multi-Car": labs/lab10-multi-car.md
+      - "Lab 11 - Integration": labs/lab11-integration-testing.md
+      - "Lab 12 - Final Demo": labs/lab12-final-demo.md
   - Reference:
       - resources/index.md
       - "Setup - Arduino IDE": resources/setup.md

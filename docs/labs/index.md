@@ -4,21 +4,23 @@ title: Labs
 
 # Labs
 
-Ten labs, one 90-minute session per Wednesday, building a four-motor autonomous
-car and then a coordinated fleet. Dates are on the [Schedule](../schedule.md).
+Twelve labs, one 90-minute session per Wednesday, building a four-motor
+autonomous delivery car and then a coordinated fleet. Dates are on the [Schedule](../schedule.md).
 
 ## Table of contents
 
 - [Lab 1 - Motors and PWM](lab01-pwm-motors.md)
 - [Lab 2 - Encoders](lab02-motor-characterization.md)
-- [Lab 3 - Distance Sensing](lab03-distance-sensing.md)
-- [Lab 4 - IMU](lab04-imu-calibration.md)
-- [Lab 5 - Filtering](lab05-logging-filtering.md)
-- [Lab 6 - PID Control](lab06-feedback-control.md)
-- [Lab 7 - Localization](lab07-straight-turns-localization.md)
-- [Lab 8 - ThingsBoard](lab08-servo-thingsboard.md)
-- [Lab 9 - Multi-Car](lab09-multi-car.md)
-- [Lab 10 - Fleet Challenge](lab10-fleet-challenge.md)
+- [Lab 3 - Motors and IMU](lab03-motors-imu.md)
+- [Lab 4 - Encoders and Straight Line](lab04-encoders-straight-line.md)
+- [Lab 5 - Distance Sensing](lab05-distance-sensing.md)
+- [Lab 6 - Obstacle Stopping](lab06-filtering-obstacle-stop.md)
+- [Lab 7 - Navigation](lab07-navigation-mission-states.md)
+- [Lab 8 - ThingsBoard Telemetry](lab08-thingsboard-telemetry.md)
+- [Lab 9 - ThingsBoard Missions](lab09-thingsboard-missions.md)
+- [Lab 10 - Multi-Car](lab10-multi-car.md)
+- [Lab 11 - Integration](lab11-integration-testing.md)
+- [Lab 12 - Final Demo](lab12-final-demo.md)
 
 ## Before every lab
 

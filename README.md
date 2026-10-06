@@ -12,28 +12,29 @@ buttons. This repository is just where the source text lives.
 
 ## The labs
 
-Ten weeks, one 90-minute lab per week. You build a four-motor autonomous robot
-car on an ESP32, then make a fleet of them work together.
+Twelve labs, one 90-minute session per Wednesday. You build a four-motor
+autonomous delivery car on an ESP32, then make a fleet of them work together.
 
-Week 1 hands you a problem you cannot yet solve: send the **same** PWM command to
-both sides of the car and it still curves away from the line. Everything through
-Week 6 builds the measurement and control tools you need. **Week 7 is where you
-fix it** — by re-running the exact Week 1 test and beating your own number.
+Lab 1 hands you a problem you cannot yet solve: send the **same** PWM command to
+both sides of the car and it still curves away from the line. Lab 4 is where you
+fix it with feedback and compare against your own baseline.
 
 ## Labs
 
-| Week | Lab | Milestone |
-| :--: | --- | --- |
-| 1 | [PWM, Four Motors & Motor Mismatch](docs/labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
-| 2 | [Motor Characterization & Encoders](docs/labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, saturation |
-| 3 | [LiDAR / ToF Distance Sensing](docs/labs/lab03-distance-sensing.md) | Reliable `obstacleDetected()` + sensor data |
-| 4 | [IMU + Sensor Calibration](docs/labs/lab04-imu-calibration.md) | Calibration curve + corrected readings |
-| 5 | [Logging, Filtering & Sensor-Based Motion](docs/labs/lab05-logging-filtering.md) | Raw-vs-filtered plots + `speed = f(distance)` |
-| 6 | [Feedback Control — P / PI / PID](docs/labs/lab06-feedback-control.md) | Closed-loop controller with measured error |
-| 7 | [Straight Driving, Turns & Localization](docs/labs/lab07-straight-turns-localization.md) | Repeatable straight run + controlled turn |
-| 8 | [Payload Servo + ThingsBoard](docs/labs/lab08-servo-thingsboard.md) | Dashboard sends mission → car executes |
-| 9 | [Multi-Car Coordination](docs/labs/lab09-multi-car.md) | Two-car demonstration with no contact |
-| 10 | [Final Autonomous Fleet Challenge](docs/labs/lab10-fleet-challenge.md) | Fleet demonstration + performance results |
+| Lab | Date | Topic | Milestone |
+| :--: | --- | --- | --- |
+| 1 | 30 Sep | [Motors and PWM](docs/labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
+| 2 | 30 Sep | [Encoders](docs/labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, BLE link |
+| 3 | 7 Oct | [BLE Motor Control + IMU](docs/labs/lab03-motors-imu.md) | Working car, phone controls, IMU readings |
+| 4 | 14 Oct | [Encoders + Straight Line](docs/labs/lab04-encoders-straight-line.md) | Distance scale + IMU-corrected runs |
+| 5 | 21 Oct | [Distance Sensing](docs/labs/lab05-distance-sensing.md) | Calibration curve + usable range |
+| 6 | 28 Oct | [Filtering + Obstacle Stopping](docs/labs/lab06-filtering-obstacle-stop.md) | Approach trials, stopping error |
+| 7 | 4 Nov | [Navigation + Mission States](docs/labs/lab07-navigation-mission-states.md) | Three autonomous A-to-B runs |
+| 8 | 11 Nov | [ThingsBoard Telemetry](docs/labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
+| 9 | 18 Nov | [ThingsBoard Missions](docs/labs/lab09-thingsboard-missions.md) | Dashboard-triggered mission |
+| 10 | 25 Nov | [Multi-Car Coordination](docs/labs/lab10-multi-car.md) | Two-car mission without contact |
+| 11 | 2 Dec | [Integration + Testing](docs/labs/lab11-integration-testing.md) | Five missions, performance table |
+| 12 | 9 Dec | [Final Demonstration](docs/labs/lab12-final-demo.md) | Delivery-car demo + handover |
 
 ## Before your first session
 

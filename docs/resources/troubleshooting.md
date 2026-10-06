@@ -66,7 +66,7 @@ your problem isn't listed, tell us so it gets added.
 ??? failure "Motor doesn't turn at low duty cycle"
     Expected — that's the deadband. Below roughly 10–20 % duty the motor can't
     overcome static friction. Characterise it in [Lab 2](../labs/lab02-motor-characterization.md)
-    and compensate in [Lab 6](../labs/lab06-feedback-control.md).
+    and compensate in [Lab 4](../labs/lab04-encoders-straight-line.md).
 
 ??? failure "Motor only turns one direction"
     - One of `IN1`/`IN2` isn't reaching the board — check continuity.
@@ -81,7 +81,7 @@ your problem isn't listed, tell us so it gets added.
 ??? failure "Car curves when both sides are commanded equally"
     **Expected** — this is the whole point of [Lab 1](../labs/lab01-pwm-motors.md).
     The two sides are not identical and their dead zones differ. Measure it, don't
-    fix it yet. [Lab 7](../labs/lab07-straight-turns-localization.md) is where you
+    fix it yet. [Lab 4](../labs/lab04-encoders-straight-line.md) is where you
     close the loop and beat your Week 1 number.
 
 ??? failure "ESP32 resets whenever the motors start"

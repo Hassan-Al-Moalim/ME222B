@@ -45,7 +45,6 @@ Fill these before sharing the link with students — they are publicly visible:
 - `docs/schedule.md` — lab dates and room, exam dates, office hours
 - `docs/syllabus.md` — office location and hours, integrity and AI policy, accommodations
 - `docs/resources/hardware.md` — the USB-and-battery rule, verified against the boards
-- `docs/labs/lab08-servo-thingsboard.md` — ThingsBoard URL, device tokens, WiFi
 
 **Safety page.** The guidance there is standard practice for this class of
 hardware. KAUST's EHS office has its own rules, emergency numbers and incident
@@ -55,12 +54,11 @@ lab with batteries.
 
 **Unresolved: two lab plans.** The official syllabus lists six sensor-focused
 labs (thermistor, motor voltage/current, rotary sensor, strain gauge,
-closed-loop motor control, PID). This site follows a newer ten-week sequence
-built around a four-motor robot car. They overlap but are not the same plan —
+closed-loop motor control, PID). This site follows the instructor's twelve-lab
+sequence built around a four-motor robot car. They overlap but are not the same plan —
 decide which is authoritative and reconcile before Week 1.
 
-Labs 2–10 are structured outlines rather than finished worksheets. Lab 1 is
-written out in full and is the model to follow.
+Labs 1–4 are written out in full. Labs 5–12 are outlines from the project plan.
 
 ## Writing a new lab
 
