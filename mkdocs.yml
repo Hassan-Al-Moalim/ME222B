@@ -126,7 +126,6 @@ nav:
   - Home: index.md
   - Syllabus: syllabus.md
   - Schedule: schedule.md
-  - Notes: notes/index.md
   - Labs:
       - labs/index.md
       - "Lab 1 - Motors and PWM": labs/lab01-pwm-motors.md
