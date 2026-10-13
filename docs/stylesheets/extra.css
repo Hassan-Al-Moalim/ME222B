@@ -826,3 +826,29 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
   background: transparent;
   color: var(--md-default-fg-color--light);
 }
+
+/* ---------------------------------------------------------------
+   My notes — free-text box at the foot of each lab page.
+   Behaviour lives in javascripts/worksheet.js
+   --------------------------------------------------------------- */
+
+.ws-notes__text {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 8rem;
+  padding: .6rem .7rem;
+  font: inherit;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color);
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+  resize: vertical;
+}
+
+.ws-notes__text:focus {
+  outline: none;
+  border-color: var(--md-accent-fg-color);
+}

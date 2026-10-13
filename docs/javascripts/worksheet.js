@@ -392,6 +392,9 @@
       });
     });
 
+    var area = document.querySelector(".ws-notes__text");
+    if (area && area.value.trim()) lines.push("## My notes", "", area.value.trim(), "");
+
     return lines.join("\n");
   }
 
@@ -435,6 +438,51 @@
         .forEach(function (k) { window.localStorage.removeItem(k); });
     } catch (e) { /* ignore */ }
     document.querySelectorAll(".ws-input").forEach(function (el) { el.textContent = ""; });
+    document.querySelectorAll(".ws-notes__text").forEach(function (el) { el.value = ""; });
+  }
+
+  /* --- my notes -----------------------------------------------------------
+     A free-text box at the foot of every lab page, saved like the tables.
+     ----------------------------------------------------------------------- */
+
+  function notesKey() {
+    return pageKey() + ":notes:text";
+  }
+
+  function isLabPage() {
+    return /\/labs\/lab\d+/.test(window.location.pathname);
+  }
+
+  function addNotes(article) {
+    if (!isLabPage() || article.querySelector(".ws-notes")) return false;
+
+    var box = document.createElement("section");
+    box.className = "ws-notes";
+
+    var h2 = document.createElement("h2");
+    h2.id = "my-notes";
+    h2.textContent = "My notes";
+
+    var area = document.createElement("textarea");
+    area.className = "ws-notes__text";
+    area.rows = 8;
+    area.placeholder = "Your own notes for this lab. Saved in this browser only.";
+    area.setAttribute("aria-label", "My notes");
+
+    var saved = null;
+    try { saved = window.localStorage.getItem(notesKey()); } catch (e) { /* private mode */ }
+    if (saved) area.value = saved;
+
+    area.addEventListener("input", function () {
+      try { window.localStorage.setItem(notesKey(), area.value); }
+      catch (e) { /* quota or private mode */ }
+      flashSaved();
+    });
+
+    box.appendChild(h2);
+    box.appendChild(area);
+    article.appendChild(box);
+    return true;
   }
 
   /* --- toolbar ------------------------------------------------------------ */
@@ -464,21 +512,20 @@
   /* --- boot --------------------------------------------------------------- */
 
   function init() {
-    var containers = document.querySelectorAll("[data-worksheet]");
-    if (!containers.length) return;
+    var article = document.querySelector("article");
+    if (!article) return;
 
-    var any = false;
+    var any = addNotes(article);
+    var containers = document.querySelectorAll("[data-worksheet]");
     Array.prototype.forEach.call(containers, function (c) {
       if (activate(c)) any = true;
       setupRuns(c);
     });
-    if (!any) return;
+    if (!any || article.querySelector(".ws-toolbar")) return;
 
     // The page-actions script wraps the h1 in a flex row. Insert after that
     // wrapper, not after the h1, or the toolbar lands inside the row and
     // pushes the Copy page button onto its own line.
-    var article = document.querySelector("article");
-    if (!article) return;
     var h1 = article.querySelector("h1");
     if (!h1) return;
     var anchor = h1.closest(".page-actions-row") || h1;
