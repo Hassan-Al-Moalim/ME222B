@@ -852,3 +852,11 @@ body[data-md-color-scheme="slate"][data-md-color-primary] {
   outline: none;
   border-color: var(--md-accent-fg-color);
 }
+
+.ws-notes {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.ws-notes #my-notes { margin-top: 1rem; }

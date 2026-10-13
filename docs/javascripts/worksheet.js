@@ -479,9 +479,37 @@
       flashSaved();
     });
 
-    box.appendChild(h2);
-    box.appendChild(area);
+    // Hidden until asked for; the choice is remembered per page.
+    var openKey = pageKey() + ":notes:open";
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "ws-btn ws-btn--quiet ws-notes__toggle";
+    toggle.setAttribute("aria-controls", "ws-notes-body");
+
+    var body = document.createElement("div");
+    body.id = "ws-notes-body";
+    body.appendChild(h2);
+    body.appendChild(area);
+
+    function setOpen(open) {
+      body.hidden = !open;
+      toggle.textContent = open ? "Hide my notes" : "Show my notes";
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      try { window.localStorage.setItem(openKey, open ? "1" : "0"); } catch (e) { /* ignore */ }
+    }
+
+    var open = false;
+    try { open = window.localStorage.getItem(openKey) === "1"; } catch (e) { /* private mode */ }
+
+    toggle.addEventListener("click", function () {
+      setOpen(body.hidden);
+      if (!body.hidden) area.focus();
+    });
+
+    box.appendChild(toggle);
+    box.appendChild(body);
     article.appendChild(box);
+    setOpen(open);
     return true;
   }
 
