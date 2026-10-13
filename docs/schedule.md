@@ -11,11 +11,11 @@ title: Schedule
 | **Lectures** | Sunday, 08:30–10:00 · Building 9 – Room 4120 |
 | **Labs** | Wednesday, 08:30–10:00 · Building 5 Sea Side — RISC Lab |
 
-Labs 1 and 2 ran together on 30 September. Labs 3 to 12 take every Wednesday
-from 7 October to 9 December.
+Lab 1 ran on 16 September and Lab 2 on 30 September. Labs 3 to 12 take every
+Wednesday from 7 October to 9 December.
 
 !!! warning "Coming up"
-    - **Wednesday 7 October — [Lab 3](labs/lab03-motors-imu.md).** BLE motor control and IMU bring-up.
+    - **Wednesday 14 October — [Lab 4](labs/lab04-encoders-straight-line.md).** Car calibration: encoders, gyro bias, F vs. C runs. Bring your IMU homework controller.
     - **Sunday 25 October — midterm exam** in the lecture slot.
 
 ## Semester schedule
@@ -29,16 +29,15 @@ from 7 October to 9 December.
 | 3 | 6 Sep | Prototyping of sensor/actuator based systems |  |
 | 4 | 9 Sep | Prototyping of sensor/actuator based systems |  |
 | 5 | 13 Sep | Flow and rotary sensors |  |
-| 6 | 16 Sep | Flow and rotary sensors |  |
+| **LAB 1** | 16 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
 | **QUIZ** | 20 Sep | **Quiz** in the lecture slot | |
 | — | 23 Sep | **National Day — no session** | |
 | 8 | 27 Sep | AC motor designs | |
-| **LAB 1** | 30 Sep | [Lab 1 - Motors and PWM](labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
 | **LAB 2** | 30 Sep | [Lab 2 - Encoders](labs/lab02-motor-characterization.md) | Encoders, PWM–speed curves, dead zone, BLE wireless link |
 | 9 | 4 Oct | AC motor controls | |
 | **LAB 3** | 7 Oct | [Lab 3 - Motors and IMU](labs/lab03-motors-imu.md) | Working car, phone controls and IMU readings |
 | 10 | 11 Oct | DC and stepper motors | |
-| **LAB 4** | 14 Oct | [Lab 4 - Encoders and Straight Line](labs/lab04-encoders-straight-line.md) | Encoder distance scale + baseline vs. IMU-corrected runs |
+| **LAB 4** | 14 Oct | [Lab 4 - Car Calibration](labs/lab04-encoders-straight-line.md) | Encoder distance scale + F vs. C straight-line comparison |
 | — | 18 Oct | **Semester break** | |
 | **LAB 5** | 21 Oct | [Lab 5 - Distance Sensing](labs/lab05-distance-sensing.md) | Calibration curve, validation errors, usable range |
 | **EXAM** | 25 Oct | **Midterm exam** in the lecture slot | |

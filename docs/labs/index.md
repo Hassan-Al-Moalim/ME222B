@@ -12,7 +12,7 @@ autonomous delivery car and then a coordinated fleet. Dates are on the [Schedule
 - [Lab 1 - Motors and PWM](lab01-pwm-motors.md)
 - [Lab 2 - Encoders](lab02-motor-characterization.md)
 - [Lab 3 - Motors and IMU](lab03-motors-imu.md)
-- [Lab 4 - Encoders and Straight Line](lab04-encoders-straight-line.md)
+- [Lab 4 - Car Calibration](lab04-encoders-straight-line.md)
 - [Lab 5 - Distance Sensing](lab05-distance-sensing.md)
 - [Lab 6 - Obstacle Stopping](lab06-filtering-obstacle-stop.md)
 - [Lab 7 - Navigation](lab07-navigation-mission-states.md)

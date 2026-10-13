@@ -23,10 +23,10 @@ fix it with feedback and compare against your own baseline.
 
 | Lab | Date | Topic | Milestone |
 | :--: | --- | --- | --- |
-| 1 | 30 Sep | [Motors and PWM](docs/labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
+| 1 | 16 Sep | [Motors and PWM](docs/labs/lab01-pwm-motors.md) | Working car + PWM table + measured drift |
 | 2 | 30 Sep | [Encoders](docs/labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, BLE link |
 | 3 | 7 Oct | [BLE Motor Control + IMU](docs/labs/lab03-motors-imu.md) | Working car, phone controls, IMU readings |
-| 4 | 14 Oct | [Encoders + Straight Line](docs/labs/lab04-encoders-straight-line.md) | Distance scale + IMU-corrected runs |
+| 4 | 14 Oct | [Car Calibration](docs/labs/lab04-encoders-straight-line.md) | Distance scale + F vs. C runs |
 | 5 | 21 Oct | [Distance Sensing](docs/labs/lab05-distance-sensing.md) | Calibration curve + usable range |
 | 6 | 28 Oct | [Filtering + Obstacle Stopping](docs/labs/lab06-filtering-obstacle-stop.md) | Approach trials, stopping error |
 | 7 | 4 Nov | [Navigation + Mission States](docs/labs/lab07-navigation-mission-states.md) | Three autonomous A-to-B runs |

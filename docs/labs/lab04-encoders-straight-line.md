@@ -1,156 +1,146 @@
 ---
-title: Lab 4 — Encoders + Straight-Line Test
+title: Lab 4 — Car Calibration
 ---
 
-# Lab 4 — Finalize Encoders + Straight-Line Test
+# Lab 4 — Car Calibration
 
 <div class="lab-meta" markdown>
 <div><span class="k">Date</span><span class="v">Wednesday 14 October</span></div>
-<div><span class="k">Depends on</span><span class="v">Lab 3 baseline runs</span></div>
-<div><span class="k">Milestone</span><span class="v">Encoder distance scale + baseline vs. IMU-corrected straight runs</span></div>
-<div><span class="k">Status</span><span class="v">IMU part written; encoder part outline</span></div>
+<div><span class="k">Depends on</span><span class="v">Lab 3 + IMU homework controller</span></div>
+<div><span class="k">Milestone</span><span class="v">Encoder distance scale + F vs. C straight-line comparison</span></div>
 </div>
 
-## Objectives
+**Goal:** measure wheel movement, remove the gyro offset, and check whether IMU
+feedback improves straight driving.
 
-Validate encoder counts, direction, pulses per revolution and distance
-conversion. Complete three baseline and three IMU-corrected straight runs, and
-compare the encoders and the IMU as feedback sources.
+## Setup
 
-**Required evidence:** working encoder readings with a documented distance
-scale, and a straight-line comparison with the gain values used.
+- Use four motors and **two encoders**, one on each side. Both left motors share the left PWM/DIR command; both right motors share the right one.
+- Record which wheel each encoder measures.
+- Bring the car, mounted IMU, battery, ESP32 and USB cable, existing firmware, phone with UART buttons, and a tape measure.
+- Keep last week's motor wiring. IMU: SDA GPIO21, SCL GPIO22. Use unused suitable inputs for the encoders, with 3.3 V compatible signals. GPIO34–39 have no internal pull-ups.
+- Turn motor drive off while wiring; raise the wheels for the first tests.
 
-## Part A — Encoders
+**Definitions.** PWM sets motor duty (drive level). DIR sets direction. An
+encoder produces pulses as a wheel or shaft rotates. An IMU contains motion
+sensors; its gyroscope measures turning rate.
 
-Validate on every wheel:
+## Task 1 · Check and calibrate the encoders
 
-- counts and direction,
-- pulses per revolution,
-- the conversion from counts to distance.
+1. With motors off, rotate the left measured wheel. Confirm only its count changes. Repeat on the right. Record the wheel location and whether each encoder has one channel or A/B channels.
+2. Mark each measured wheel. Turn it through **five full revolutions** and record the counts. Repeat once to check consistency. Measure each wheel diameter.
+3. Calculate C and q with the equations below. Then roll the car straight over **1 m** and compare the encoder distance with the tape measure.
 
-See [Lab 2](lab02-motor-characterization.md) for the encoder test procedure and
-equations.
+$$ q = \frac{\pi D}{C} \qquad s = q\,n $$
 
-## Part B — IMU straight-line controller
+| Symbol | Meaning / unit |
+| --- | --- |
+| n | Counts during the measurement (absolute count change) |
+| C | Counts per complete wheel turn, using your firmware's counting method |
+| D | Wheel diameter, m |
+| q | Wheel distance per count, m/count |
+| s | Estimated wheel travel, m |
 
-Improve the car's three-second forward run using IMU feedback. Implement the
-controller in a copy of the [Lab 3](lab03-motors-imu.md) starter sketch and
-compare it with the existing `F` command. The front and rear motors on each side
-receive the same duty command.
+Calculate left and right separately.
 
-### What you must implement
+<div class="worksheet" data-worksheet="lab04-encoders" markdown>
 
-1. **Calibrate the yaw gyro** while the car is stationary for 2–3 s with all motors stopped. Average the samples to estimate the bias. Reject the calibration if reads fail or the car moves; keep corrected driving disabled until calibration succeeds.
-2. **Add a `C` command** and phone button for corrected forward motion. Keep `F` as the baseline. On `C`, reset the relative heading to zero, set both sides forward, and start a fresh three-second timer.
-3. **Update the controller locally every 10–20 ms.** Use the actual elapsed time in seconds. Keep the once-per-second BLE telemetry separate from the control loop.
-4. **Use the equations below** to remove the gyro bias, integrate heading, compute a limited correction and adjust both sides. Verify the yaw axis and sign before enabling correction.
-5. **Apply feedback only during `C` motion.** `S`, a disconnect, the three-second timeout, a failed sensor read or a stale controller must stop all four motors and disable feedback. Choose and document a stale limit, for example 100 ms. `F`/`B`/`L`/`R` must exit feedback mode.
-6. **Keep front-left and rear-left duties equal**, and front-right and rear-right equal. Once directions are set, update the PWM directly; do not call `applyMotion()` every cycle, because it adds a 20 ms off interval.
+| Side / wheel | Counts over 5 turns (twice) | D (m) | C | q (m/count) | 1 m roll estimate (m) |
+| --- | --- | --- | --- | --- | --- |
+| Left | `____` | `____` | `____` | `____` | `____` |
+| Right | `____` | `____` | `____` | `____` | `____` |
 
-### Test before driving
+</div>
 
-Raise the wheels and gently turn the chassis left during corrected motion. The
-duty change must **oppose** the measured turn; if it reinforces it, reverse the
-correction sign. Start floor tests at low speed with a limited correction, for
-example ±30 PWM counts. Tune the gains experimentally; they are not universal
-values.
+## Task 2 · Calibrate the gyro and check correction
 
-### Control equations
+1. Stop the motors and keep the car still for 2–3 s. Average the yaw gyro readings to find the bias b. Reject the calibration if the car moves or sensor reads fail.
+2. Subtract the bias from each reading. While still, the corrected rate should be near zero. Rotate the car left by hand and check that corrected yaw is **positive**.
+3. Use your homework controller. With the wheels raised, start `C` and gently rotate the chassis left. Left duty should increase and right duty decrease to oppose the turn. **Stop immediately if the correction reinforces the turn.**
 
-Use radians, rad/s and seconds throughout. clip(x, a, b) = min(max(x, a), b).
-Subscript *k* is the current sample, *k*−1 the previous one.
+### Gyro equations
 
-**1. Stationary gyro bias**
+$$ b = \frac{g_1 + g_2 + \dots + g_N}{N} \qquad \omega = g - b \qquad \theta_\text{new} = \theta_\text{old} + \omega\,\Delta t $$
 
-$$ b = \frac{1}{N} \sum_{i=1}^{N} g_i $$
+| Symbol | Meaning / unit |
+| --- | --- |
+| g | Measured yaw gyro reading, rad/s |
+| b | Gyro bias: average reading while the car is still, rad/s |
+| N | Number of valid stationary samples |
+| ω | Corrected turning rate, rad/s |
+| θ | Change in heading since the start of the run, rad |
+| Δt | Actual time between updates, s |
 
-$g_i$: stationary yaw-gyro samples (rad/s); $N$: number of valid samples; $b$: bias (rad/s).
+Yaw is turning left/right about the vertical axis. One radian is about 57.3°.
+Reset θ to zero at the start of every `C` run. Use the same units throughout.
 
-**2. Bias-corrected angular velocity**
+### Homework controller reminder
 
-$$ \omega_k = g_k - b $$
+$$ u = \operatorname{clip}(K_h\theta + K_r\omega,\ -u_{max},\ +u_{max}) $$
 
-**3. Elapsed time and relative heading**
+$$ P_L = \operatorname{clip}(P_0 + u, 0, 255) \qquad P_R = \operatorname{clip}(P_0 - u, 0, 255) $$
 
-$$ \Delta t_k = \frac{t_k - t_{k-1}}{10^6} \qquad \theta_k = \theta_{k-1} + \omega_k \Delta t_k, \quad \theta_0 = 0 $$
+| Symbol | Meaning |
+| --- | --- |
+| P₀ | Base PWM duty for both sides, 0–255 |
+| P_L, P_R | Final left and right PWM duties |
+| u | Duty correction added on the left and subtracted on the right |
+| K_h | Heading gain, PWM/rad |
+| K_r | Turning-rate gain, PWM/(rad/s) |
+| u_max | Largest permitted correction; start with 30 PWM counts |
+| clip(x, a, b) | Keep x between lower limit a and upper limit b |
 
-Timestamps from `micros()`; for `millis()` divide by 1000 instead. Reset θ and
-the previous-control timestamp at the start of each `C` run.
+Update locally every 10–20 ms using the actual Δt. Keep BLE display updates at
+1 Hz. Preserve Stop, disconnect and the three-second timeout. A failed IMU read
+or a stale controller must stop `C`. Keep both motors on each side at the same
+duty.
 
-**4. Heading and yaw-rate correction**
+<div class="worksheet" data-worksheet="lab04-gains" markdown>
 
-$$ u_k = \operatorname{clip}(K_h \theta_k + K_r \omega_k,\ -u_{max},\ +u_{max}) $$
+| b (rad/s) | P₀ | K_h | K_r | Control interval (ms) | Stale limit (ms) | u_max |
+| --- | --- | --- | --- | --- | --- | --- |
+| `____` | `____` | `____` | `____` | `____` | `____` | `____` |
 
-$K_h$: heading gain (PWM counts/rad); $K_r$: yaw-rate gain (PWM counts per
-rad/s); $u_{max}$: maximum correction in PWM counts. Start small and increase
-gradually.
+</div>
 
-**5. Left and right duties**
+## Task 3 · Compare straight driving
 
-$$ P^L_k = \operatorname{clip}(P_0 + u_k, 0, 255) \qquad P^R_k = \operatorname{clip}(P_0 - u_k, 0, 255) $$
+1. Mark one start position and a straight reference line. Use a clear floor and low speed. Keep the same base PWM, surface and battery condition.
+2. Alternate two `F` runs and two `C` runs. Each run lasts three seconds. Return the car to the same start position and heading each time.
+3. Measure forward distance x and sideways displacement y. Complete the table and explain whether `C` improved the result.
 
-$P_0$: common base duty. Round the limited values to integer PWM counts. These
-signs assume positive yaw is a left turn: more left duty and less right duty
-gives a right-turn correction.
+`F` = forward without IMU correction. `C` = forward with IMU correction. `S` = stop.
 
-**6. Apply to all four motors**
+<div class="worksheet" data-worksheet="lab04-runs" markdown>
 
-$$ P_{FL} = P_{RL} = P^L_k \qquad P_{FR} = P_{RR} = P^R_k $$
-
-The starter's `M1` is the left side and `M2` the right side. This is skid
-steering with no steering servo.
-
-This controller tries to hold the starting heading. A gyro has bias and drift
-and does not measure sideways position, and zero yaw rate alone cannot restore a
-heading that has already changed. Discuss these limits in your report.
-
-### Algorithm
-
-Follow this flowchart in your own code. Stop checks must stay responsive
-between controller updates; return to the main loop immediately when an update
-is not yet due.
-
-![Flowchart of the IMU straight-line controller](lab04/imu-straight-flowchart.png)
-
-## Testing and submission
-
-Run three baseline `F` runs and three corrected `C` runs with the same start
-mark, surface, base PWM, battery condition and three-second duration. Measure
-forward distance and absolute sideways displacement.
-
-<div class="worksheet" data-worksheet="lab04-straight" markdown>
-
-| Mode | Trial | Forward distance (cm) | Sideways displacement (cm) |
+| Run | Forward distance x (cm) | Sideways displacement y (cm) | Observation |
 | --- | --- | --- | --- |
-| F: baseline | 1 | `____` | `____` |
-| F: baseline | 2 | `____` | `____` |
-| F: baseline | 3 | `____` | `____` |
-| C: feedback | 1 | `____` | `____` |
-| C: feedback | 2 | `____` | `____` |
-| C: feedback | 3 | `____` | `____` |
+| F1 | `____` | `____` | |
+| C1 | `____` | `____` | |
+| F2 | `____` | `____` | |
+| C2 | `____` | `____` | |
 
 </div>
 
-Average the absolute sideways displacement. Report both forward distance and
-sideways error: a slower or shorter run can look like less drift. If the
-baseline mean error is nonzero,
+### Simple comparison
 
-$$ \text{improvement (\%)} = 100 \times \frac{\text{baseline mean |error|} - \text{feedback mean |error|}}{\text{baseline mean |error|}} $$
+$$ \text{Mean forward distance} = \frac{x_1 + x_2}{2} \qquad E = \frac{|y_1| + |y_2|}{2} $$
 
-Keep negative values when feedback makes it worse.
+x is distance along the starting direction; y is sideways displacement from the
+reference line; |y| ignores left/right sign; E is the average sideways error.
+Calculate each mean separately for F and C.
 
-**Submit:** your modified `.ino`, a screenshot of the `C` button, a short video
-of baseline and corrected runs, the completed table, and a brief explanation of
-the outcome. Include the gyro bias, $K_h$, $K_r$, maximum correction, update
-interval, stale limit, axis and sign convention.
+<div class="worksheet" data-worksheet="lab04-compare" markdown>
 
-Explain whether feedback improved the path. If it did not, document your tests,
-the likely cause and the next change you would try. A shorter forward distance
-alone is not evidence of straighter driving.
+| Result | F: baseline | C: corrected |
+| --- | --- | --- |
+| Mean forward distance (cm) | `____` | `____` |
+| Mean sideways error E (cm) | `____` | `____` |
 
-## Discussion questions
+</div>
 
-1. Why do equal PWM values not necessarily produce equal wheel speeds?
-2. Why must gyro bias be removed before integrating heading? What happens to heading error over time?
-3. Why does zero yaw rate alone fail to return the car to its original heading after a disturbance?
-4. Why can an IMU controller still allow sideways displacement? How would wheel encoders or an external position reference help?
+A smaller E suggests less drift. Check forward distance too: a car that travels
+less may also drift less. The IMU estimates heading; it does not measure
+sideways position. Two encoders measure only their two wheels.
+
+**Answer briefly:** Did `C` improve straight driving? What would you change next?

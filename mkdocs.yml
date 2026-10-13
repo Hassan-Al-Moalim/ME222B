@@ -131,7 +131,7 @@ nav:
       - "Lab 1 - Motors and PWM": labs/lab01-pwm-motors.md
       - "Lab 2 - Encoders": labs/lab02-motor-characterization.md
       - "Lab 3 - Motors and IMU": labs/lab03-motors-imu.md
-      - "Lab 4 - Encoders and Straight Line": labs/lab04-encoders-straight-line.md
+      - "Lab 4 - Car Calibration": labs/lab04-encoders-straight-line.md
       - "Lab 5 - Distance Sensing": labs/lab05-distance-sensing.md
       - "Lab 6 - Obstacle Stopping": labs/lab06-filtering-obstacle-stop.md
       - "Lab 7 - Navigation": labs/lab07-navigation-mission-states.md
