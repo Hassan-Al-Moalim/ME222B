@@ -39,7 +39,7 @@ Wednesday from 7 October to 9 December.
 | 10 | 11 Oct | DC and stepper motors | |
 | **LAB 4** | 14 Oct | [Lab 4 - Car Calibration](labs/lab04-encoders-straight-line.md) | Encoder distance scale + F vs. C straight-line comparison |
 | — | 18 Oct | **Semester break** | |
-| **LAB 5** | 21 Oct | [Lab 5 - Distance Sensing](labs/lab05-distance-sensing.md) | Calibration curve, validation errors, usable range |
+| **LAB 5** | 21 Oct | [Lab 5 - Obstacle Avoidance](labs/lab05-distance-sensing.md) | Detect, confirm and avoid an obstacle with the front ToF sensor |
 | **EXAM** | 25 Oct | **Midterm exam** in the lecture slot | |
 | **LAB 6** | 28 Oct | [Lab 6 - Obstacle Stopping](labs/lab06-filtering-obstacle-stop.md) | Approach trials at three speeds, stopping error |
 | 12 | 1 Nov | Force and strain sensors | |
