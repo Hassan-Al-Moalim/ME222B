@@ -15,8 +15,8 @@ Lab 1 ran on 16 September and Lab 2 on 30 September. Labs 3 to 12 take every
 Wednesday from 7 October to 9 December.
 
 !!! warning "Coming up"
-    - **Wednesday 14 October — [Lab 4](labs/lab04-encoders-straight-line.md).** Car calibration: encoders, gyro bias, F vs. C runs. Bring your IMU homework controller.
-    - **Sunday 25 October — midterm exam** in the lecture slot.
+    - **Wednesday 4 November — [Lab 7](labs/lab07-navigation-mission-states.md).** ThingsBoard dashboard and autonomous obstacle avoidance. Do the 15-minute ThingsBoard tutorial before the lab.
+    - **Sunday 8 November — no quiz.**
 
 ## Semester schedule
 
@@ -43,8 +43,8 @@ Wednesday from 7 October to 9 December.
 | **EXAM** | 25 Oct | **Midterm exam** in the lecture slot | |
 | **LAB 6** | 28 Oct | [Lab 6 - Obstacle Stopping](labs/lab06-filtering-obstacle-stop.md) | Approach trials at three speeds, stopping error |
 | 12 | 1 Nov | Force and strain sensors | |
-| **LAB 7** | 4 Nov | [Lab 7 - Navigation](labs/lab07-navigation-mission-states.md) | Three autonomous A-to-B runs |
-| **QUIZ** | 8 Nov | **Quiz 2** in the lecture slot | |
+| **LAB 7** | 4 Nov | [Lab 7 - ThingsBoard + Avoidance](labs/lab07-navigation-mission-states.md) | Dashboard-started 3 m mission that avoids an obstacle |
+| 13 | 8 Nov | Position sensors | |
 | **LAB 8** | 11 Nov | [Lab 8 - ThingsBoard Telemetry](labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
 | 14 | 15 Nov | Motion sensors | |
 | **LAB 9** | 18 Nov | [Lab 9 - ThingsBoard Missions](labs/lab09-thingsboard-missions.md) | Dashboard-triggered A-to-B mission |
@@ -71,7 +71,7 @@ Building 5 Sea Side, RISC Lab.
 
 | Item | Weight | Date |
 | --- | --: | --- |
-| Quizzes | 10 % | **Sun 20 Sep**, **Sun 8 Nov**, **Sun 29 Nov**, lecture slot |
+| Quizzes | 10 % | **Sun 20 Sep**, **Sun 29 Nov**, lecture slot |
 | Midterm exam | 20 % | **Sun 25 Oct** |
 | Course project(s) | 45 % | Two projects — milestones <span class="pill pending">pending</span> |
 | Final exam | 20 % | **Sun 13 Dec** |
