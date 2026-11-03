@@ -16,7 +16,7 @@
 
       if (/^LAB\b/i.test(first)) tr.classList.add("is-lab");
       else if (/^(QUIZ|EXAM)\b/i.test(first)) tr.classList.add("is-assessment");
-      else if (/National Day|Semester break/i.test(all)) tr.classList.add("is-off");
+      else if (/National Day|Semester break|no lab/i.test(all)) tr.classList.add("is-off");
     });
   }
 

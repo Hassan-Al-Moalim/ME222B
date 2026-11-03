@@ -11,11 +11,12 @@ title: Schedule
 | **Lectures** | Sunday, 08:30–10:00 · Building 9 – Room 4120 |
 | **Labs** | Wednesday, 08:30–10:00 · Building 5 Sea Side — RISC Lab |
 
-Lab 1 ran on 16 September and Lab 2 on 30 September. Labs 3 to 12 take every
-Wednesday from 7 October to 9 December.
+Lab 1 ran on 16 September and Lab 2 on 30 September. 21 October was office
+hours instead of a lab, so Lab 5 ran on 28 October. Lab 7 is still to be
+scheduled.
 
 !!! warning "Coming up"
-    - **Wednesday 4 November — [Lab 7](labs/lab07-navigation-mission-states.md).** ThingsBoard dashboard and autonomous obstacle avoidance. Do the 15-minute ThingsBoard tutorial before the lab.
+    - **Wednesday 4 November — [Lab 6](labs/lab06-thingsboard-obstacle-avoidance.md).** ThingsBoard dashboard and autonomous obstacle avoidance. Do the 15-minute ThingsBoard tutorial before the lab.
     - **Sunday 8 November — no quiz.**
 
 ## Semester schedule
@@ -39,11 +40,11 @@ Wednesday from 7 October to 9 December.
 | 10 | 11 Oct | DC and stepper motors | |
 | **LAB 4** | 14 Oct | [Lab 4 - Car Calibration](labs/lab04-encoders-straight-line.md) | Encoder distance scale + F vs. C straight-line comparison |
 | — | 18 Oct | **Semester break** | |
-| **LAB 5** | 21 Oct | [Lab 5 - Obstacle Avoidance](labs/lab05-distance-sensing.md) | Detect, confirm and avoid an obstacle with the front ToF sensor |
+| — | 21 Oct | **Office hours — no lab** | |
 | **EXAM** | 25 Oct | **Midterm exam** in the lecture slot | |
-| **LAB 6** | 28 Oct | [Lab 6 - Obstacle Stopping](labs/lab06-filtering-obstacle-stop.md) | Approach trials at three speeds, stopping error |
+| **LAB 5** | 28 Oct | [Lab 5 - Obstacle Avoidance](labs/lab05-distance-sensing.md) | Detect, confirm and avoid an obstacle with the front ToF sensor |
 | 12 | 1 Nov | Force and strain sensors | |
-| **LAB 7** | 4 Nov | [Lab 7 - ThingsBoard + Avoidance](labs/lab07-navigation-mission-states.md) | Dashboard-started 3 m mission that avoids an obstacle |
+| **LAB 6** | 4 Nov | [Lab 6 - ThingsBoard + Avoidance](labs/lab06-thingsboard-obstacle-avoidance.md) | Dashboard-started 3 m mission that avoids an obstacle |
 | 13 | 8 Nov | Position sensors | |
 | **LAB 8** | 11 Nov | [Lab 8 - ThingsBoard Telemetry](labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
 | 14 | 15 Nov | Motion sensors | |

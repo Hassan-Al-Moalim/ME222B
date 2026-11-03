@@ -1,12 +1,12 @@
 ---
-title: Lab 6 — Filtering + Obstacle Stopping
+title: Lab 7 — Filtering + Obstacle Stopping
 ---
 
-# Lab 6 — Filtering + Obstacle Stopping
+# Lab 7 — Filtering + Obstacle Stopping
 
 <div class="lab-meta" markdown>
-<div><span class="k">Date</span><span class="v">Wednesday 28 October</span></div>
-<div><span class="k">Depends on</span><span class="v">Lab 5</span></div>
+<div><span class="k">Date</span><span class="v">To be scheduled</span></div>
+<div><span class="k">Depends on</span><span class="v">Lab 6</span></div>
 <div><span class="k">Status</span><span class="v">Outline — to be written</span></div>
 </div>
 

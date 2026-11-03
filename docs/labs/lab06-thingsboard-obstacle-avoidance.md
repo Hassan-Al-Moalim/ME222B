@@ -1,8 +1,8 @@
 ---
-title: Lab 7 — ThingsBoard + Autonomous Obstacle Avoidance
+title: Lab 6 — ThingsBoard + Autonomous Obstacle Avoidance
 ---
 
-# Lab 7 — ThingsBoard + Autonomous Obstacle Avoidance
+# Lab 6 — ThingsBoard + Autonomous Obstacle Avoidance
 
 <div class="lab-meta" markdown>
 <div><span class="k">Date</span><span class="v">Wednesday 4 November</span></div>

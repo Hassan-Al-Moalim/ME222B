@@ -5,7 +5,7 @@ title: Lab 5 - Obstacle Avoidance
 # Lab 5 - Obstacle Avoidance
 
 <div class="lab-meta" markdown>
-<div><span class="k">Date</span><span class="v">Wednesday 21 October</span></div>
+<div><span class="k">Date</span><span class="v">Wednesday 28 October</span></div>
 <div><span class="k">Depends on</span><span class="v">Lab 4</span></div>
 <div><span class="k">Milestone</span><span class="v">Car detects, confirms and avoids an obstacle using one front ToF sensor</span></div>
 </div>

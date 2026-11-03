@@ -27,9 +27,9 @@ fix it with feedback and compare against your own baseline.
 | 2 | 30 Sep | [Encoders](docs/labs/lab02-motor-characterization.md) | PWM–speed curves, dead zone, BLE link |
 | 3 | 7 Oct | [BLE Motor Control + IMU](docs/labs/lab03-motors-imu.md) | Working car, phone controls, IMU readings |
 | 4 | 14 Oct | [Car Calibration](docs/labs/lab04-encoders-straight-line.md) | Distance scale + F vs. C runs |
-| 5 | 21 Oct | [Distance Sensing](docs/labs/lab05-distance-sensing.md) | Calibration curve + usable range |
-| 6 | 28 Oct | [Filtering + Obstacle Stopping](docs/labs/lab06-filtering-obstacle-stop.md) | Approach trials, stopping error |
-| 7 | 4 Nov | [ThingsBoard + Obstacle Avoidance](docs/labs/lab07-navigation-mission-states.md) | Dashboard-started 3 m mission |
+| 5 | 28 Oct | [Distance Sensing](docs/labs/lab05-distance-sensing.md) | Calibration curve + usable range |
+| 6 | 4 Nov | [ThingsBoard + Obstacle Avoidance](docs/labs/lab06-thingsboard-obstacle-avoidance.md) | Dashboard-started 3 m mission |
+| 7 | TBD | [Filtering + Obstacle Stopping](docs/labs/lab07-filtering-obstacle-stop.md) | Approach trials, stopping error |
 | 8 | 11 Nov | [ThingsBoard Telemetry](docs/labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
 | 9 | 18 Nov | [ThingsBoard Missions](docs/labs/lab09-thingsboard-missions.md) | Dashboard-triggered mission |
 | 10 | 25 Nov | [Multi-Car Coordination](docs/labs/lab10-multi-car.md) | Two-car mission without contact |
