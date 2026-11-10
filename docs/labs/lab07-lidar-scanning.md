@@ -27,8 +27,8 @@ your car's values, test, and tune.
 | 2–3 | [`ME222_Lab7_1_LidarTest.ino`](lab07/ME222_Lab7_1_LidarTest.ino) | Shows what the lidar sees. The car does not move. |
 | 4 | [`ME222_Lab7_2_Drive.ino`](lab07/ME222_Lab7_2_Drive.ino) | The car drives and avoids obstacles. |
 | 5 | [`ME222_Lab7_3_Drive_ThingsBoard.ino`](lab07/ME222_Lab7_3_Drive_ThingsBoard.ino) | Same, started and watched from ThingsBoard. |
-| 6 (extra) | [`ME222_Lab7_4_FollowTheGap.ino`](lab07/ME222_Lab7_4_FollowTheGap.ino) | Follow the Gap: you write three small parts. |
-| 7 (extra) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
+| 6 (optional) | [`ME222_Lab7_4_FollowTheGap.ino`](lab07/ME222_Lab7_4_FollowTheGap.ino) | Follow the Gap: you write three small parts. |
+| 7 (optional) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
 
 **Bring:** the car with a charged battery, USB cable, a tape measure, and a
 matte, light-coloured box at least 20 cm wide.
@@ -244,7 +244,7 @@ as in Lab 6.
     If the car loses Wi-Fi or ThingsBoard during a run, it stops, because
     STOP could no longer reach it. It cannot start without the link either.
 
-## Step 6 (extra) · Follow the Gap
+## Step 6 (optional) · Follow the Gap
 
 For teams who want a challenge. The drive sketch looks in only three
 directions. **Follow the Gap** uses the whole scan: it finds where the car
@@ -287,7 +287,7 @@ Every lidar turn the sketch does four things:
 | Will not go into a narrow road | Lower `SAFETY_MM` |
 | Clips corners | Raise `SAFETY_MM` |
 
-## Step 7 (extra) · See the lidar make a map
+## Step 7 (optional) · See the lidar make a map
 
 Nothing to hand in. Your laptop draws a map of the room and the car's path
 while the car drives (**SLAM**). It needs Python on the laptop; if you do not

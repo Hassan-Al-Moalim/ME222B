@@ -1,5 +1,5 @@
 /*
-  ME222 Lab 7 - Step 6 (extra): Follow the Gap
+  ME222 Lab 7 - Step 6 (optional): Follow the Gap
 
   Every lidar turn the car:
     1. reads the distances in front of it, from 90 deg left to 90 deg right
