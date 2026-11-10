@@ -316,14 +316,7 @@ gyro measured, then nudges it until the new scan lines up with the walls
 already on the map (**scan matching**), then adds the scan to the map. It
 works best in a room with corners and boxes, driving slowly.
 
-## Questions
-
-1. The car waits for two full lidar turns before it turns. What would go
-   wrong with one? With ten?
-2. The lidar scans one flat plane at its own height. Name an obstacle it would
-   miss.
-3. Why must the car stop when the ThingsBoard link drops, instead of carrying
-   on?
+## Deliverable
 
 **Deliverable:** the completed tables and a run started from the ThingsBoard
 dashboard.
