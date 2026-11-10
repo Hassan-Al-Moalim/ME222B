@@ -37,8 +37,7 @@ matte, light-coloured box at least 20 cm wide.
 Battery **off** while you wire. Your car keeps its one ESP32 and its Lab 6
 wiring.
 
-1. **Unplug the TF-Luna** wires from the ESP32. Leave it mounted on the car;
-   it comes back when you get the second ESP32.
+1. **Unplug the TF-Luna** wires from the ESP32. Leave it mounted on the car.
 2. **Mount the lidar** on top of the car, in the middle, with nothing taller
    than its head around it.
 3. **Wire it** to the ESP32:
@@ -256,6 +255,11 @@ have it, watch the TA's demo.
 3. Run `pip install numpy matplotlib`, download
    [`lab7_slam.py`](lab07/lab7_slam.py) and run `python lab7_slam.py`. Allow it through the Windows firewall if asked.
 4. Press START and watch the map build.
+
+!!! tip "Looking ahead"
+    Now the laptop knows the map and where the car is on it. Later it can do
+    the thinking too: plan a route on the map and send the car where to go,
+    while the ESP32 just drives and senses.
 
 ![SLAM map from the car simulation](lab07/slam_example.png){ width="560" }
 
