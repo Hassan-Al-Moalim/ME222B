@@ -1,42 +1,41 @@
 /*
-  ME222 Lab 7 - RPLiDAR A1M8 starter
+  ME222 Lab 7 - Steps 2 and 3: lidar test (the car does not move)
 
-  What this sketch already does:
-    - spins the lidar motor and talks to the lidar on a second serial port
-    - checks the lidar's health and starts a scan
-    - decodes every measurement and stores one full turn in scan[]
-    - prints one summary line about once a second
+  Prints, about once a second:
+    - scan rate and the nearest point
+    - ahead / left / right: distance to the nearest thing in a lane as wide
+      as the car, straight ahead and 45 degrees to each side
+    - what the car would do: CLEAR, AVOID LEFT, AVOID RIGHT or BLOCKED
 
-  What you add (sections marked TODO):
-    - Part B: ANGLE_OFFSET_DEG and ANGLE_REVERSED so that 0 deg is the car's front
-    - Part D: sectorMin()
-    - Part E: the CLEAR / AVOID LEFT / AVOID RIGHT / BLOCKED decision
-
-  Serial Monitor: 115200 baud. Send the letter d to print the last full scan as
-  CSV (bearing in degrees, distance in mm).
-
-  No library is needed. Board: ESP32 Dev Module.
+  Send d in the Serial Monitor to print the whole scan (bearing, distance).
+  Serial Monitor: 115200 baud. No library needed. Board: ESP32 Dev Module.
 */
 
 #include <Arduino.h>
+#include <math.h>
 
 // ===================== 1. SETTINGS =====================
 
-// The three lidar signals, as wired in the lab manual. No change needed.
-const int LIDAR_RX_PIN  = 16;   // ESP32 input:  wired to the lidar's TX
-const int LIDAR_TX_PIN  = 17;   // ESP32 output: wired to the lidar's RX
-const int LIDAR_PWM_PIN = 4;    // ESP32 output: wired to the lidar's MOTOCTL
+// Lidar wiring (Step 1). No change needed.
+const int LIDAR_RX_PIN  = 16;   // lidar TX
+const int LIDAR_TX_PIN  = 17;   // lidar RX
+const int LIDAR_PWM_PIN = 4;    // lidar MOTOCTL
+const int LIDAR_MOTOR_DUTY = 255;
 
-const int LIDAR_MOTOR_DUTY = 255;        // 0 to 255. 255 = full speed
+// Step 3: make bearing 0 the front of the car and 90 its right side.
+const float ANGLE_OFFSET_DEG = 0.0f;     // the bearing a box straight ahead shows before you change this
+const bool  ANGLE_REVERSED   = false;    // true if a box on the right shows near 270
+const uint16_t D_MIN_MM = 150;           // ignore anything closer (blind zone, parts of your car)
 
-// Part B. Bearing 0 must be straight ahead of the car, 90 on its right.
-const float ANGLE_OFFSET_DEG = 0.0f;     // raw angle at which an object straight ahead appears
-const bool  ANGLE_REVERSED   = false;    // true if an object on the right shows near 270
+// The lane the car needs. Use the same values in the drive sketch.
+const float CAR_WIDTH_MM   = 200;        // measure your car
+const float SIDE_MARGIN_MM = 50;
+const uint16_t D_AVOID_MM  = 600;        // something in the lane closer than this = obstacle
+const float TURN_DEG       = 45;
 
-const uint16_t D_MIN_MM = 150;           // ignore anything closer: lidar blind zone and the car's own parts
-const int PRINT_EVERY = 5;               // print one line every this many scans
+const int PRINT_EVERY = 5;               // print every 5th lidar turn
 
-// ===================== 2. LIDAR DRIVER (given, no changes needed) =====================
+// ===================== 2. LIDAR DRIVER (given, do not change) =====================
 
 HardwareSerial Lidar(2);
 
@@ -196,53 +195,76 @@ void lidarPoll() {
   }
 }
 
-// ===================== 3. YOUR CODE =====================
+// ===================== 3. WHAT IS IN THE PATH =====================
 
-// Closest valid point in the whole scan. Returns its distance in mm (0 if the
-// scan is empty) and writes its bearing to bearingDeg.
-uint16_t nearestPoint(int &bearingDeg) {
-  uint16_t best = 0;
-  bearingDeg = -1;
+const uint16_t NO_HIT = 65535;
+const float HALF_PATH_MM = CAR_WIDTH_MM / 2 + SIDE_MARGIN_MM;
+float cosTable[360], sinTable[360];
+
+// Distance to the nearest thing inside a lane as wide as the car (plus
+// margins) that points toward bearing dirDeg. NO_HIT if the lane is empty.
+uint16_t pathDistance(float dirDeg) {
+  int c = ((int)lroundf(dirDeg) % 360 + 360) % 360;
+  uint16_t best = NO_HIT;
   for (int b = 0; b < 360; ++b) {
-    if (scan[b] && (best == 0 || scan[b] < best)) { best = scan[b]; bearingDeg = b; }
+    if (!scan[b]) continue;
+    int rel = (b - c + 360) % 360;
+    float along = scan[b] * cosTable[rel];
+    float side  = scan[b] * sinTable[rel];
+    if (along > 0 && fabsf(side) < HALF_PATH_MM && along < best) best = (uint16_t)along;
   }
   return best;
 }
 
-// TODO Part D: closest valid distance in mm between bearings
-// (centerDeg - halfWidthDeg) and (centerDeg + halfWidthDeg). Return 0 if the
-// sector holds no valid reading. Remember that a sector around 0 runs from
-// 345 through 359 and on to 15.
-uint16_t sectorMin(int centerDeg, int halfWidthDeg) {
-  (void)centerDeg; (void)halfWidthDeg;
-  return 0;
-}
-
-// Runs once per full turn, right after scan[] is refreshed.
-void processScan() {
-  bool show = (scanCount % PRINT_EVERY) == 0;
-
-  int nearestDeg;
-  uint16_t nearestMm = nearestPoint(nearestDeg);
-
-  // TODO Part D: front, right and left clearances from sectorMin()
-
-  // TODO Part E: decide CLEAR / AVOID LEFT / AVOID RIGHT / BLOCKED.
-  //              Confirm over several turns before you change the decision.
-
-  if (show) {
-    Serial.printf("scan %lu | %.1f turns/s | %d points, %d bearings | nearest %u mm at %d deg | sync errors %lu\n",
-                  (unsigned long)scanCount, scanHz, scanPoints, scanBins,
-                  (unsigned)nearestMm, nearestDeg, (unsigned long)syncErrors);
+// Where the obstacle straight ahead sits: average sideways offset (mm) of
+// the points in the lane ahead that are closer than D_AVOID_MM.
+// Positive = more of it on the right, negative = more on the left.
+float obstacleSide() {
+  float sum = 0; int n = 0;
+  for (int b = 0; b < 360; ++b) {
+    if (!scan[b]) continue;
+    float along = scan[b] * cosTable[b], side = scan[b] * sinTable[b];
+    if (along > 0 && along < D_AVOID_MM && fabsf(side) < HALF_PATH_MM) { sum += side; ++n; }
   }
+  return n ? sum / n : 0;
 }
 
-// Send d in the Serial Monitor to print the last full scan.
+uint16_t nearestPoint(int &bearingDeg) {
+  uint16_t best = 0;
+  bearingDeg = -1;
+  for (int b = 0; b < 360; ++b)
+    if (scan[b] && (best == 0 || scan[b] < best)) { best = scan[b]; bearingDeg = b; }
+  return best;
+}
+
+void printMm(const char *name, uint16_t mm) {
+  if (mm == NO_HIT) Serial.printf("%s  clear | ", name);
+  else              Serial.printf("%s %5u | ", name, (unsigned)mm);
+}
+
+void processScan() {
+  if (scanCount % PRINT_EVERY) return;
+  int nb;
+  uint16_t nearest = nearestPoint(nb);
+  uint16_t ahead = pathDistance(0);
+  uint16_t left  = pathDistance(360 - TURN_DEG);
+  uint16_t right = pathDistance(TURN_DEG);
+
+  const char *would;
+  if (ahead >= D_AVOID_MM)                             would = "CLEAR";
+  else if (left < D_AVOID_MM && right < D_AVOID_MM)    would = "BLOCKED";
+  else if (left >= D_AVOID_MM && right >= D_AVOID_MM)  would = obstacleSide() >= 0 ? "AVOID LEFT" : "AVOID RIGHT";
+  else if (left >= D_AVOID_MM)                         would = "AVOID LEFT";
+  else                                                 would = "AVOID RIGHT";
+
+  Serial.printf("%.1f turns/s %3d pts | nearest %5u mm at %3d | ", scanHz, scanPoints, (unsigned)nearest, nb);
+  printMm("ahead", ahead); printMm("left", left); printMm("right", right);
+  Serial.printf("%s | sync errors %lu\n", would, (unsigned long)syncErrors);
+}
+
 void dumpScan() {
   Serial.println("bearing_deg,distance_mm");
-  for (int b = 0; b < 360; ++b) {
-    if (scan[b]) Serial.printf("%d,%u\n", b, (unsigned)scan[b]);
-  }
+  for (int b = 0; b < 360; ++b) if (scan[b]) Serial.printf("%d,%u\n", b, (unsigned)scan[b]);
   Serial.println("end");
 }
 
@@ -251,61 +273,41 @@ void dumpScan() {
 void setup() {
   Serial.begin(115200);
   delay(300);
-  Serial.println();
-  Serial.println("ME222 Lab 7 - RPLiDAR A1M8");
+  Serial.println("\nME222 Lab 7 - lidar test");
+  for (int i = 0; i < 360; ++i) { cosTable[i] = cosf(i * PI / 180); sinTable[i] = sinf(i * PI / 180); }
 
   pinMode(LIDAR_PWM_PIN, OUTPUT);
   analogWrite(LIDAR_PWM_PIN, LIDAR_MOTOR_DUTY);
-
-  // The lidar sends about 10 000 bytes per second. The default 256-byte
-  // receive buffer would overflow in 26 ms, so make it larger. This call must
-  // come before begin().
-  Lidar.setRxBufferSize(8192);
+  Lidar.setRxBufferSize(8192);           // must come before begin()
   Lidar.begin(115200, SERIAL_8N1, LIDAR_RX_PIN, LIDAR_TX_PIN);
-
-  delay(1500);                                   // let the motor reach speed
+  delay(1500);                           // let the motor reach speed
 
   uint8_t model, fwMajor, fwMinor, hardware;
-  if (lidarGetInfo(model, fwMajor, fwMinor, hardware)) {
+  if (lidarGetInfo(model, fwMajor, fwMinor, hardware))
     Serial.printf("lidar model %u, firmware %u.%02u, hardware %u\n", model, fwMajor, fwMinor, hardware);
-  } else {
+  else
     Serial.println("NO ANSWER from the lidar. Check the 5 V wires, and that lidar TX goes to GPIO 16 and lidar RX to GPIO 17.");
-  }
 
-  uint8_t status = 0;
-  uint16_t errorCode = 0;
-  if (lidarGetHealth(status, errorCode)) {
-    Serial.printf("health status %u (0 good, 1 warning, 2 error), error code %u\n", status, errorCode);
-    if (status == 2) {
-      Serial.println("lidar reports an error: resetting it");
-      lidarSend(CMD_RESET);
-      delay(1000);
-      lidarFlush();
-    }
+  uint8_t status = 0; uint16_t code = 0;
+  if (lidarGetHealth(status, code)) {
+    Serial.printf("health %u (0 good, 1 warning, 2 error)\n", status);
+    if (status == 2) { lidarSend(CMD_RESET); delay(1000); lidarFlush(); }
   }
-
   Serial.println(lidarStartScan() ? "scan started" : "scan did NOT start");
 }
 
 void loop() {
-  lidarPoll();
-
-  if (scanReady) {
-    scanReady = false;
-    processScan();
-  }
+  lidarPoll();                           // every pass: no delay() anywhere in loop()
+  if (scanReady) { scanReady = false; processScan(); }
 
   if (Serial.available()) {
     int c = Serial.read();
     if (c == 'd' || c == 'D') dumpScan();
   }
 
-  // No data for a second: is the motor turning? Try to start again.
-  if (millis() - lastNodeMs > 1000) {
+  if (millis() - lastNodeMs > 1000) {    // no data for a second: restart the scan
     Serial.println("no data from the lidar: is the head spinning? restarting the scan");
     lidarStartScan();
     lastNodeMs = millis();
   }
-
-  // Do not put delay() anywhere in loop(). See the note in setup().
 }

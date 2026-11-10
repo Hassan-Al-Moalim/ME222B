@@ -1,36 +1,49 @@
 ---
-title: Lab 7 — LiDAR Scanning
+title: Lab 7 — Driving with the LiDAR
 ---
 
-# Lab 7 — LiDAR Scanning
+# Lab 7 — Driving with the LiDAR
 
 <div class="lab-meta" markdown>
 <div><span class="k">Date</span><span class="v">Wednesday 11 November</span></div>
-<div><span class="k">Depends on</span><span class="v">Labs 5 and 6</span></div>
-<div><span class="k">Milestone</span><span class="v">Car reads a 360° scan and picks the avoidance side without turning</span></div>
+<div><span class="k">Depends on</span><span class="v">Labs 3 to 6</span></div>
+<div><span class="k">Milestone</span><span class="v">Car drives past an obstacle using the lidar, started from ThingsBoard</span></div>
 </div>
 
-**Goal:** bring up the RPLiDAR A1M8 on the ESP32, find where it points, and use
-one scan to decide what the car should do about an obstacle. In Lab 5 the car
-had to stop and turn left and right to look. A scanning lidar looks in every
-direction while the car stands still.
+**Goal:** mount the RPLiDAR on your car, check what it sees, then let the car
+drive by itself and steer around obstacles. Finally, start and stop it from
+the ThingsBoard dashboard on your laptop.
 
-The lidar spins a laser rangefinder and sends about 2000 points per second,
-5–10 full turns per second, over a serial link at 115200 baud. Each point is an
-angle and a distance. It measures from about 0.15 m to 12 m.
+The lidar spins and measures distance all around the car, about 6 times a
+second. In Lab 5 the car had to stop and turn to look left and right. Now it
+sees both sides at once.
 
-**Bring:** the car with a charged battery, USB cable, a matte light-coloured
-box at least 20 cm wide, and a tape measure.
+**You do not write the code from scratch.** You get three sketches. You set
+your car's values, test, and tune.
 
-## Connections
+| Step | Sketch | What it does |
+| --- | --- | --- |
+| 2–3 | [`ME222_Lab7_1_LidarTest.ino`](lab07/ME222_Lab7_1_LidarTest.ino) | Shows what the lidar sees. The car does not move. |
+| 4 | [`ME222_Lab7_2_Drive.ino`](lab07/ME222_Lab7_2_Drive.ino) | The car drives and avoids obstacles. |
+| 5 | [`ME222_Lab7_3_Drive_ThingsBoard.ino`](lab07/ME222_Lab7_3_Drive_ThingsBoard.ino) | Same, started and watched from ThingsBoard. |
 
-Your car keeps its one ESP32 and its Lab 6 wiring. Battery **off** while you
-wire.
+**Before the lab:** in the Arduino IDE Library Manager, install
+**PubSubClient** by Nick O'Leary (needed in Step 5). Have your Lab 6
+`ME222_Car_#` device token ready.
 
-**1. Take out the TF-Luna.** Unplug it and put it aside. The lidar replaces it
-as the obstacle sensor. Leave the motors, encoders and IMU as they are.
+**Bring:** the car with a charged battery, USB cable, a tape measure, and a
+matte, light-coloured box at least 20 cm wide.
 
-**2. Wire the lidar** to the ESP32:
+## Step 1 · Wire the lidar
+
+Battery **off** while you wire. Your car keeps its one ESP32 and its Lab 6
+wiring.
+
+1. **Take out the TF-Luna.** Unplug it and put it aside. The lidar replaces it.
+   Leave the motors and IMU as they are.
+2. **Mount the lidar** on top of the car, in the middle, with nothing taller
+   than its head around it.
+3. **Wire it** to the ESP32:
 
 | Lidar wire | Connect to |
 | --- | --- |
@@ -42,9 +55,8 @@ as the obstacle sensor. Leave the motors, encoders and IMU as they are.
 | GND | GND |
 | GND_MOTO | GND |
 
-These three pins are already set in the starter, so you do not change any
-code to connect. If your encoders already use GPIO 4, 16 or 17, tell a TA
-before you rewire.
+All three sketches already use these pins. If GPIO 4, 16 or 17 is already
+used on your car, tell a TA before you rewire.
 
 !!! danger "5 V only"
     Both lidar supply wires go to 5 V. Never connect them to the ESP32's 3.3 V
@@ -53,198 +65,193 @@ before you rewire.
 !!! warning "Handling"
     Do not hold or stop the spinning head, and keep wires clear of it.
 
-## Starter file
+## Step 2 · Check the lidar
 
-[`ME222_Lab7_RPLidar_Starter.ino`](lab07/ME222_Lab7_RPLidar_Starter.ino) talks to
-the lidar and decodes the stream. No library is needed. It gives you one array,
-refreshed once per full turn:
-
-```cpp
-uint16_t scan[360];   // scan[b] = closest distance in mm at bearing b, or 0 if no valid reading
-```
-
-**Bearings:** 0° is straight ahead of the car, 90° its right side, 180° behind,
-270° its left side. This is the opposite sign to your gyro, where a left turn
-is positive.
-
-`processScan()` runs once per turn. Your code goes there.
-
-!!! danger "No `delay()` in `loop()`"
-    The lidar sends 10 000 bytes per second, which nearly fills the serial
-    link. If the loop stops reading, points are lost. Print one line per
-    second, not one line per point.
-
-## Part A · Bring-up
-
-1. Upload the starter.
-2. Battery on. The head should start spinning within two seconds.
-3. Open the Serial Monitor at **115200** baud:
+1. Upload `ME222_Lab7_1_LidarTest.ino`.
+2. Switch the battery on. The lidar head should start spinning.
+3. Open the Serial Monitor at **115200** baud. About once a second you see:
 
 ```text title="Serial Monitor"
-lidar model 24, firmware 1.29, hardware 7
-health status 0 (0 good, 1 warning, 2 error), error code 0
-scan started
-scan 5 | 6.3 turns/s | 318 points, 240 bearings | nearest 412 mm at 87 deg | sync errors 0
+6.3 turns/s 318 pts | nearest   412 mm at  87 | ahead  clear | left  clear | right  clear | CLEAR | sync errors 0
 ```
 
-Expect 5–10 turns/s, points per turn close to 2000 ÷ turns/s, and *sync errors*
-staying near 0. Move your hand around the lidar at 30 cm: the *nearest* bearing
-should follow it.
+It is working if *turns/s* is between 5 and 10 and *sync errors* stays at 0.
+Move your hand around the lidar at 30 cm: the *nearest* bearing follows your
+hand.
 
 <div class="worksheet" data-worksheet="lab07-bringup" markdown>
 
-| Health status | Turns per second | Points per turn |
+| Turns per second | Points per turn | Sync errors |
 | --- | --- | --- |
 | `______` | `______` | `______` |
 
 </div>
 
-## Part B · Find the front
+## Step 3 · Point it forward and check the lane
 
-The lidar's own 0° depends on how it is mounted.
+**Bearings** are angles around the car: 0° is straight ahead, 90° is the
+right side, 180° behind, 270° the left side.
 
-1. Put the box 40 cm **straight ahead** of the car. Read the *nearest* bearing,
-   set `ANGLE_OFFSET_DEG` to that number, and upload. The box should now read
-   within a few degrees of 0 (357 or 2 is fine).
-2. Move the box to the car's **right**. It should read near 90. If it reads
-   near 270, set `ANGLE_REVERSED = true`.
-3. With nothing nearby, send `d` in the Serial Monitor to list the whole scan.
-   Short distances that never move are parts of your own car. Raise `D_MIN_MM`
-   until they are gone.
+1. Put the box 40 cm **straight ahead** of the car. Read the *nearest*
+   bearing. Write that number into `ANGLE_OFFSET_DEG` and upload again. The box
+   should now read close to 0 (anything from 357 to 3 is fine).
+2. Move the box to the car's **right** side. It should read near 90. If it
+   reads near 270, set `ANGLE_REVERSED = true` and upload.
+3. Remove the box. If *nearest* still shows a short distance that never moves,
+   the lidar is seeing part of your car. Raise `D_MIN_MM` until it goes away.
+4. Measure your car's width and set `CAR_WIDTH_MM`.
 
-<div class="worksheet" data-worksheet="lab07-front" markdown>
-
-| `ANGLE_OFFSET_DEG` | `ANGLE_REVERSED` | Box in front reads | Box on the right reads | `D_MIN_MM` |
-| --- | --- | --- | --- | --- |
-| `______` | `______` | `______` | `______` | `______` |
-
-</div>
-
-## Part C · Check the distance
-
-The lidar measures from the **centre of its head**, not from the front of the
-car. Measure $d_0$, the distance from the lidar centre to the car's front edge.
-Then place the box straight ahead and compare the lidar with the tape, both
-measured from the lidar centre. Expect errors of 1–2 cm or less.
-
-<div class="worksheet" data-worksheet="lab07-distance" markdown>
-
-| Tape distance (cm) | Lidar reading (mm) | Error (mm) |
-| --- | --- | --- |
-| 30 | `____` | `____` |
-| 50 | `____` | `____` |
-| 100 | `____` | `____` |
-| under 15 | `____` | — |
-| $d_0$ | `____` | — |
-
-</div>
-
-## Part D · Sectors
-
-One point is not a safe basis for a decision. Write
-`sectorMin(centerDeg, halfWidthDeg)`: the smallest **non-zero** `scan[]` value
-between `centerDeg − halfWidthDeg` and `centerDeg + halfWidthDeg`, or 0 if the
-sector has no valid reading.
-
-!!! warning "The front sector crosses 359 → 0"
-    A sector centred on 0 with half-width 15 covers 345…359 and 0…15. Wrap every
-    index into 0…359.
-
-Use three sectors: **front** centred on 0°, **right** on 45° and **left** on
-315°, the sides with a half-width of 30°. Choose the front half-width so that
-anything inside it would be hit:
-
-$$ \alpha = \arctan\!\left(\frac{W/2 + m}{D}\right) $$
-
-W is the car's width, m a side margin, and D the distance at which you want to
-react. Example: W = 20 cm, m = 5 cm, D = 40 cm gives α ≈ 21°.
-
-Print the three values on your once-per-second line and test:
-
-<div class="worksheet" data-worksheet="lab07-sectors" markdown>
-
-| Box position | Front (mm) | Right (mm) | Left (mm) |
-| --- | --- | --- | --- |
-| No box | `____` | `____` | `____` |
-| 40 cm straight ahead | `____` | `____` | `____` |
-| 40 cm ahead, shifted right | `____` | `____` | `____` |
-| 40 cm ahead, shifted left | `____` | `____` | `____` |
-
-</div>
-
-## Part E · Decide
-
-Write the decision from this outline. No code is provided.
+The sketch checks a **lane** as wide as your car plus a margin, straight ahead
+and 45° to each side. *ahead*, *left* and *right* are the distances to the
+nearest thing in each lane.
 
 ```text
-EVERY FULL TURN
-    IF front is beyond D_avoid:                        candidate = CLEAR
-    ELSE IF left and right are both closer than D_side: candidate = BLOCKED
-    ELSE IF left has more room than right:              candidate = AVOID LEFT
-    ELSE:                                               candidate = AVOID RIGHT
-
-    IF candidate has been the same for N turns in a row:
-        decision = candidate
+          left lane      ahead lane      right lane
+              \           |      |           /
+               \          |      |          /
+                \         | car  |         /
 ```
 
-Decide and record:
+5. Place the box at each position below and record what the sketch says.
 
-- **What a 0 means.** Open space, or a surface the lidar cannot see?
-- **N.** One sample is now a full turn. How long do N turns take, and how far
-  does the car travel in that time?
-- **$D_{avoid}$.** It is measured from the lidar, so it includes $d_0$.
+<div class="worksheet" data-worksheet="lab07-lanes" markdown>
 
-<div class="worksheet" data-worksheet="lab07-decision-params" markdown>
-
-| α (front half-width) | $D_{avoid}$ | $D_{side}$ | N | A reading of 0 is treated as |
-| --- | --- | --- | --- | --- |
-| `____ °` | `____ mm` | `____ mm` | `____` | `____` |
+| Box position | ahead (mm) | left (mm) | right (mm) | The car would… | Expected |
+| --- | --- | --- | --- | --- | --- |
+| No box | | | | | CLEAR |
+| 40 cm ahead, mostly on the right | | | | | AVOID LEFT |
+| 40 cm ahead, mostly on the left | | | | | AVOID RIGHT |
+| 40 cm ahead, boxes beside the car on both sides | | | | | BLOCKED |
 
 </div>
 
-Keep the car still, place the box, and record the decision:
+<div class="worksheet" data-worksheet="lab07-values" markdown>
 
-<div class="worksheet" data-worksheet="lab07-tests" markdown>
-
-| Test | Layout | Expected | Decision |
+| `ANGLE_OFFSET_DEG` | `ANGLE_REVERSED` | `D_MIN_MM` | `CAR_WIDTH_MM` |
 | --- | --- | --- | --- |
-| 1 | Nothing within 1 m | CLEAR | |
-| 2 | Box ahead, more room on the left | AVOID LEFT | |
-| 3 | Box ahead, more room on the right | AVOID RIGHT | |
-| 4 | Box ahead, boxes on both sides | BLOCKED | |
-| 5 | Hand waved once through the front sector | No change | |
+| `______` | `______` | `______` | `______` |
 
 </div>
 
-## Part F · On the car, if time allows
+## Step 4 · Drive
 
-Put the lidar into your Lab 6 sketch, on the same ESP32:
+### What the car does
 
-1. Make a copy of your Lab 6 sketch.
-2. Paste in sections 1 and 2 of the starter (settings and lidar driver), your
-   `sectorMin()` and your decision code.
-3. Paste the lidar lines of the starter's `setup()` into your `setup()`.
-4. Call `lidarPoll()` on **every** pass of `loop()`.
-5. Delete the TF-Luna code. Where your avoidance used the TF-Luna distance and
-   the turn-left / turn-right scan, use the decision instead: anything other
-   than CLEAR starts avoidance, the decision gives the side, and BLOCKED stops
-   the car.
-6. Keep every stop rule from Lab 6.
+1. You press **START**. The car stays still for 1 second while it calibrates
+   the gyro.
+2. It drives forward and holds its heading with the gyro, as in Lab 4.
+3. When something is in the *ahead* lane closer than `D_AVOID_MM` for two
+   lidar turns in a row, it turns 45° away from it and keeps driving.
+4. When the lidar shows that the original direction is clear again, it turns
+   back and carries on. It ends up parallel to where it started, a little to
+   one side.
+5. If there is no way through, it stops and waits (**BLOCKED**). It drives on
+   by itself when the path clears.
+6. It stops by itself after 20 seconds.
 
-!!! warning "Every wait must keep reading the lidar"
-    A `delay()` or a `while` loop that waits for a turn to finish stops
-    `lidarPoll()`, and the scan goes stale. Call `lidarPoll()` inside every
-    waiting loop.
+**START and STOP:** press the **BOOT** button on the ESP32, or send `g` (go)
+and `s` (stop) in the Serial Monitor.
+
+### Set up
+
+1. Open `ME222_Lab7_2_Drive.ino`. In **section 1**, copy in your four values
+   from Step 3.
+2. Check the motor pins and polarity match your Lab 3 car (left 25/26, right
+   27/14 by default).
+3. Upload.
+
+### Test with the wheels raised
+
+Put the car on a stand so the wheels are off the table.
+
+1. Press **BOOT**. After 1 second, all four wheels turn **forward**. If a side
+   turns backward, set that side's polarity to `-1`.
+2. Turn the car gently to the left by hand. The left wheels should speed up
+   and the right wheels slow down. If it is the other way round, set
+   `YAW_SIGN = -1.0f`.
+3. Hold the box 40 cm in front of the lidar. The wheels should switch to
+   turning on the spot. On the stand the car cannot actually turn, so after
+   4 seconds it stops with *turn took too long*. That is expected.
+4. Press **BOOT** to stop, or to start again.
+
+### Test on the floor
+
+Unplug the USB cable. The car runs from its battery.
+
+1. **No obstacle.** Press BOOT and let the car drive. It should go straight.
+2. **One box** about 1.5 m ahead. Run it three times with the box in
+   different places, and record the results.
+
+<div class="worksheet" data-worksheet="lab07-runs" markdown>
+
+| Run | Box position | Side the car chose | Touched the box? | Back to straight? |
+| --- | --- | --- | --- | --- |
+| 1 | Centre | | | |
+| 2 | Mostly right | | | |
+| 3 | Mostly left | | | |
+
+</div>
+
+### Tune
+
+Change one value at a time in **section 2**, then upload again.
+
+| If the car… | Change |
+| --- | --- |
+| Turns too late or brushes the box | Raise `D_AVOID_MM` |
+| Clips the box while passing it | Raise `SIDE_MARGIN_MM` |
+| Turns back toward the box too early | Raise `SIDE_MARGIN_MM` |
+| Swings left and right while driving straight | Lower `KH` |
+| Does not turn on the spot, or turns slowly | Raise `P_TURN` |
+| Is hard to follow | Lower `P_DRIVE` |
+
+<div class="worksheet" data-worksheet="lab07-tuning" markdown>
+
+| `P_DRIVE` | `P_TURN` | `D_AVOID_MM` | `D_STOP_MM` | `SIDE_MARGIN_MM` | `KH` |
+| --- | --- | --- | --- | --- | --- |
+| `______` | `______` | `______` | `______` | `______` | `______` |
+
+</div>
+
+## Step 5 · Start it from ThingsBoard
+
+The same program, now connected to the ThingsBoard server on the Raspberry Pi,
+as in Lab 6.
+
+1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1 and 2** from
+   your tuned drive sketch.
+2. Fill in the Wi-Fi password, the Raspberry Pi IP (both given in the lab) and
+   your Lab 6 device token.
+3. Upload. The Serial Monitor should show `ThingsBoard connected`.
+4. On your laptop, open your Lab 6 dashboard. Add cards for these keys:
+
+| Key | Shows | Unit |
+| --- | --- | --- |
+| `state` | READY, CALIBRATING, DRIVING, TURNING, BLOCKED, FINISHED, STOPPED | — |
+| `reason` | Why the state last changed | — |
+| `ahead`, `left`, `right` | Distance in each lane (300 = nothing seen) | cm |
+| `heading` | Heading since START | ° |
+
+5. Your Lab 6 **START MISSION** and **STOP** buttons work unchanged: they set
+   `command` to `START` or `STOP`.
+6. Press **START** on the laptop. The car calibrates for 1 second, then
+   drives. Press **STOP** to stop it. The BOOT button still works too.
+
+!!! warning "No link, no driving"
+    If the car loses Wi-Fi or ThingsBoard during a run, it stops, because
+    STOP could no longer reach it. It cannot start without the link either.
 
 ## Questions
 
-1. Neighbouring points are about 1° apart. How wide is the gap between them on
-   a wall 2 m away?
-2. The lidar scans in one horizontal plane. Name two obstacles it would miss.
-3. Compare the reaction time of your Lab 5 confirmation with today's. What does
-   the slower one give you in return?
+1. The car waits for two full lidar turns before it turns. What would go
+   wrong with one? With ten?
+2. The lidar scans one flat plane at its own height. Name an obstacle it would
+   miss.
+3. Why must the car stop when the ThingsBoard link drops, instead of carrying
+   on?
 
-**Deliverable:** the completed tables and your sketch.
+**Deliverable:** the completed tables and a run started from the ThingsBoard
+dashboard.
 
 ## Troubleshooting
 
@@ -253,19 +260,41 @@ Put the lidar into your Lab 6 sketch, on the same ESP32:
     Head spinning: the TX and RX wires are probably swapped. Lidar TX goes to
     GPIO 16, lidar RX to GPIO 17.
 
-??? failure "*sync errors* keeps climbing"
-    Bytes are being lost. Look for a `delay()` or a long print in your code.
+??? failure "`NO IMU`, or the car will not start"
+    The IMU is not answering on SDA 21 / SCL 22. Check its wires. The drive
+    sketches will not start without it.
+
+??? failure "The car keeps saying *car moved: calibrating again*"
+    Keep the car completely still for the first second after START.
+
+??? failure "The car stops with *no lidar data*"
+    The lidar stopped sending. Check its wiring and that the battery is on.
 
 ??? failure "The nearest point never moves and is very close"
-    The lidar sees part of the car. Raise `D_MIN_MM` or move the wire.
+    The lidar sees part of the car. Raise `D_MIN_MM`, or move the wire or part.
 
-??? failure "A sector reads 0 although something is there"
-    Black, glossy or transparent surfaces return little light, and anything
-    closer than about 15 cm is in the blind zone.
+??? failure "The car does not see the box"
+    Black, shiny or see-through objects return little light. Anything lower
+    than the lidar head is not seen at all. Use a matte, light box that is
+    taller than the lidar.
 
-## Starter code
+??? failure "`ThingsBoard connect failed`"
+    `rc=5` means a wrong token. `rc=-2` means the ESP32 cannot reach the Pi:
+    check the Wi-Fi password and the Pi IP.
 
-??? example "ME222_Lab7_RPLidar_Starter.ino"
+## Code
+
+??? example "ME222_Lab7_1_LidarTest.ino"
     ```cpp
-    --8<-- "docs/labs/lab07/ME222_Lab7_RPLidar_Starter.ino"
+    --8<-- "docs/labs/lab07/ME222_Lab7_1_LidarTest.ino"
+    ```
+
+??? example "ME222_Lab7_2_Drive.ino"
+    ```cpp
+    --8<-- "docs/labs/lab07/ME222_Lab7_2_Drive.ino"
+    ```
+
+??? example "ME222_Lab7_3_Drive_ThingsBoard.ino"
+    ```cpp
+    --8<-- "docs/labs/lab07/ME222_Lab7_3_Drive_ThingsBoard.ino"
     ```
