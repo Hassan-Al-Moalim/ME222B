@@ -29,11 +29,6 @@ your car's values, test, and tune.
 | 5 | [`ME222_Lab7_3_Drive_ThingsBoard.ino`](lab07/ME222_Lab7_3_Drive_ThingsBoard.ino) | Same, started and watched from ThingsBoard. |
 | 6 (extra) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
 
-**Before the lab:** in the Arduino IDE Library Manager, install
-**PubSubClient** by Nick O'Leary (needed in Step 5). Have your Lab 6
-`ME222_Car_#` device token ready. For Step 6, have Python on your laptop
-and run `pip install numpy matplotlib`.
-
 **Bring:** the car with a charged battery, USB cable, a tape measure, and a
 matte, light-coloured box at least 20 cm wide.
 
@@ -225,7 +220,8 @@ Change one value at a time in **section 2**, then upload again.
 The same program, now connected to the ThingsBoard server on the Raspberry Pi,
 as in Lab 6.
 
-1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1, 2 and 6**
+1. In the Library Manager, install **PubSubClient** by Nick O'Leary. Open
+   `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1, 2 and 6**
    from your drive sketch.
 2. Fill in the Wi-Fi password, the Raspberry Pi IP (both given in the lab) and
    your Lab 6 device token.
@@ -257,8 +253,8 @@ have it, watch the TA's demo.
 1. In your Step 5 sketch, paste the **SLAM add-on** (in *Code* below) above
    section 9, and add `slamSend();` after `processScan();` in `loop()`.
 2. Put your laptop's IP in `LAPTOP_IP` (Windows: `ipconfig`). Upload.
-3. Download [`lab7_slam.py`](lab07/lab7_slam.py) and run
-   `python lab7_slam.py`. Allow it through the Windows firewall if asked.
+3. Run `pip install numpy matplotlib`, download
+   [`lab7_slam.py`](lab07/lab7_slam.py) and run `python lab7_slam.py`. Allow it through the Windows firewall if asked.
 4. Press START and watch the map build.
 
 ![SLAM map from the car simulation](lab07/slam_example.png){ width="560" }
