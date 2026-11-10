@@ -1,0 +1,107 @@
+<svg class="dia dia--wide ftg" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Follow the Gap in three pictures and a plot. 1: the lidar sees two road walls and a box ahead on the right. 2: every obstacle is made wider by half the car width, so the car can be treated as a point. 3: the widest open gap left over is on the left of the box; the car steers to its middle, 27 degrees left. The plot shows distance against bearing before and after widening, the open line, the widest gap and the target.">
+<title>Follow the Gap</title>
+<style>
+.ftg .fg{fill:var(--md-default-fg-color)} .ftg .mut{fill:var(--md-default-fg-color--light)}
+.ftg .hd{font-size:15px;font-weight:700} .ftg .sm{font-size:12px} .ftg .lb{font-size:13px;font-weight:700}
+.ftg .wall{fill:var(--md-default-fg-color--light)} .ftg .box{fill:#e0a030;stroke:#a06a10;stroke-width:1.5}
+.ftg .grow{fill:#e0a030;fill-opacity:.25;stroke:#e0a030;stroke-dasharray:4 3}
+.ftg .growW{fill:var(--md-default-fg-color--light);fill-opacity:.25}
+.ftg .pt{fill:#c62828} .ftg .car{fill:var(--md-default-bg-color);stroke:var(--md-default-fg-color);stroke-width:2}
+.ftg .lid{fill:var(--md-typeset-a-color)} .ftg .open{fill:var(--md-default-fg-color--lighter);fill-opacity:.35}
+.ftg .gap{fill:var(--md-typeset-a-color);fill-opacity:.3} .ftg .arr{stroke:var(--md-typeset-a-color);stroke-width:3;fill:none}
+.ftg .ax{stroke:var(--md-default-fg-color--light);stroke-width:1} .ftg .rawl{fill:none;stroke:#c62828;stroke-width:1.5}
+.ftg .widf{fill:var(--md-default-fg-color--lighter);fill-opacity:.5;stroke:var(--md-default-fg-color);stroke-width:1.5}
+.ftg .openl{stroke:var(--md-typeset-a-color);stroke-width:1.5;stroke-dasharray:6 4}
+.ftg .ah{fill:var(--md-typeset-a-color)}
+</style>
+<defs><marker id="ftg-ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<text class="fg hd" x="150" y="26" text-anchor="middle">1. What the lidar sees</text>
+<text class="fg hd" x="450" y="26" text-anchor="middle">2. Make obstacles wider</text>
+<text class="fg hd" x="750" y="26" text-anchor="middle">3. Steer to the widest gap</text>
+<rect class="wall" x="87.6" y="88.5" width="3.9" height="240.5"/>
+<rect class="wall" x="208.5" y="88.5" width="3.9" height="240.5"/>
+<rect class="box" x="150.0" y="218.5" width="39.0" height="16.9"/>
+<circle class="pt" cx="91.5" cy="290.0" r="2.6"/>
+<circle class="pt" cx="91.5" cy="285.9" r="2.6"/>
+<circle class="pt" cx="91.5" cy="281.8" r="2.6"/>
+<circle class="pt" cx="91.5" cy="277.6" r="2.6"/>
+<circle class="pt" cx="91.5" cy="273.2" r="2.6"/>
+<circle class="pt" cx="91.5" cy="268.7" r="2.6"/>
+<circle class="pt" cx="91.5" cy="264.0" r="2.6"/>
+<circle class="pt" cx="91.5" cy="258.9" r="2.6"/>
+<circle class="pt" cx="91.5" cy="253.4" r="2.6"/>
+<circle class="pt" cx="91.5" cy="247.5" r="2.6"/>
+<circle class="pt" cx="91.5" cy="240.9" r="2.6"/>
+<circle class="pt" cx="91.5" cy="233.5" r="2.6"/>
+<circle class="pt" cx="91.5" cy="225.0" r="2.6"/>
+<circle class="pt" cx="91.5" cy="215.1" r="2.6"/>
+<circle class="pt" cx="91.5" cy="203.3" r="2.6"/>
+<circle class="pt" cx="91.5" cy="188.7" r="2.6"/>
+<circle class="pt" cx="91.5" cy="170.1" r="2.6"/>
+<circle class="pt" cx="91.5" cy="145.2" r="2.6"/>
+<circle class="pt" cx="91.5" cy="110.0" r="2.6"/>
+<circle class="pt" cx="151.9" cy="235.4" r="2.6"/>
+<circle class="pt" cx="155.7" cy="235.4" r="2.6"/>
+<circle class="pt" cx="159.6" cy="235.4" r="2.6"/>
+<circle class="pt" cx="163.6" cy="235.4" r="2.6"/>
+<circle class="pt" cx="167.7" cy="235.4" r="2.6"/>
+<circle class="pt" cx="172.1" cy="235.4" r="2.6"/>
+<circle class="pt" cx="176.6" cy="235.4" r="2.6"/>
+<circle class="pt" cx="181.5" cy="235.4" r="2.6"/>
+<circle class="pt" cx="186.8" cy="235.4" r="2.6"/>
+<circle class="pt" cx="208.5" cy="215.1" r="2.6"/>
+<circle class="pt" cx="208.5" cy="225.0" r="2.6"/>
+<circle class="pt" cx="208.5" cy="233.5" r="2.6"/>
+<circle class="pt" cx="208.5" cy="240.9" r="2.6"/>
+<circle class="pt" cx="208.5" cy="247.5" r="2.6"/>
+<circle class="pt" cx="208.5" cy="253.4" r="2.6"/>
+<circle class="pt" cx="208.5" cy="258.9" r="2.6"/>
+<circle class="pt" cx="208.5" cy="264.0" r="2.6"/>
+<circle class="pt" cx="208.5" cy="268.7" r="2.6"/>
+<circle class="pt" cx="208.5" cy="273.2" r="2.6"/>
+<circle class="pt" cx="208.5" cy="277.6" r="2.6"/>
+<circle class="pt" cx="208.5" cy="281.8" r="2.6"/>
+<circle class="pt" cx="208.5" cy="285.9" r="2.6"/>
+<circle class="pt" cx="208.5" cy="290.0" r="2.6"/>
+<rect class="car" x="137" y="272" width="26" height="36" rx="5"/>
+<circle class="lid" cx="150" cy="290" r="6"/>
+<text class="mut sm" x="150" y="350" text-anchor="middle">red dots: one lidar turn</text>
+<rect class="growW" x="387.6" y="88.5" width="24.7" height="240.5"/>
+<rect class="growW" x="487.7" y="88.5" width="24.7" height="240.5"/>
+<rect class="grow" x="429.2" y="197.7" width="80.6" height="58.5" rx="20.8"/>
+<rect class="wall" x="387.6" y="88.5" width="3.9" height="240.5"/>
+<rect class="wall" x="508.5" y="88.5" width="3.9" height="240.5"/>
+<rect class="box" x="450.0" y="218.5" width="39.0" height="16.9"/>
+<circle class="lid" cx="450" cy="290" r="6"/>
+<text class="mut sm" x="450" y="342" text-anchor="middle">every obstacle grows by half the car width</text>
+<text class="mut sm" x="450" y="358" text-anchor="middle">so the car can be treated as a point</text>
+<path class="open" d="M750,290 L683.9,184.2 A124.80000000000001,124.80000000000001 0 0 1 705.3,173.5 z"/>
+<path class="gap" d="M750,290 L683.9,184.2 A124.80000000000001,124.80000000000001 0 0 1 705.3,173.5 z"/>
+<rect class="wall" x="687.6" y="88.5" width="3.9" height="240.5"/>
+<rect class="wall" x="808.5" y="88.5" width="3.9" height="240.5"/>
+<rect class="box" x="750.0" y="218.5" width="39.0" height="16.9"/>
+<rect class="car" x="737" y="272" width="26" height="36" rx="5"/>
+<circle class="lid" cx="750" cy="290" r="6"/>
+<line class="arr" x1="750" y1="290" x2="681.9" y2="156.3" marker-end="url(#ftg-ah)"/>
+<text class="mut sm" x="750" y="342" text-anchor="middle">purple: the widest gap the car fits through</text>
+<text class="mut sm" x="750" y="358" text-anchor="middle">steer to its middle: 27° left</text>
+<text class="fg hd" x="475.0" y="392" text-anchor="middle">The same thing as numbers: r[k] against bearing</text>
+<path class="widf" d="M90.0,600 L90.0,543.0 94.3,543.0 98.6,543.0 102.8,543.0 107.1,543.0 111.4,543.0 115.7,543.0 119.9,543.0 124.2,543.0 128.5,543.0 132.8,543.0 137.1,543.0 141.3,543.0 145.6,543.0 149.9,543.0 154.2,543.0 158.4,543.0 162.7,543.0 167.0,543.0 171.3,543.0 175.6,543.0 179.8,543.0 184.1,543.0 188.4,542.9 192.7,542.9 196.9,542.8 201.2,542.7 205.5,542.6 209.8,542.4 214.1,542.3 218.3,542.1 222.6,541.9 226.9,541.7 231.2,541.5 235.4,541.3 239.7,540.7 244.0,540.4 248.3,540.1 252.6,539.7 256.8,539.3 261.1,538.9 265.4,538.5 269.7,538.1 273.9,537.1 278.2,536.6 282.5,536.0 286.8,535.4 291.1,534.8 295.3,534.2 299.6,532.8 303.9,532.0 308.2,531.2 312.4,530.4 316.7,529.5 321.0,527.7 325.3,526.7 329.6,525.6 333.8,524.5 338.1,522.1 342.4,520.8 346.7,519.4 350.9,516.4 355.2,514.8 359.5,513.1 363.8,509.4 368.1,507.4 372.3,505.3 376.6,500.6 380.9,498.1 385.2,546.8 389.4,546.8 393.7,546.8 398.0,546.8 402.3,546.8 406.6,546.8 410.8,546.8 415.1,546.8 419.4,546.8 423.7,546.8 427.9,546.8 432.2,546.8 436.5,546.8 440.8,546.8 445.1,546.8 449.3,546.8 453.6,546.8 457.9,546.8 462.2,546.8 466.4,546.8 470.7,546.8 475.0,546.8 479.3,546.8 483.6,546.8 487.8,546.8 492.1,546.8 496.4,546.8 500.7,546.8 504.9,546.8 509.2,546.8 513.5,546.8 517.8,546.8 522.1,546.8 526.3,546.8 530.6,546.8 534.9,546.8 539.2,546.8 543.4,546.8 547.7,546.8 552.0,546.8 556.3,546.8 560.6,546.8 564.8,546.8 569.1,546.8 573.4,546.8 577.7,546.7 581.9,546.7 586.2,546.6 590.5,546.5 594.8,546.4 599.1,546.3 603.3,546.1 607.6,546.0 611.9,545.8 616.2,545.6 620.4,545.4 624.7,545.2 629.0,544.9 633.3,544.7 637.6,544.4 641.8,543.7 646.1,543.4 650.4,543.0 654.7,542.6 658.9,542.2 663.2,541.8 667.5,541.3 671.8,540.3 676.1,539.7 680.3,539.2 684.6,538.6 688.9,538.9 693.2,539.3 697.4,539.7 701.7,540.1 706.0,540.4 710.3,540.7 714.6,541.3 718.8,541.5 723.1,541.7 727.4,541.9 731.7,542.1 735.9,542.3 740.2,542.4 744.5,542.6 748.8,542.7 753.1,542.8 757.3,542.9 761.6,542.9 765.9,543.0 770.2,543.0 774.4,543.0 778.7,543.0 783.0,543.0 787.3,543.0 791.6,543.0 795.8,543.0 800.1,543.0 804.4,543.0 808.7,543.0 812.9,543.0 817.2,543.0 821.5,543.0 825.8,543.0 830.1,543.0 834.3,543.0 838.6,543.0 842.9,543.0 847.2,543.0 851.4,543.0 855.7,543.0 860.0,543.0 L860.0,600 z"/>
+<rect class="gap" x="338.1" y="410" width="42.8" height="190"/>
+<polyline class="rawl" points="90.0,543.0 94.3,543.0 98.6,543.0 102.8,542.9 107.1,542.9 111.4,542.8 115.7,542.7 119.9,542.6 124.2,542.4 128.5,542.3 132.8,542.1 137.1,541.9 141.3,541.7 145.6,541.5 149.9,541.3 154.2,541.0 158.4,540.7 162.7,540.4 167.0,540.1 171.3,539.7 175.6,539.3 179.8,538.9 184.1,538.5 188.4,538.1 192.7,537.6 196.9,537.1 201.2,536.6 205.5,536.0 209.8,535.4 214.1,534.8 218.3,534.2 222.6,533.5 226.9,532.8 231.2,532.0 235.4,531.2 239.7,530.4 244.0,529.5 248.3,528.6 252.6,527.7 256.8,526.7 261.1,525.6 265.4,524.5 269.7,523.3 273.9,522.1 278.2,520.8 282.5,519.4 286.8,517.9 291.1,516.4 295.3,514.8 299.6,513.1 303.9,511.3 308.2,509.4 312.4,507.4 316.7,505.3 321.0,503.0 325.3,500.6 329.6,498.1 333.8,495.3 338.1,492.4 342.4,489.3 346.7,486.0 350.9,482.4 355.2,478.6 359.5,474.4 363.8,470.0 368.1,465.1 372.3,459.9 376.6,454.1 380.9,447.8 385.2,440.9 389.4,433.3 393.7,424.9 398.0,415.5 402.3,410.0 406.6,410.0 410.8,410.0 415.1,410.0 419.4,410.0 423.7,410.0 427.9,410.0 432.2,410.0 436.5,410.0 440.8,410.0 445.1,410.0 449.3,410.0 453.6,410.0 457.9,410.0 462.2,410.0 466.4,410.0 470.7,410.0 475.0,546.8 479.3,546.8 483.6,546.8 487.8,546.7 492.1,546.7 496.4,546.6 500.7,546.5 504.9,546.4 509.2,546.3 513.5,546.1 517.8,546.0 522.1,545.8 526.3,545.6 530.6,545.4 534.9,545.2 539.2,544.9 543.4,544.7 547.7,544.4 552.0,544.1 556.3,543.7 560.6,543.4 564.8,543.0 569.1,542.6 573.4,542.2 577.7,541.8 581.9,541.3 586.2,540.8 590.5,540.3 594.8,539.7 599.1,539.2 603.3,538.6 607.6,537.9 611.9,537.3 616.2,536.6 620.4,535.8 624.7,535.1 629.0,503.0 633.3,505.3 637.6,507.4 641.8,509.4 646.1,511.3 650.4,513.1 654.7,514.8 658.9,516.4 663.2,517.9 667.5,519.4 671.8,520.8 676.1,522.1 680.3,523.3 684.6,524.5 688.9,525.6 693.2,526.7 697.4,527.7 701.7,528.6 706.0,529.5 710.3,530.4 714.6,531.2 718.8,532.0 723.1,532.8 727.4,533.5 731.7,534.2 735.9,534.8 740.2,535.4 744.5,536.0 748.8,536.6 753.1,537.1 757.3,537.6 761.6,538.1 765.9,538.5 770.2,538.9 774.4,539.3 778.7,539.7 783.0,540.1 787.3,540.4 791.6,540.7 795.8,541.0 800.1,541.3 804.4,541.5 808.7,541.7 812.9,541.9 817.2,542.1 821.5,542.3 825.8,542.4 830.1,542.6 834.3,542.7 838.6,542.8 842.9,542.9 847.2,542.9 851.4,543.0 855.7,543.0 860.0,543.0"/>
+<line class="openl" x1="90" y1="524.0" x2="860" y2="524.0"/>
+<line class="ax" x1="90" y1="600" x2="860" y2="600"/><line class="ax" x1="90" y1="600" x2="90" y2="410"/>
+<text class="mut sm" x="90.0" y="616" text-anchor="middle">-90°</text>
+<text class="mut sm" x="282.5" y="616" text-anchor="middle">-45°</text>
+<text class="mut sm" x="475.0" y="616" text-anchor="middle">0° ahead</text>
+<text class="mut sm" x="667.5" y="616" text-anchor="middle">+45°</text>
+<text class="mut sm" x="860.0" y="616" text-anchor="middle">+90°</text>
+<text class="mut sm" x="82" y="414.0" text-anchor="end">1.5 m</text>
+<text class="mut sm" x="82" y="528.0" text-anchor="end">OPEN</text>
+<text class="mut sm" x="82" y="604" text-anchor="end">0</text>
+<text class="mut sm" x="90" y="632">left</text><text class="mut sm" x="860" y="632" text-anchor="end">right</text>
+<line class="arr" x1="359.5" y1="408" x2="359.5" y2="450" marker-end="url(#ftg-ah)"/>
+<rect x="640" y="416" width="14" height="3" fill="#c62828"/><text class="mut sm" x="660" y="422">raw distance</text>
+<rect class="widf" x="640" y="430" width="14" height="10"/><text class="mut sm" x="660" y="440">after widening (TODO 1)</text>
+<rect class="gap" x="640" y="448" width="14" height="10"/><text class="mut sm" x="660" y="458">widest gap (TODO 2), arrow: target (TODO 3)</text>
+</svg>

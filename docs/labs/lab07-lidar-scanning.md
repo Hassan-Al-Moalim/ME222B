@@ -12,14 +12,14 @@ title: Lab 7 — Driving with the LiDAR
 
 **Goal:** mount the RPLiDAR on your car, check what it sees, then let the car
 drive by itself and steer around obstacles. Then start and stop it from
-the ThingsBoard dashboard on your laptop. If you have time, build a map of
-the room on your laptop as the car drives (Step 6).
+the ThingsBoard dashboard on your laptop. If you have time, write your own
+Follow the Gap driving (Step 6) or watch the car map the room (Step 7).
 
 The lidar spins and measures distance all around the car, about 6 times a
 second. In Lab 5 the car had to stop and turn to look left and right. Now it
 sees both sides at once.
 
-**You do not write the code from scratch.** You get three sketches. You set
+**You do not write the code from scratch.** You get the sketches. You set
 your car's values, test, and tune.
 
 | Step | Sketch | What it does |
@@ -27,7 +27,8 @@ your car's values, test, and tune.
 | 2–3 | [`ME222_Lab7_1_LidarTest.ino`](lab07/ME222_Lab7_1_LidarTest.ino) | Shows what the lidar sees. The car does not move. |
 | 4 | [`ME222_Lab7_2_Drive.ino`](lab07/ME222_Lab7_2_Drive.ino) | The car drives and avoids obstacles. |
 | 5 | [`ME222_Lab7_3_Drive_ThingsBoard.ino`](lab07/ME222_Lab7_3_Drive_ThingsBoard.ino) | Same, started and watched from ThingsBoard. |
-| 6 (extra) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
+| 6 (extra) | [`ME222_Lab7_4_FollowTheGap.ino`](lab07/ME222_Lab7_4_FollowTheGap.ino) | Follow the Gap: you write three small parts. |
+| 7 (extra) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
 
 **Bring:** the car with a charged battery, USB cable, a tape measure, and a
 matte, light-coloured box at least 20 cm wide.
@@ -243,7 +244,50 @@ as in Lab 6.
     If the car loses Wi-Fi or ThingsBoard during a run, it stops, because
     STOP could no longer reach it. It cannot start without the link either.
 
-## Step 6 (extra) · See the lidar make a map
+## Step 6 (extra) · Follow the Gap
+
+For teams who want a challenge. The drive sketch looks in only three
+directions. **Follow the Gap** uses the whole scan: it finds where the car
+fits and steers there. With that one rule the car stays in the middle of a
+road, takes an open side road and steers round boxes. Racing teams use it
+(F1TENTH).
+
+{{ svg assets/lab07-follow-the-gap.svg }}
+
+Every lidar turn the sketch does four things:
+
+1. **Read** the distances from 90° left to 90° right into `r[0]` to `r[180]`.
+   `r[90]` is straight ahead. Anything farther than `MAX_RANGE_MM` counts as
+   open. *Given.*
+2. **Widen every obstacle** by `h` = half the car's width + `SAFETY_MM`.
+   A point at distance `d` then covers an angle `a = atan(h / d)` on each side
+   of it. After this the car can be treated as a point: any direction still
+   open is one the car fits through. *TODO 1.*
+3. **Find the widest gap**: the longest run of directions next to each other
+   with `r[k] >= OPEN_MM`. *TODO 2.*
+4. **Steer** to the middle of that gap: `steer = K_STEER × target`, where
+   `target` is the gap's bearing (+ right, − left). *TODO 3.*
+
+**Do it**
+
+1. Open [`ME222_Lab7_4_FollowTheGap.ino`](lab07/ME222_Lab7_4_FollowTheGap.ino).
+   Copy in sections 1 and 6 from your drive sketch.
+2. Upload it as it is. It runs before you do the TODOs: the car just drives
+   straight.
+3. Do the TODOs one at a time, in order. After each, watch the Serial Monitor
+   with the car still: it prints the gap and the target. Move a box around
+   and check they make sense before you let the car drive.
+4. It works when the car drives down a road without touching the sides,
+   turns into an open side road, and steers round a box.
+
+| If the car… | Change |
+| --- | --- |
+| Weaves left and right | Lower `K_STEER` |
+| Reacts too late to corners or boxes | Raise `OPEN_MM` |
+| Will not go into a narrow road | Lower `SAFETY_MM` |
+| Clips corners | Raise `SAFETY_MM` |
+
+## Step 7 (extra) · See the lidar make a map
 
 Nothing to hand in. Your laptop draws a map of the room and the car's path
 while the car drives (**SLAM**). It needs Python on the laptop; if you do not
@@ -321,6 +365,11 @@ dashboard.
 ??? example "ME222_Lab7_3_Drive_ThingsBoard.ino"
     ```cpp
     --8<-- "docs/labs/lab07/ME222_Lab7_3_Drive_ThingsBoard.ino"
+    ```
+
+??? example "ME222_Lab7_4_FollowTheGap.ino"
+    ```cpp
+    --8<-- "docs/labs/lab07/ME222_Lab7_4_FollowTheGap.ino"
     ```
 
 ??? example "SLAM add-on (paste into the Step 5 sketch)"
