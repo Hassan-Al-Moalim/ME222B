@@ -24,30 +24,34 @@ box at least 20 cm wide, and a tape measure.
 
 ## Connections
 
-The lidar plugs into the **RPLIDAR** connector on the bottom edge of the
-[carrier board](../resources/pcb.md) with its 7-pin cable. It is powered from
-the board's 5 V rail, so the battery must be switched on. Leave the TF-Luna and
-the IMU connected; the lidar has its own connector and its own serial port.
+Your car keeps its one ESP32 and its Lab 6 wiring. Battery **off** while you
+wire.
+
+**1. Take out the TF-Luna.** Unplug it and put it aside. The lidar replaces it
+as the obstacle sensor. Leave the motors, encoders and IMU as they are.
+
+**2. Wire the lidar** to the ESP32:
+
+| Lidar wire | Connect to |
+| --- | --- |
+| TX | ESP32 **GPIO 16** |
+| RX | ESP32 **GPIO 17** |
+| MOTOCTL | ESP32 **GPIO 4** |
+| VCC_5 | 5 V (the 5 V the TF-Luna used) |
+| 5V_MOTO | 5 V |
+| GND | GND |
+| GND_MOTO | GND |
+
+These three pins are already set in the starter, so you do not change any
+code to connect. If your encoders already use GPIO 4, 16 or 17, tell a TA
+before you rewire.
+
+!!! danger "5 V only"
+    Both lidar supply wires go to 5 V. Never connect them to the ESP32's 3.3 V
+    pin.
 
 !!! warning "Handling"
-    Plug and unplug the cable only with the battery **off**. Do not hold or stop
-    the spinning head, and keep wires clear of it.
-
-Three signals go to the ESP32. Their GPIO numbers are given in the lab.
-
-<div class="worksheet" data-worksheet="lab07-pins" markdown>
-
-| Board net | What it carries | Sketch constant | ESP32 GPIO |
-| --- | --- | --- | --- |
-| `RPL_TX` | Data out of the lidar | `LIDAR_RX_PIN` | `______` |
-| `RPL_RX` | Commands into the lidar | `LIDAR_TX_PIN` | `______` |
-| `RPL_PWM` | Motor on / speed | `LIDAR_PWM_PIN` | `______` |
-
-</div>
-
-The board names are from the lidar's side: `RPL_TX` goes to the ESP32's
-**receive** pin. If the lidar never answers, swap the two pin numbers in the
-sketch.
+    Do not hold or stop the spinning head, and keep wires clear of it.
 
 ## Starter file
 
@@ -72,7 +76,7 @@ is positive.
 
 ## Part A · Bring-up
 
-1. Battery off. Plug in the lidar. Set the three pin constants and upload.
+1. Upload the starter.
 2. Battery on. The head should start spinning within two seconds.
 3. Open the Serial Monitor at **115200** baud:
 
@@ -214,25 +218,23 @@ Keep the car still, place the box, and record the decision:
 
 ## Part F · On the car, if time allows
 
-Replace the turn-and-scan step of your Lab 5 and Lab 6 avoidance with the lidar
-decision. The obstacle trigger becomes *decision ≠ CLEAR*, the side comes from
-the decision, and BLOCKED stops the car. Keep every stop rule from Lab 6.
+Put the lidar into your Lab 6 sketch, on the same ESP32:
 
-**One ESP32.** The lidar uses the second serial port, so it runs beside the
-motors, IMU and Wi-Fi. It needs three GPIOs that nothing else uses; with the
-Lab 3 and Lab 4 wiring, 16 (data in), 17 (commands out) and 4 (motor) are free.
-Copy the starter's settings and lidar driver into a copy of your Lab 6 sketch,
-call `lidarPoll()` on **every** pass of `loop()`, and let the state machine read
-the decision from a global variable.
+1. Make a copy of your Lab 6 sketch.
+2. Paste in sections 1 and 2 of the starter (settings and lidar driver), your
+   `sectorMin()` and your decision code.
+3. Paste the lidar lines of the starter's `setup()` into your `setup()`.
+4. Call `lidarPoll()` on **every** pass of `loop()`.
+5. Delete the TF-Luna code. Where your avoidance used the TF-Luna distance and
+   the turn-left / turn-right scan, use the decision instead: anything other
+   than CLEAR starts avoidance, the decision gives the side, and BLOCKED stops
+   the car.
+6. Keep every stop rule from Lab 6.
 
 !!! warning "Every wait must keep reading the lidar"
     A `delay()` or a `while` loop that waits for a turn to finish stops
     `lidarPoll()`, and the scan goes stale. Call `lidarPoll()` inside every
-    waiting loop, or wait for one new full turn before trusting the decision.
-
-**Two ESP32s.** The lidar ESP32 decides and the motion ESP32 drives. Share the
-decision over two GPIO lines: 00 CLEAR, 01 AVOID LEFT, 10 AVOID RIGHT,
-11 BLOCKED.
+    waiting loop.
 
 ## Questions
 
@@ -247,9 +249,9 @@ decision over two GPIO lines: 00 CLEAR, 01 AVOID LEFT, 10 AVOID RIGHT,
 ## Troubleshooting
 
 ??? failure "`NO ANSWER from the lidar`"
-    Head not spinning: no 5 V (battery switch, cable) or wrong `LIDAR_PWM_PIN`.
-    Head spinning: swap the RX and TX pin numbers, or the GPIO numbers are
-    wrong.
+    Head not spinning: check the two 5 V wires and the MOTOCTL wire on GPIO 4.
+    Head spinning: the TX and RX wires are probably swapped. Lidar TX goes to
+    GPIO 16, lidar RX to GPIO 17.
 
 ??? failure "*sync errors* keeps climbing"
     Bytes are being lost. Look for a `delay()` or a long print in your code.

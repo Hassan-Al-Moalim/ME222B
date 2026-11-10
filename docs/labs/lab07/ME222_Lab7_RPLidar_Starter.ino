@@ -22,11 +22,10 @@
 
 // ===================== 1. SETTINGS =====================
 
-// The three lidar signals. The GPIO numbers for your board are given in the
-// lab. Write them in the worksheet, then set them here.
-const int LIDAR_RX_PIN  = 16;   // ESP32 input:  wired to the lidar's TX (board net RPL_TX)
-const int LIDAR_TX_PIN  = 17;   // ESP32 output: wired to the lidar's RX (board net RPL_RX)
-const int LIDAR_PWM_PIN = 4;    // ESP32 output: lidar motor control    (board net RPL_PWM)
+// The three lidar signals, as wired in the lab manual. No change needed.
+const int LIDAR_RX_PIN  = 16;   // ESP32 input:  wired to the lidar's TX
+const int LIDAR_TX_PIN  = 17;   // ESP32 output: wired to the lidar's RX
+const int LIDAR_PWM_PIN = 4;    // ESP32 output: wired to the lidar's MOTOCTL
 
 const int LIDAR_MOTOR_DUTY = 255;        // 0 to 255. 255 = full speed
 
@@ -270,7 +269,7 @@ void setup() {
   if (lidarGetInfo(model, fwMajor, fwMinor, hardware)) {
     Serial.printf("lidar model %u, firmware %u.%02u, hardware %u\n", model, fwMajor, fwMinor, hardware);
   } else {
-    Serial.println("NO ANSWER from the lidar. Check 5 V power, the cable, and RX/TX (try swapping the two pin numbers).");
+    Serial.println("NO ANSWER from the lidar. Check the 5 V wires, and that lidar TX goes to GPIO 16 and lidar RX to GPIO 17.");
   }
 
   uint8_t status = 0;
