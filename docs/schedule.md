@@ -16,7 +16,7 @@ hours instead of a lab, so Lab 5 ran on 28 October. Lab 8 is still to be
 scheduled.
 
 !!! warning "Coming up"
-    - **Wednesday 11 November — [Lab 7](labs/lab07-lidar-scanning.md).** RPLiDAR scanning. Read the page and answer the two pre-lab questions before the lab.
+    - **Wednesday 11 November — [Lab 7](labs/lab07-lidar-scanning.md).** RPLiDAR scanning. Read the page before the lab.
 
 ## Semester schedule
 
