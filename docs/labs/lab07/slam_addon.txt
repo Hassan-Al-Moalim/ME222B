@@ -1,0 +1,36 @@
+// ===================== SLAM ADD-ON: send every lidar turn to the laptop =====================
+// For ME222_Lab7_3_Drive_ThingsBoard.ino (it already has Wi-Fi).
+//
+// 1. Paste this whole block just ABOVE section 9 (SETUP AND LOOP).
+// 2. In loop(), change the line
+//        if (scanReady) { scanReady = false; processScan(); }
+//    to
+//        if (scanReady) { scanReady = false; processScan(); slamSend(); }
+// 3. Put your laptop's IP below (Windows: run ipconfig, look for IPv4 Address).
+//    The laptop must be on the same Wi-Fi as the car.
+
+#include <WiFiUdp.h>
+
+const char* LAPTOP_IP = "LAPTOP_IP";    // for example "192.168.0.105"
+const int   SLAM_PORT = 5005;           // same number as in lab7_slam.py
+
+WiFiUDP slamUdp;
+uint32_t slamSeq = 0;
+
+// One packet per lidar turn, 736 bytes:
+//   "L7S1" | turn number (uint32) | heading in degrees (float) | state (byte) | 3 spare bytes
+//   | scan[0..359] in mm (uint16, 0 = no reading)
+void slamSend() {
+  if (WiFi.status() != WL_CONNECTED) return;
+  uint8_t pkt[16 + 720];
+  memcpy(pkt, "L7S1", 4);
+  memcpy(pkt + 4, &slamSeq, 4);
+  memcpy(pkt + 8, &heading, 4);
+  pkt[12] = (uint8_t)state;
+  pkt[13] = pkt[14] = pkt[15] = 0;
+  memcpy(pkt + 16, scan, 720);
+  slamUdp.beginPacket(LAPTOP_IP, SLAM_PORT);
+  slamUdp.write(pkt, sizeof(pkt));
+  slamUdp.endPacket();
+  ++slamSeq;
+}

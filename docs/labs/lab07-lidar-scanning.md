@@ -11,8 +11,9 @@ title: Lab 7 — Driving with the LiDAR
 </div>
 
 **Goal:** mount the RPLiDAR on your car, check what it sees, then let the car
-drive by itself and steer around obstacles. Finally, start and stop it from
-the ThingsBoard dashboard on your laptop.
+drive by itself and steer around obstacles. Then start and stop it from
+the ThingsBoard dashboard on your laptop. If you have time, build a map of
+the room on your laptop as the car drives (Step 6).
 
 The lidar spins and measures distance all around the car, about 6 times a
 second. In Lab 5 the car had to stop and turn to look left and right. Now it
@@ -26,10 +27,12 @@ your car's values, test, and tune.
 | 2–3 | [`ME222_Lab7_1_LidarTest.ino`](lab07/ME222_Lab7_1_LidarTest.ino) | Shows what the lidar sees. The car does not move. |
 | 4 | [`ME222_Lab7_2_Drive.ino`](lab07/ME222_Lab7_2_Drive.ino) | The car drives and avoids obstacles. |
 | 5 | [`ME222_Lab7_3_Drive_ThingsBoard.ino`](lab07/ME222_Lab7_3_Drive_ThingsBoard.ino) | Same, started and watched from ThingsBoard. |
+| 6 (extra) | [`lab7_slam.py`](lab07/lab7_slam.py) + the SLAM add-on | Live map of the room on your laptop. |
 
 **Before the lab:** in the Arduino IDE Library Manager, install
 **PubSubClient** by Nick O'Leary (needed in Step 5). Have your Lab 6
-`ME222_Car_#` device token ready.
+`ME222_Car_#` device token ready. For Step 6, have Python on your laptop
+and run `pip install numpy matplotlib`.
 
 **Bring:** the car with a charged battery, USB cable, a tape measure, and a
 matte, light-coloured box at least 20 cm wide.
@@ -50,17 +53,13 @@ wiring.
 | TX | ESP32 **GPIO 16** |
 | RX | ESP32 **GPIO 17** |
 | MOTOCTL | ESP32 **GPIO 4** |
-| VCC_5 | 5 V (the 5 V the TF-Luna used) |
-| 5V_MOTO | 5 V |
-| GND | GND |
-| GND_MOTO | GND |
+| VCC_5 | ESP32 **5V** pin |
+| 5V_MOTO | ESP32 **5V** pin |
+| GND | ESP32 GND |
+| GND_MOTO | ESP32 GND |
 
-All three sketches already use these pins. If GPIO 4, 16 or 17 is already
+All the sketches already use these pins. If GPIO 4, 16 or 17 is already
 used on your car, tell a TA before you rewire.
-
-!!! danger "5 V only"
-    Both lidar supply wires go to 5 V. Never connect them to the ESP32's 3.3 V
-    pin.
 
 !!! warning "Handling"
     Do not hold or stop the spinning head, and keep wires clear of it.
@@ -87,41 +86,35 @@ hand.
 
 </div>
 
-## Step 3 · Point it forward and check the lane
+## Step 3 · Point it forward and check the lanes
 
-**Bearings** are angles around the car: 0° is straight ahead, 90° is the
-right side, 180° behind, 270° the left side.
+The sketch describes every direction around the car by its **bearing**: the
+angle in degrees, measured clockwise from the front.
 
-1. Put the box 40 cm **straight ahead** of the car. Read the *nearest*
-   bearing. Write that number into `ANGLE_OFFSET_DEG` and upload again. The box
-   should now read close to 0 (anything from 357 to 3 is fine).
-2. Move the box to the car's **right** side. It should read near 90. If it
-   reads near 270, set `ANGLE_REVERSED = true` and upload.
-3. Remove the box. If *nearest* still shows a short distance that never moves,
-   the lidar is seeing part of your car. Raise `D_MIN_MM` until it goes away.
-4. Measure your car's width and set `CAR_WIDTH_MM`.
+{{ svg assets/lab07-bearings.svg }}
 
-The sketch checks a **lane** as wide as your car plus a margin, straight ahead
-and 45° to each side. *ahead*, *left* and *right* are the distances to the
-nearest thing in each lane.
-
-```text
-          left lane      ahead lane      right lane
-              \           |      |           /
-               \          |      |          /
-                \         | car  |         /
-```
-
-5. Place the box at each position below and record what the sketch says.
+1. **Find the front.** Hold your hand 30 cm in front of the car's nose. Read
+   the *nearest* bearing, write that number into `ANGLE_OFFSET_DEG`, and
+   upload again. Your hand in front should now read close to 0 (357 to 3 is
+   fine).
+2. **Check the direction.** Hold your hand at the car's **right** side. It
+   should read near 90. If it reads near 270, set `ANGLE_REVERSED = true` and
+   upload.
+3. **Hide the car.** Take your hand away. If *nearest* still shows a short
+   distance that never moves, the lidar is seeing part of your car. Raise
+   `D_MIN_MM` until it goes away.
+4. **Car width.** Measure your car and set `CAR_WIDTH_MM`.
+5. **Test the lanes.** Put the box 40 cm ahead in each position below and
+   write down what the sketch prints.
 
 <div class="worksheet" data-worksheet="lab07-lanes" markdown>
 
-| Box position | ahead (mm) | left (mm) | right (mm) | The car would… | Expected |
+| Box | ahead (mm) | left (mm) | right (mm) | The car would… | Expected |
 | --- | --- | --- | --- | --- | --- |
-| No box | | | | | CLEAR |
-| 40 cm ahead, mostly on the right | | | | | AVOID LEFT |
-| 40 cm ahead, mostly on the left | | | | | AVOID RIGHT |
-| 40 cm ahead, boxes beside the car on both sides | | | | | BLOCKED |
+| None | | | | | CLEAR |
+| Ahead, sticking out to the right | | | | | AVOID LEFT |
+| Ahead, sticking out to the left | | | | | AVOID RIGHT |
+| Ahead, plus boxes in the left and right lanes | | | | | BLOCKED |
 
 </div>
 
@@ -156,16 +149,49 @@ and `s` (stop) in the Serial Monitor.
 
 1. Open `ME222_Lab7_2_Drive.ino`. In **section 1**, copy in your four values
    from Step 3.
-2. Check the motor pins and polarity match your Lab 3 car (left 25/26, right
-   27/14 by default).
+2. **Motors.** Section 6 of the sketch is the motor code. It is written for
+   the Lab 3 wiring: one PWM and one DIR pin per side (left 25/26, right
+   27/14). If your car is wired differently, **replace the whole of section 6**
+   with the block for your car below, and put in your own pins.
 3. Upload.
+4. **Motor test.** Wheels off the table. Send `t` in the Serial Monitor. The
+   left wheels turn forward for 1 s, then the right wheels, then the car turns
+   left on the spot. Wrong wheel: fix the pins. Wrong direction: set that
+   polarity to `-1` in section 6.
+
+| Your car | Section 6 |
+| --- | --- |
+| PWM + DIR pin per side (Lab 3) | Leave it as it is |
+| One L298N for the whole car (ENA IN1 IN2, IN3 IN4 ENB) | Paste the *one H-bridge* block |
+| Two L298Ns, one per side (Lab 1 wiring) | Paste the *two H-bridges* block |
+| Your own motor code from an earlier lab | Your code, if it keeps the names below |
+
+Whatever is in section 6 must provide `motorsBegin()`, `setMotors(left, right)`
+with speeds from −255 (full reverse) to +255 (full forward), `stopMotors()`,
+and the variables `leftOut` and `rightOut`. Do not use GPIO 0, 4, 16, 17, 21
+or 22 for the motors: they belong to the BOOT button, the lidar and the IMU.
+
+??? example "One H-bridge block (paste over section 6)"
+    ```cpp
+    --8<-- "docs/labs/lab07/motors_one_hbridge.txt"
+    ```
+
+??? example "Two H-bridges block (paste over section 6)"
+    ```cpp
+    --8<-- "docs/labs/lab07/motors_two_hbridges.txt"
+    ```
+
+??? example "PWM + DIR block (what section 6 already is)"
+    ```cpp
+    --8<-- "docs/labs/lab07/motors_pwm_dir.txt"
+    ```
 
 ### Test with the wheels raised
 
 Put the car on a stand so the wheels are off the table.
 
-1. Press **BOOT**. After 1 second, all four wheels turn **forward**. If a side
-   turns backward, set that side's polarity to `-1`.
+1. Press **BOOT**. After 1 second, all four wheels turn **forward**. If a
+   wheel turns backward, set its polarity to `-1` in section 6.
 2. Turn the car gently to the left by hand. The left wheels should speed up
    and the right wheels slow down. If it is the other way round, set
    `YAW_SIGN = -1.0f`.
@@ -218,8 +244,8 @@ Change one value at a time in **section 2**, then upload again.
 The same program, now connected to the ThingsBoard server on the Raspberry Pi,
 as in Lab 6.
 
-1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1 and 2** from
-   your tuned drive sketch.
+1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1 and 2**
+   from your tuned drive sketch, and **section 6** if you replaced it.
 2. Fill in the Wi-Fi password, the Raspberry Pi IP (both given in the lab) and
    your Lab 6 device token.
 3. Upload. The Serial Monitor should show `ThingsBoard connected`.
@@ -241,6 +267,64 @@ as in Lab 6.
     If the car loses Wi-Fi or ThingsBoard during a run, it stops, because
     STOP could no longer reach it. It cannot start without the link either.
 
+## Step 6 (extra) · Map the room from your laptop
+
+**SLAM** (simultaneous localization and mapping) builds a map of the room and
+works out where the car is in that map, both at the same time. The ESP32 is
+too small for this, so the car sends each lidar turn and its gyro heading to
+your laptop over Wi-Fi, and a Python script does the work.
+
+For each lidar turn, the script:
+
+1. guesses the new pose: the old one, turned by what the gyro says;
+2. tries small shifts and turns around that guess, and keeps the one where
+   the new scan lands best on the walls already in the map (**scan matching**);
+3. adds the scan to the map: where a beam ended is a wall, where it passed is
+   free floor.
+
+**On the car**
+
+1. Open your Step 5 sketch. Paste the **SLAM add-on** (in *Code* below) just
+   above section 9.
+2. In `loop()`, add `slamSend();` after `processScan();`, as the add-on says.
+3. Find your laptop's IP: on Windows run `ipconfig` and read *IPv4 Address*.
+   Put it in `LAPTOP_IP`. The laptop must be on the lab Wi-Fi.
+4. Upload.
+
+**On the laptop**
+
+1. Download [`lab7_slam.py`](lab07/lab7_slam.py) and run it:
+
+    ```bash
+    python lab7_slam.py --record run1.bin
+    ```
+
+2. If Windows asks whether Python may use the network, allow it on private
+   networks. Otherwise no packets arrive.
+3. The map window shows walls (black), free floor (white), unseen space
+   (grey), the car (green) and its path (blue). Push the car slowly by hand
+   first, then press START and let it drive.
+4. Press `s` in the map window to save the map as a PNG, `r` to start a new
+   map. Replay a run later with `python lab7_slam.py --replay run1.bin`.
+
+![SLAM map from the car simulation](lab07/slam_example.png){ width="560" }
+
+*A map from a simulated run: a 7 × 4 m room with four boxes. The car turned
+left round the box in the middle.*
+
+!!! tip "Getting a good map"
+    Scan matching needs shapes to lock onto: corners, boxes, table legs. In a
+    long empty corridor it cannot tell how far along it has gone. Drive slowly.
+    While the car turns fast the script trusts the gyro and does not draw.
+
+<div class="worksheet" data-worksheet="lab07-slam" markdown>
+
+| What the map shows well | What came out wrong | Why, do you think? |
+| --- | --- | --- |
+| | | |
+
+</div>
+
 ## Questions
 
 1. The car waits for two full lidar turns before it turns. What would go
@@ -254,6 +338,15 @@ as in Lab 6.
 dashboard.
 
 ## Troubleshooting
+
+??? failure "The motor test turns the wrong wheels, or nothing turns"
+    The pins in section 6 do not match your wiring. With an L298N, check that
+    its GND is connected to the ESP32 GND and that the ENA/ENB jumpers are
+    removed so the ESP32 controls the speed.
+
+??? failure "The SLAM window says *waiting for the car*"
+    Check `LAPTOP_IP`, that the laptop is on the same Wi-Fi as the car, and
+    that the Windows firewall allows Python. The port must be 5005 in both.
 
 ??? failure "`NO ANSWER from the lidar`"
     Head not spinning: check the two 5 V wires and the MOTOCTL wire on GPIO 4.
@@ -297,4 +390,14 @@ dashboard.
 ??? example "ME222_Lab7_3_Drive_ThingsBoard.ino"
     ```cpp
     --8<-- "docs/labs/lab07/ME222_Lab7_3_Drive_ThingsBoard.ino"
+    ```
+
+??? example "SLAM add-on (paste into the Step 5 sketch)"
+    ```cpp
+    --8<-- "docs/labs/lab07/slam_addon.txt"
+    ```
+
+??? example "lab7_slam.py (runs on the laptop)"
+    ```python
+    --8<-- "docs/labs/lab07/lab7_slam.py"
     ```

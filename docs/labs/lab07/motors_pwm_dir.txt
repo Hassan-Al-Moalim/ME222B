@@ -1,0 +1,39 @@
+// ===================== 6. MOTORS: PWM + DIR (Lab 3 wiring) =====================
+// One PWM pin and one DIR pin per side.
+// H-bridge car? Replace this whole section with your block from the lab page.
+
+const int L_PWM = 25, L_DIR = 26;
+const int R_PWM = 27, R_DIR = 14;
+const int L_POLARITY = 1, R_POLARITY = 1;   // -1 reverses a whole side
+
+int leftOut = 0, rightOut = 0;          // last command, -255..255
+int leftDirNow = 0, rightDirNow = 0;    // direction pins as set
+uint32_t dirChangedMs = 0;
+
+// left, right: -255 (full reverse) to +255 (full forward)
+void setMotors(int left, int right) {
+  left = constrain(left, -255, 255);
+  right = constrain(right, -255, 255);
+  int ld = left > 0 ? 1 : (left < 0 ? -1 : leftDirNow);
+  int rd = right > 0 ? 1 : (right < 0 ? -1 : rightDirNow);
+  if (ld != leftDirNow || rd != rightDirNow) {     // short pause before reversing
+    analogWrite(L_PWM, 0); analogWrite(R_PWM, 0);
+    digitalWrite(L_DIR, ld * L_POLARITY > 0 ? HIGH : LOW);
+    digitalWrite(R_DIR, rd * R_POLARITY > 0 ? HIGH : LOW);
+    leftDirNow = ld; rightDirNow = rd;
+    dirChangedMs = millis();
+  }
+  if (millis() - dirChangedMs < 20) { left = 0; right = 0; }
+  analogWrite(L_PWM, abs(left));
+  analogWrite(R_PWM, abs(right));
+  leftOut = left; rightOut = right;
+}
+
+void stopMotors() { setMotors(0, 0); }
+
+void motorsBegin() {
+  pinMode(L_PWM, OUTPUT); pinMode(L_DIR, OUTPUT);
+  pinMode(R_PWM, OUTPUT); pinMode(R_DIR, OUTPUT);
+  digitalWrite(L_DIR, LOW); digitalWrite(R_DIR, LOW);
+  stopMotors();
+}

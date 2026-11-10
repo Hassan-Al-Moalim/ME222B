@@ -17,6 +17,8 @@
   Serial Monitor.
 
   You change only sections 1 and 2. Serial Monitor: 115200 baud.
+  Your car uses H-bridges (L298N)? Replace the whole of section 6 with the
+  motor block for your car from the lab page. Send t to test the motors.
 */
 
 #include <Arduino.h>
@@ -25,10 +27,7 @@
 
 // ===================== 1. YOUR CAR (copy from earlier steps) =====================
 
-// Motors: Lab 3 wiring, one PWM and one DIR pin per side
-const int L_PWM = 25, L_DIR = 26;
-const int R_PWM = 27, R_DIR = 14;
-const int L_POLARITY = 1, R_POLARITY = 1;   // -1 reverses a whole side
+// Motors: pins and polarity are in section 6
 
 // IMU
 const int I2C_SDA = 21, I2C_SCL = 22;
@@ -307,7 +306,13 @@ bool readYawRate(float &w) {
   return true;
 }
 
-// ===================== 6. MOTORS =====================
+// ===================== 6. MOTORS: PWM + DIR (Lab 3 wiring) =====================
+// One PWM pin and one DIR pin per side.
+// H-bridge car? Replace this whole section with your block from the lab page.
+
+const int L_PWM = 25, L_DIR = 26;
+const int R_PWM = 27, R_DIR = 14;
+const int L_POLARITY = 1, R_POLARITY = 1;   // -1 reverses a whole side
 
 int leftOut = 0, rightOut = 0;          // last command, -255..255
 int leftDirNow = 0, rightDirNow = 0;    // direction pins as set
@@ -333,6 +338,13 @@ void setMotors(int left, int right) {
 }
 
 void stopMotors() { setMotors(0, 0); }
+
+void motorsBegin() {
+  pinMode(L_PWM, OUTPUT); pinMode(L_DIR, OUTPUT);
+  pinMode(R_PWM, OUTPUT); pinMode(R_DIR, OUTPUT);
+  digitalWrite(L_DIR, LOW); digitalWrite(R_DIR, LOW);
+  stopMotors();
+}
 
 // ===================== 7. MISSION (given) =====================
 
@@ -467,15 +479,30 @@ void readButton() {
   }
 }
 
+// Send t (car stopped): left side forward, right side forward, then a left pivot.
+// Use it to check a pasted motor block. Wheels off the table!
+void motorHold(int left, int right, uint32_t ms) {
+  uint32_t t0 = millis();
+  while (millis() - t0 < ms) { setMotors(left, right); lidarPoll(); delay(1); }
+}
+
+void motorTest() {
+  Serial.println("motor test: LEFT wheels forward");
+  motorHold(P_DRIVE, 0, 1000);
+  Serial.println("motor test: RIGHT wheels forward");
+  motorHold(0, P_DRIVE, 1000);
+  Serial.println("motor test: turn LEFT on the spot (left back, right forward)");
+  motorHold(-P_TURN, P_TURN, 1000);
+  stopMotors();
+  Serial.println("motor test done. Wrong wheel or direction? Fix the pins or polarity in section 6.");
+}
+
 void setup() {
   Serial.begin(115200);
   delay(300);
   Serial.println("\nME222 Lab 7 - Step 4: drive with the lidar");
 
-  pinMode(L_PWM, OUTPUT); pinMode(L_DIR, OUTPUT);
-  pinMode(R_PWM, OUTPUT); pinMode(R_DIR, OUTPUT);
-  digitalWrite(L_DIR, LOW); digitalWrite(R_DIR, LOW);
-  stopMotors();
+  motorsBegin();
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   for (int i = 0; i < 360; ++i) { cosTable[i] = cosf(i * PI / 180); sinTable[i] = sinf(i * PI / 180); }
@@ -518,6 +545,7 @@ void loop() {
     if (c == 'g' || c == 'G') startRun();
     if (c == 's' || c == 'S') stopRun("serial");
     if (c == 'd' || c == 'D') dumpScan();
+    if ((c == 't' || c == 'T') && !running()) motorTest();
   }
 
   if (!running() && millis() - lastNodeMs > 1000) {   // lidar silent: restart it

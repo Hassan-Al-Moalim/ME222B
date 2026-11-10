@@ -1,0 +1,64 @@
+<svg class="dia dia--wide bear" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Left: the car seen from above. Bearing 0 degrees is straight ahead, 90 is the right side, 180 behind, 270 the left side; bearings grow clockwise. Right: the three lanes the sketch checks, as wide as the car plus a margin, straight ahead and 45 degrees to each side. ahead, left and right are the distances to the nearest thing in each lane.">
+  <title>Lidar bearings and the three lanes</title>
+  <style>
+    .bear .fg   { fill: var(--md-default-fg-color); }
+    .bear .mut  { fill: var(--md-default-fg-color--light); }
+    .bear .hd   { font-size: 15px; font-weight: 700; }
+    .bear .lb   { font-size: 14px; font-weight: 700; }
+    .bear .sm   { font-size: 12px; }
+    .bear .car  { fill: var(--md-default-bg-color); stroke: var(--md-default-fg-color); stroke-width: 2.5; }
+    .bear .lid  { fill: var(--md-typeset-a-color); }
+    .bear .ring { fill: none; stroke: var(--md-default-fg-color--lighter); stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .bear .ray  { stroke: var(--md-typeset-a-color); stroke-width: 2; }
+    .bear .arc  { fill: none; stroke: var(--md-typeset-a-color); stroke-width: 2.5; }
+    .bear .lane { fill: var(--md-typeset-a-color); fill-opacity: 0.12; stroke: var(--md-typeset-a-color); stroke-width: 1.5; }
+    .bear .box  { fill: #e0a030; stroke: #a06a10; stroke-width: 2; }
+    .bear .dist { stroke: var(--md-default-fg-color); stroke-width: 1.5; }
+    .bear .arrowhead { fill: var(--md-typeset-a-color); }
+  </style>
+  <defs>
+    <marker id="bear-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- ===== left panel: bearings ===== -->
+  <text class="fg hd" x="220" y="28" text-anchor="middle">Bearings: degrees clockwise from the front</text>
+  <circle class="ring" cx="220" cy="235" r="150"/>
+  <line class="ray" x1="220" y1="235" x2="220" y2="95" marker-end="url(#bear-ah)"/>
+  <line class="ray" x1="220" y1="235" x2="360" y2="235" marker-end="url(#bear-ah)"/>
+  <line class="ray" x1="220" y1="235" x2="220" y2="375" marker-end="url(#bear-ah)"/>
+  <line class="ray" x1="220" y1="235" x2="80" y2="235" marker-end="url(#bear-ah)"/>
+  <rect class="car" x="185" y="185" width="70" height="100" rx="10"/>
+  <path class="fg" d="M220,192 l10,14 h-20 z"/>
+  <circle class="lid" cx="220" cy="240" r="14"/>
+  <text class="fg lb" x="220" y="76" text-anchor="middle">0° front</text>
+  <text class="fg lb" x="392" y="240" text-anchor="start">90°</text>
+  <text class="mut sm" x="392" y="257" text-anchor="start">right</text>
+  <text class="fg lb" x="220" y="404" text-anchor="middle">180° behind</text>
+  <text class="fg lb" x="48" y="240" text-anchor="end">270°</text>
+  <text class="mut sm" x="48" y="257" text-anchor="end">left</text>
+  <path class="arc" d="M268,110 A132,132 0 0 1 345,187" marker-end="url(#bear-ah)"/>
+  <text class="mut sm" x="330" y="128">clockwise</text>
+
+  <!-- ===== right panel: lanes ===== -->
+  <text class="fg hd" x="670" y="28" text-anchor="middle">Lanes: as wide as the car + a margin</text>
+  <g transform="translate(670,330)">
+    <g transform="rotate(-45)"><rect class="lane" x="-45" y="-270" width="90" height="270"/></g>
+    <g transform="rotate(45)"><rect class="lane" x="-45" y="-270" width="90" height="270"/></g>
+    <rect class="lane" x="-45" y="-270" width="90" height="270"/>
+    <rect class="box" x="-38" y="-205" width="56" height="36"/>
+    <line class="dist" x1="22" y1="-55" x2="22" y2="-165" marker-end="url(#bear-ah)"/>
+    <rect class="car" x="-35" y="-50" width="70" height="100" rx="10"/>
+    <path class="fg" d="M0,-43 l10,14 h-20 z"/>
+    <circle class="lid" cx="0" cy="5" r="14"/>
+  </g>
+  <text class="fg lb" x="670" y="52" text-anchor="middle">ahead (0°)</text>
+  <text class="fg lb" x="478" y="110" text-anchor="middle">left (315°)</text>
+  <text class="fg lb" x="858" y="110" text-anchor="middle">right (45°)</text>
+  <text class="mut sm" x="708" y="225">ahead = distance to</text>
+  <text class="mut sm" x="708" y="241">the nearest thing</text>
+  <text class="mut sm" x="708" y="257">in that lane</text>
+  <text class="mut sm" x="670" y="428" text-anchor="middle">box in the lane → ahead is short → the car turns toward the open lane</text>
+</svg>
