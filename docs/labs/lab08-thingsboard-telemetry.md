@@ -5,7 +5,7 @@ title: Lab 8 — ThingsBoard 1: Connectivity + Telemetry
 # Lab 8 — ThingsBoard 1: Connectivity + Telemetry
 
 <div class="lab-meta" markdown>
-<div><span class="k">Date</span><span class="v">Wednesday 11 November</span></div>
+<div><span class="k">Date</span><span class="v">To be scheduled</span></div>
 <div><span class="k">Depends on</span><span class="v">Lab 7</span></div>
 <div><span class="k">Status</span><span class="v">Outline — to be written</span></div>
 </div>

@@ -15,7 +15,7 @@ autonomous delivery car and then a coordinated fleet. Dates are on the [Schedule
 - [Lab 4 - Car Calibration](lab04-encoders-straight-line.md)
 - [Lab 5 - Obstacle Avoidance](lab05-distance-sensing.md)
 - [Lab 6 - ThingsBoard + Avoidance](lab06-thingsboard-obstacle-avoidance.md)
-- [Lab 7 - Obstacle Stopping](lab07-filtering-obstacle-stop.md)
+- [Lab 7 - LiDAR Scanning](lab07-lidar-scanning.md)
 - [Lab 8 - ThingsBoard Telemetry](lab08-thingsboard-telemetry.md)
 - [Lab 9 - ThingsBoard Missions](lab09-thingsboard-missions.md)
 - [Lab 10 - Multi-Car](lab10-multi-car.md)

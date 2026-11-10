@@ -12,12 +12,11 @@ title: Schedule
 | **Labs** | Wednesday, 08:30–10:00 · Building 5 Sea Side — RISC Lab |
 
 Lab 1 ran on 16 September and Lab 2 on 30 September. 21 October was office
-hours instead of a lab, so Lab 5 ran on 28 October. Lab 7 is still to be
+hours instead of a lab, so Lab 5 ran on 28 October. Lab 8 is still to be
 scheduled.
 
 !!! warning "Coming up"
-    - **Wednesday 4 November — [Lab 6](labs/lab06-thingsboard-obstacle-avoidance.md).** ThingsBoard dashboard and autonomous obstacle avoidance. Do the 15-minute ThingsBoard tutorial before the lab.
-    - **Sunday 8 November — no quiz.**
+    - **Wednesday 11 November — [Lab 7](labs/lab07-lidar-scanning.md).** RPLiDAR scanning. Read the page and answer the two pre-lab questions before the lab.
 
 ## Semester schedule
 
@@ -46,7 +45,7 @@ scheduled.
 | 12 | 1 Nov | Force and strain sensors | |
 | **LAB 6** | 4 Nov | [Lab 6 - ThingsBoard + Avoidance](labs/lab06-thingsboard-obstacle-avoidance.md) | Dashboard-started 3 m mission that avoids an obstacle |
 | 13 | 8 Nov | Position sensors | |
-| **LAB 8** | 11 Nov | [Lab 8 - ThingsBoard Telemetry](labs/lab08-thingsboard-telemetry.md) | Live dashboard from the moving car |
+| **LAB 7** | 11 Nov | [Lab 7 - LiDAR Scanning](labs/lab07-lidar-scanning.md) | 360° scan, sector clearances and an avoidance decision without turning |
 | 14 | 15 Nov | Motion sensors | |
 | **LAB 9** | 18 Nov | [Lab 9 - ThingsBoard Missions](labs/lab09-thingsboard-missions.md) | Dashboard-triggered A-to-B mission |
 | 15 | 22 Nov | Systems development: embedded architecture trade-offs, standards, best practices, CPU architectures | |
