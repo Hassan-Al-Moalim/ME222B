@@ -1,0 +1,44 @@
+// ===================== 6. MOTORS (fill in from your Lab 1 car) =====================
+// Your motor pins. Do not use GPIO 0, 4, 16, 17, 21, 22 (BOOT, lidar, IMU).
+
+// LEFT driver
+#define L_FWD_IN1   ___
+#define L_FWD_IN2   ___
+#define L_FWD_PWM   ___
+#define L_BWD_IN1   ___
+#define L_BWD_IN2   ___
+#define L_BWD_PWM   ___
+
+// RIGHT driver
+#define R_FWD_IN1   ___
+#define R_FWD_IN2   ___
+#define R_FWD_PWM   ___
+#define R_BWD_IN1   ___
+#define R_BWD_IN2   ___
+#define R_BWD_PWM   ___
+
+// Runs one motor. speed: -255 (full reverse) to +255 (full forward). Given.
+void motor(int in1, int in2, int pwm, int speed) {
+  digitalWrite(in1, speed > 0 ? HIGH : LOW);
+  digitalWrite(in2, speed < 0 ? HIGH : LOW);
+  analogWrite(pwm, abs(speed));
+}
+
+void motorsBegin() {
+  // TODO: pinMode(..., OUTPUT) for all 12 pins above
+}
+
+int leftOut = 0, rightOut = 0;
+
+void setMotors(int left, int right) {
+  left = constrain(left, -255, 255);
+  right = constrain(right, -255, 255);
+  leftOut = left; rightOut = right;
+
+  // TODO: one line per motor. Left motors get left, right motors get right.
+  // A wheel turns the wrong way? Swap IN1 and IN2 in its line.
+  motor(L_FWD_IN1, L_FWD_IN2, L_FWD_PWM, left);
+  // ...
+}
+
+void stopMotors() { setMotors(0, 0); }

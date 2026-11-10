@@ -17,9 +17,8 @@
   Serial Monitor, or use START / STOP on your ThingsBoard dashboard.
   If the ThingsBoard link drops during a run, the car stops.
 
-  You change only sections 1 and 2. Serial Monitor: 115200 baud.
-  Your car uses H-bridges (L298N)? Replace the whole of section 6 with the
-  motor block for your car from the lab page. Send t to test the motors.
+  You fill in section 6 (your motors) and change sections 1 and 2.
+  Send t in the Serial Monitor (115200 baud) to test the motors.
 */
 
 #include <Arduino.h>
@@ -30,7 +29,7 @@
 
 // ===================== 1. YOUR CAR (copy from earlier steps) =====================
 
-// Motors: pins and polarity are in section 6
+// Motors: fill in section 6
 
 // IMU
 const int I2C_SDA = 21, I2C_SCL = 22;
@@ -314,45 +313,50 @@ bool readYawRate(float &w) {
   return true;
 }
 
-// ===================== 6. MOTORS: PWM + DIR (Lab 3 wiring) =====================
-// One PWM pin and one DIR pin per side.
-// H-bridge car? Replace this whole section with your block from the lab page.
+// ===================== 6. MOTORS (fill in from your Lab 1 car) =====================
+// Your motor pins. Do not use GPIO 0, 4, 16, 17, 21, 22 (BOOT, lidar, IMU).
 
-const int L_PWM = 25, L_DIR = 26;
-const int R_PWM = 27, R_DIR = 14;
-const int L_POLARITY = 1, R_POLARITY = 1;   // -1 reverses a whole side
+// LEFT driver
+#define L_FWD_IN1   ___
+#define L_FWD_IN2   ___
+#define L_FWD_PWM   ___
+#define L_BWD_IN1   ___
+#define L_BWD_IN2   ___
+#define L_BWD_PWM   ___
 
-int leftOut = 0, rightOut = 0;          // last command, -255..255
-int leftDirNow = 0, rightDirNow = 0;    // direction pins as set
-uint32_t dirChangedMs = 0;
+// RIGHT driver
+#define R_FWD_IN1   ___
+#define R_FWD_IN2   ___
+#define R_FWD_PWM   ___
+#define R_BWD_IN1   ___
+#define R_BWD_IN2   ___
+#define R_BWD_PWM   ___
 
-// left, right: -255 (full reverse) to +255 (full forward)
+// Runs one motor. speed: -255 (full reverse) to +255 (full forward). Given.
+void motor(int in1, int in2, int pwm, int speed) {
+  digitalWrite(in1, speed > 0 ? HIGH : LOW);
+  digitalWrite(in2, speed < 0 ? HIGH : LOW);
+  analogWrite(pwm, abs(speed));
+}
+
+void motorsBegin() {
+  // TODO: pinMode(..., OUTPUT) for all 12 pins above
+}
+
+int leftOut = 0, rightOut = 0;
+
 void setMotors(int left, int right) {
   left = constrain(left, -255, 255);
   right = constrain(right, -255, 255);
-  int ld = left > 0 ? 1 : (left < 0 ? -1 : leftDirNow);
-  int rd = right > 0 ? 1 : (right < 0 ? -1 : rightDirNow);
-  if (ld != leftDirNow || rd != rightDirNow) {     // short pause before reversing
-    analogWrite(L_PWM, 0); analogWrite(R_PWM, 0);
-    digitalWrite(L_DIR, ld * L_POLARITY > 0 ? HIGH : LOW);
-    digitalWrite(R_DIR, rd * R_POLARITY > 0 ? HIGH : LOW);
-    leftDirNow = ld; rightDirNow = rd;
-    dirChangedMs = millis();
-  }
-  if (millis() - dirChangedMs < 20) { left = 0; right = 0; }
-  analogWrite(L_PWM, abs(left));
-  analogWrite(R_PWM, abs(right));
   leftOut = left; rightOut = right;
+
+  // TODO: one line per motor. Left motors get left, right motors get right.
+  // A wheel turns the wrong way? Swap IN1 and IN2 in its line.
+  motor(L_FWD_IN1, L_FWD_IN2, L_FWD_PWM, left);
+  // ...
 }
 
 void stopMotors() { setMotors(0, 0); }
-
-void motorsBegin() {
-  pinMode(L_PWM, OUTPUT); pinMode(L_DIR, OUTPUT);
-  pinMode(R_PWM, OUTPUT); pinMode(R_DIR, OUTPUT);
-  digitalWrite(L_DIR, LOW); digitalWrite(R_DIR, LOW);
-  stopMotors();
-}
 
 // ===================== 7. MISSION (given) =====================
 
@@ -547,7 +551,7 @@ void motorTest() {
   Serial.println("motor test: turn LEFT on the spot (left back, right forward)");
   motorHold(-P_TURN, P_TURN, 1000);
   stopMotors();
-  Serial.println("motor test done. Wrong wheel or direction? Fix the pins or polarity in section 6.");
+  Serial.println("motor test done. Wrong wheel: fix the pins. Wrong direction: swap IN1 and IN2.");
 }
 
 void setup() {

@@ -160,51 +160,19 @@ and `s` (stop) in the Serial Monitor.
 
 ### Set up
 
-1. Open `ME222_Lab7_2_Drive.ino`. In **section 1**, copy in your four values
-   from Step 3.
-2. **Motors.** Section 6 of the sketch is the motor code. It is written for
-   the Lab 3 wiring: one PWM and one DIR pin per side (left 25/26, right
-   27/14). If your car is wired differently, **replace the whole of section 6**
-   with the block for your car below, and put in your own pins.
-3. Upload.
-4. **Motor test.** Wheels off the table. Send `t` in the Serial Monitor. The
-   left wheels turn forward for 1 s, then the right wheels, then the car turns
-   left on the spot. Wrong wheel: fix the pins. Wrong direction: set that
-   polarity to `-1` in section 6.
-
-| Your car | Section 6 |
-| --- | --- |
-| PWM + DIR pin per side (Lab 3) | Leave it as it is |
-| One L298N for the whole car (ENA IN1 IN2, IN3 IN4 ENB) | Paste the *one H-bridge* block |
-| Two L298Ns, one per side (Lab 1 wiring) | Paste the *two H-bridges* block |
-| Your own motor code from an earlier lab | Your code, if it keeps the names below |
-
-Whatever is in section 6 must provide `motorsBegin()`, `setMotors(left, right)`
-with speeds from −255 (full reverse) to +255 (full forward), `stopMotors()`,
-and the variables `leftOut` and `rightOut`. Do not use GPIO 0, 4, 16, 17, 21
-or 22 for the motors: they belong to the BOOT button, the lidar and the IMU.
-
-??? example "One H-bridge block (paste over section 6)"
-    ```cpp
-    --8<-- "docs/labs/lab07/motors_one_hbridge.txt"
-    ```
-
-??? example "Two H-bridges block (paste over section 6)"
-    ```cpp
-    --8<-- "docs/labs/lab07/motors_two_hbridges.txt"
-    ```
-
-??? example "PWM + DIR block (what section 6 already is)"
-    ```cpp
-    --8<-- "docs/labs/lab07/motors_pwm_dir.txt"
-    ```
+1. Open `ME222_Lab7_2_Drive.ino`.
+2. **Section 1:** copy in your four values from Step 3.
+3. **Section 6:** fill in your motor pins (your Lab 1 table), the `pinMode`
+   lines, and one `motor(...)` line per motor.
+4. Upload. Wheels off the table, send `t` in the Serial Monitor: the left
+   wheels turn, then the right wheels, then the car turns on the spot. A wheel
+   turns the wrong way? Swap its IN1 and IN2 in section 6.
 
 ### Test with the wheels raised
 
 Put the car on a stand so the wheels are off the table.
 
-1. Press **BOOT**. After 1 second, all four wheels turn **forward**. If a
-   wheel turns backward, set its polarity to `-1` in section 6.
+1. Press **BOOT**. After 1 second, all four wheels turn **forward**.
 2. Turn the car gently to the left by hand. The left wheels should speed up
    and the right wheels slow down. If it is the other way round, set
    `YAW_SIGN = -1.0f`.
@@ -257,8 +225,8 @@ Change one value at a time in **section 2**, then upload again.
 The same program, now connected to the ThingsBoard server on the Raspberry Pi,
 as in Lab 6.
 
-1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1 and 2**
-   from your tuned drive sketch, and **section 6** if you replaced it.
+1. Open `ME222_Lab7_3_Drive_ThingsBoard.ino`. Copy in **sections 1, 2 and 6**
+   from your drive sketch.
 2. Fill in the Wi-Fi password, the Raspberry Pi IP (both given in the lab) and
    your Lab 6 device token.
 3. Upload. The Serial Monitor should show `ThingsBoard connected`.
@@ -282,39 +250,18 @@ as in Lab 6.
 
 ## Step 6 (extra) · See the lidar make a map
 
-Nothing to hand in here. This shows what the lidar can do beyond avoiding
-boxes: the car drives, and your laptop draws a map of the room and the car's
-path on it as it goes. This is called **SLAM** (simultaneous localization and
-mapping).
+Nothing to hand in. Your laptop draws a map of the room and the car's path
+while the car drives (**SLAM**). It needs Python on the laptop; if you do not
+have it, watch the TA's demo.
 
-The ESP32 is too small for this, and the Arduino IDE cannot draw a map, so the
-car sends each lidar turn over Wi-Fi and a Python script on the laptop builds
-the map. No Python on your laptop? Watch the TA's demo instead.
-
-1. In your Step 5 sketch, paste the **SLAM add-on** (in *Code* below) just
-   above section 9, and add `slamSend();` after `processScan();` in `loop()`.
-2. Put your laptop's IP in `LAPTOP_IP` (Windows: run `ipconfig`, read
-   *IPv4 Address*). Upload.
-3. On the laptop, download [`lab7_slam.py`](lab07/lab7_slam.py) and run:
-
-    ```bash
-    python lab7_slam.py
-    ```
-
-    If Windows asks whether Python may use the network, allow it.
-
-4. Press START and watch: walls appear in black, free floor in white, the car
-   in green and its path in blue. Press `s` in the window to save a picture.
+1. In your Step 5 sketch, paste the **SLAM add-on** (in *Code* below) above
+   section 9, and add `slamSend();` after `processScan();` in `loop()`.
+2. Put your laptop's IP in `LAPTOP_IP` (Windows: `ipconfig`). Upload.
+3. Download [`lab7_slam.py`](lab07/lab7_slam.py) and run
+   `python lab7_slam.py`. Allow it through the Windows firewall if asked.
+4. Press START and watch the map build.
 
 ![SLAM map from the car simulation](lab07/slam_example.png){ width="560" }
-
-*A map from a simulated run: a 7 × 4 m room with four boxes. The car turned
-left round the box in the middle.*
-
-How it works: for each lidar turn the script turns its last pose by what the
-gyro measured, then nudges it until the new scan lines up with the walls
-already on the map (**scan matching**), then adds the scan to the map. It
-works best in a room with corners and boxes, driving slowly.
 
 ## Deliverable
 
