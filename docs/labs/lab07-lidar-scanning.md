@@ -249,8 +249,7 @@ as in Lab 6.
 For teams who want a challenge. The drive sketch looks in only three
 directions. **Follow the Gap** uses the whole scan: it finds where the car
 fits and steers there. With that one rule the car stays in the middle of a
-road, takes an open side road and steers round boxes. Racing teams use it
-(F1TENTH).
+road, takes an open side road and steers round boxes.
 
 {{ svg assets/lab07-follow-the-gap.svg }}
 
