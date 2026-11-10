@@ -88,41 +88,54 @@ hand.
 
 ## Step 3 · Point it forward and check the lanes
 
-The sketch describes every direction around the car by its **bearing**: the
-angle in degrees, measured clockwise from the front.
+**Goal:** tell the sketch where the front of your car is, then check that it
+sees a box in the right place. You need these values for driving in Step 4.
+
+The sketch gives every direction around the car as a **bearing**: degrees,
+clockwise from the front.
 
 {{ svg assets/lab07-bearings.svg }}
 
-1. **Find the front.** Hold your hand 30 cm in front of the car's nose. Read
-   the *nearest* bearing, write that number into `ANGLE_OFFSET_DEG`, and
-   upload again. Your hand in front should now read close to 0 (357 to 3 is
-   fine).
-2. **Check the direction.** Hold your hand at the car's **right** side. It
-   should read near 90. If it reads near 270, set `ANGLE_REVERSED = true` and
-   upload.
-3. **Hide the car.** Take your hand away. If *nearest* still shows a short
-   distance that never moves, the lidar is seeing part of your car. Raise
-   `D_MIN_MM` until it goes away.
-4. **Car width.** Measure your car and set `CAR_WIDTH_MM`.
-5. **Test the lanes.** Put the box 40 cm ahead in each position below and
-   write down what the sketch prints.
+### Point it forward
 
-<div class="worksheet" data-worksheet="lab07-lanes" markdown>
+The lidar's own 0° is wherever its head happened to point when you mounted
+it. These four values tell the sketch how it sits on your car.
 
-| Box | ahead (mm) | left (mm) | right (mm) | The car would… | Expected |
-| --- | --- | --- | --- | --- | --- |
-| None | | | | | CLEAR |
-| Ahead, sticking out to the right | | | | | AVOID LEFT |
-| Ahead, sticking out to the left | | | | | AVOID RIGHT |
-| Ahead, plus boxes in the left and right lanes | | | | | BLOCKED |
+1. Hold your hand 30 cm in front of the car's nose. Read the *nearest*
+   bearing. Put that number in `ANGLE_OFFSET_DEG` and upload again. Your hand
+   in front should now read close to 0 (357 to 3 is fine).
+2. Hold your hand at the car's **right** side. It should read near 90. If it
+   reads near 270, set `ANGLE_REVERSED = true` and upload.
+3. Take your hand away. If *nearest* still shows a short distance that never
+   changes, the lidar is seeing part of your car. Raise `D_MIN_MM` until it
+   goes away.
+4. Measure your car's width and put it in `CAR_WIDTH_MM`.
 
-</div>
+Write down your four values. You copy them into the drive sketch in Step 4.
 
 <div class="worksheet" data-worksheet="lab07-values" markdown>
 
 | `ANGLE_OFFSET_DEG` | `ANGLE_REVERSED` | `D_MIN_MM` | `CAR_WIDTH_MM` |
 | --- | --- | --- | --- |
 | `______` | `______` | `______` | `______` |
+
+</div>
+
+### Check the lanes
+
+Put the box in each position below. Each Serial line ends with what the car
+would do: **CLEAR**, **AVOID LEFT**, **AVOID RIGHT** or **BLOCKED**. Write
+that word in the table. If it does not match *Expected*, check your four
+values again.
+
+<div class="worksheet" data-worksheet="lab07-lanes" markdown>
+
+| Box | The sketch says | Expected |
+| --- | --- | --- |
+| No box | | CLEAR |
+| 40 cm in front, sticking out to the car's right | | AVOID LEFT |
+| 40 cm in front, sticking out to the car's left | | AVOID RIGHT |
+| 40 cm in front, plus a box 40 cm ahead-left and one 40 cm ahead-right | | BLOCKED |
 
 </div>
 
@@ -267,63 +280,41 @@ as in Lab 6.
     If the car loses Wi-Fi or ThingsBoard during a run, it stops, because
     STOP could no longer reach it. It cannot start without the link either.
 
-## Step 6 (extra) · Map the room from your laptop
+## Step 6 (extra) · See the lidar make a map
 
-**SLAM** (simultaneous localization and mapping) builds a map of the room and
-works out where the car is in that map, both at the same time. The ESP32 is
-too small for this, so the car sends each lidar turn and its gyro heading to
-your laptop over Wi-Fi, and a Python script does the work.
+Nothing to hand in here. This shows what the lidar can do beyond avoiding
+boxes: the car drives, and your laptop draws a map of the room and the car's
+path on it as it goes. This is called **SLAM** (simultaneous localization and
+mapping).
 
-For each lidar turn, the script:
+The ESP32 is too small for this, and the Arduino IDE cannot draw a map, so the
+car sends each lidar turn over Wi-Fi and a Python script on the laptop builds
+the map. No Python on your laptop? Watch the TA's demo instead.
 
-1. guesses the new pose: the old one, turned by what the gyro says;
-2. tries small shifts and turns around that guess, and keeps the one where
-   the new scan lands best on the walls already in the map (**scan matching**);
-3. adds the scan to the map: where a beam ended is a wall, where it passed is
-   free floor.
-
-**On the car**
-
-1. Open your Step 5 sketch. Paste the **SLAM add-on** (in *Code* below) just
-   above section 9.
-2. In `loop()`, add `slamSend();` after `processScan();`, as the add-on says.
-3. Find your laptop's IP: on Windows run `ipconfig` and read *IPv4 Address*.
-   Put it in `LAPTOP_IP`. The laptop must be on the lab Wi-Fi.
-4. Upload.
-
-**On the laptop**
-
-1. Download [`lab7_slam.py`](lab07/lab7_slam.py) and run it:
+1. In your Step 5 sketch, paste the **SLAM add-on** (in *Code* below) just
+   above section 9, and add `slamSend();` after `processScan();` in `loop()`.
+2. Put your laptop's IP in `LAPTOP_IP` (Windows: run `ipconfig`, read
+   *IPv4 Address*). Upload.
+3. On the laptop, download [`lab7_slam.py`](lab07/lab7_slam.py) and run:
 
     ```bash
-    python lab7_slam.py --record run1.bin
+    python lab7_slam.py
     ```
 
-2. If Windows asks whether Python may use the network, allow it on private
-   networks. Otherwise no packets arrive.
-3. The map window shows walls (black), free floor (white), unseen space
-   (grey), the car (green) and its path (blue). Push the car slowly by hand
-   first, then press START and let it drive.
-4. Press `s` in the map window to save the map as a PNG, `r` to start a new
-   map. Replay a run later with `python lab7_slam.py --replay run1.bin`.
+    If Windows asks whether Python may use the network, allow it.
+
+4. Press START and watch: walls appear in black, free floor in white, the car
+   in green and its path in blue. Press `s` in the window to save a picture.
 
 ![SLAM map from the car simulation](lab07/slam_example.png){ width="560" }
 
 *A map from a simulated run: a 7 × 4 m room with four boxes. The car turned
 left round the box in the middle.*
 
-!!! tip "Getting a good map"
-    Scan matching needs shapes to lock onto: corners, boxes, table legs. In a
-    long empty corridor it cannot tell how far along it has gone. Drive slowly.
-    While the car turns fast the script trusts the gyro and does not draw.
-
-<div class="worksheet" data-worksheet="lab07-slam" markdown>
-
-| What the map shows well | What came out wrong | Why, do you think? |
-| --- | --- | --- |
-| | | |
-
-</div>
+How it works: for each lidar turn the script turns its last pose by what the
+gyro measured, then nudges it until the new scan lines up with the walls
+already on the map (**scan matching**), then adds the scan to the map. It
+works best in a room with corners and boxes, driving slowly.
 
 ## Questions
 
