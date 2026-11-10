@@ -37,8 +37,8 @@ matte, light-coloured box at least 20 cm wide.
 Battery **off** while you wire. Your car keeps its one ESP32 and its Lab 6
 wiring.
 
-1. **Take out the TF-Luna.** Unplug it and put it aside. The lidar replaces it.
-   Leave the motors and IMU as they are.
+1. **Unplug the TF-Luna** wires from the ESP32. Leave it mounted on the car;
+   it comes back when you get the second ESP32.
 2. **Mount the lidar** on top of the car, in the middle, with nothing taller
    than its head around it.
 3. **Wire it** to the ESP32:
